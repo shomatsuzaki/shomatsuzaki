@@ -1,4 +1,37 @@
 ////////////////////
+// STICKY HEADER
+////////////////////
+
+// When the user scrolls the page, execute stickyHeader 
+window.onscroll = function() {stickyHeader()};
+
+// Get the header
+var header = document.getElementById("stickyheader");
+
+// Get the offset position of the navbar
+var sticky = header.offsetTop;
+
+// Get screen width for media query
+var screen = $(document).width();
+
+// Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+function stickyHeader() {
+  if (window.pageYOffset > sticky) {
+    header.classList.add("sticky");
+    if (screen >= 1500) {
+      $('#container').css("padding-top","100px");
+    } else if (screen >= 768) {
+      $('#container').css("padding-top","90px");
+    } else {
+      $('#container').css("padding-top","50px");
+    }
+  } else {
+    header.classList.remove("sticky");
+    $('#container').css("padding-top","0px");
+  }
+}
+
+////////////////////
 // TEXT DE-SCRAMBLER
 ////////////////////
 
@@ -191,6 +224,11 @@ if (btnContainer) {
       var current = document.getElementsByClassName("active");
       current[0].className = current[0].className.replace(" active", "");
       this.className += " active";
+      window.scroll({
+        top: sticky, 
+        left: 0, 
+        behavior: 'smooth'
+      });
     });
 }
 }

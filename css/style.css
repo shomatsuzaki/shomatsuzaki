@@ -96,7 +96,31 @@ video {
 	-moz-box-align: center;
 	-ms-flex-align: center;
 	-webkit-align-items: center;
+	z-index: 100;
 }
+
+.sticky {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	background-color: #ffffff;
+}
+
+/*#stickyheader {
+	display: flex;
+	display: -webkit-flex;
+
+	align-items: center;
+	-webkit-box-align: center;
+	-moz-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	background-color: #ffffff;
+	z-index: 100;
+}*/
 
 .rightaligned {
 	justify-content: flex-end;
@@ -112,16 +136,37 @@ video {
 	-ms-flex-pack: center;
 }
 
-#linkedin {
+.linkedin {
 	background-image: url('../img/linkedin-icon-bk.png');
 	background-size: cover;
 	cursor: pointer;
+	opacity: .4;
+	transition: opacity .5s ease;
+	-o-transition: opacity .5s ease;
+ 	-ms-transition: opacity .5s ease;
+ 	-moz-transition: opacity .5s ease;
+ 	-webkit-transition: opacity .5s ease;
 }
 
-#email {
+.email {
 	background-image: url('../img/email-icon-bk.png');
 	background-size: cover;
 	cursor: pointer;
+	opacity: .4;
+	transition: opacity .5s ease;
+	-o-transition: opacity .5s ease;
+ 	-ms-transition: opacity .5s ease;
+ 	-moz-transition: opacity .5s ease;
+ 	-webkit-transition: opacity .5s ease;
+}
+
+.linkedin:hover, .email:hover {
+	opacity: 1;
+	transition: opacity .5s ease;
+	-o-transition: opacity .5s ease;
+ 	-ms-transition: opacity .5s ease;
+ 	-moz-transition: opacity .5s ease;
+ 	-webkit-transition: opacity .5s ease;
 }
 
 .category {
@@ -158,9 +203,13 @@ button::after {
 	top: 110%;
 	height: 2px;
 	background: #000;
-	transform: scaleX(var(--scale));
-	transform-origin: var(--x) 50%;
+	-webkit-transform: scaleX(var(--scale));
+	        transform: scaleX(var(--scale));
+	-webkit-transform-origin: var(--x) 50%;
+	        transform-origin: var(--x) 50%;
+	transition: -webkit-transform .3s cubic-bezier(.535, .05, .355, 1);
 	transition: transform .3s cubic-bezier(.535, .05, .355, 1);
+	transition: transform .3s cubic-bezier(.535, .05, .355, 1), -webkit-transform .3s cubic-bezier(.535, .05, .355, 1);
 }
 
 button:hover {
@@ -199,9 +248,13 @@ button:focus {
 	top: 110%;
 	height: 2px;
 	background: #000;
-	transform: scaleX(var(--scale));
-	transform-origin: var(--x) 50%;
+	-webkit-transform: scaleX(var(--scale));
+	        transform: scaleX(var(--scale));
+	-webkit-transform-origin: var(--x) 50%;
+	        transform-origin: var(--x) 50%;
+	transition: -webkit-transform .3s cubic-bezier(.535, .05, .355, 1);
 	transition: transform .3s cubic-bezier(.535, .05, .355, 1);
+	transition: transform .3s cubic-bezier(.535, .05, .355, 1), -webkit-transform .3s cubic-bezier(.535, .05, .355, 1);
 }
 
 .show {
@@ -293,6 +346,7 @@ hr {
 	height: 1px;
 	color: #000;
 	background-color: #000;
+	margin: 0;
 }
 
 #projectcontainer {
@@ -412,12 +466,14 @@ p {
 /*----------------------------------*/
 
 @media only screen and (min-width: 100px) {
-	#container {
-		margin: 0 20px;
+	#container, #stickyheader {
+		padding-left: 20px;
+		padding-right: 20px;
 	}
 
 	.subheader {
-		margin: 16px 0;
+		padding-top: 16px;
+		padding-bottom: 16px;
 	}
 
 	.projectvid {
@@ -426,12 +482,12 @@ p {
 
 	#name {
 		letter-spacing: -2px;
-		font-size: 14px;
+		font-size: 21px;
 	}
 
 	#role {
 		letter-spacing: -1px;
-		font-size: 10px;
+		font-size: 14px;
 		margin-top: 6px;
 	}
 
@@ -448,12 +504,12 @@ p {
 		width: 10px;
 	}
 
-	#linkedin, #email {
+	.linkedin, .email {
 		width: 23px;
 		height: 23px;
 	}
 
-	#linkedin {
+	.linkedin {
 		margin-right: 6px;
 	}
 
@@ -527,35 +583,41 @@ p {
 @media only screen and (min-width: 350px) {
 	#name {
 		letter-spacing: -2px;
-		font-size: 20px;
+		font-size: 25px;
 	}
 
 	#role {
 		letter-spacing: -1px;
-		font-size: 12px;
+		font-size: 16px;
 	}
 
 	#name span {
-		width: 24px;
+		width: 18px;
 	}
 
 	#role span {
-		width: 16px;
+		width: 12px;
 	}
 }
 
 @media only screen and (min-width: 768px) {
-	#container {
-		margin: 0 25px;
+	#container, #stickyheader {
+		padding-left: 25px;
+		padding-right: 25px;
 	}
 
-	.subheader, .projectvid {
-		margin: 30px 0;
+	.subheader {
+		padding-top: 28px;
+		padding-bottom: 28px;
+	}
+
+	.projectvid {
+		margin: 28px 0;
 	}
 
 	#name {
 		letter-spacing: -2px;
-		font-size: 32px;
+		font-size: 40px;
 	}
 
 	#role, h2, #subname, h3 {
@@ -564,14 +626,14 @@ p {
 	}
 
 	#name span {
-		width: 38px;
+		width: 34px;
 	}
 
 	#role span {
-		width: 28px;
+		width: 24px;
 	}
 
-	#linkedin, #email {
+	.linkedin, .email {
 		width: 35px;
 		height: 35px;
 		margin-right: 8px;
@@ -648,7 +710,8 @@ p {
 
 	#name {
 		letter-spacing: -2px;
-		font-size: 44px;
+		font-size: 50px;
+		/*font-size: 44px;*/
 	}
 
 	#role {
@@ -656,11 +719,13 @@ p {
 	}
 
 	#name span {
-		width: 46px;
+		width: 38px;
+		/*width: 46px;*/
 	}
 
 	#role span {
-		width: 32px;
+		width: 24px;
+		/*width: 32px;*/
 	}
 
 	#about, p {
@@ -691,25 +756,31 @@ p {
 }
 
 @media only screen and (min-width: 1500px) {
-	#container {
-		margin: 0 30px;
+	#container, #stickyheader {
+		padding-left: 30px;
+		padding-right: 30px;
 	}
 
-	.subheader, .projectvid {
+	.subheader {
+		padding-top: 32px;
+		padding-bottom: 32px;
+	}
+
+	.projectvid {
 		margin: 35px 0;
 	}
 
 	#name {
 		letter-spacing: -3px;
-		font-size: 50px;
+		font-size: 60px;
 	}
 
 	#name span {
-		width: 54px;
+		width: 44px;
 	}
 
 	#role span {
-		width: 40px;
+		width: 32px;
 	}
 
 	#role, #subname, h3 {
@@ -717,7 +788,7 @@ p {
 		font-size: 36px;
 	}
 
-	#linkedin, #email {
+	.linkedin, .email {
 		width: 40px;
 		height: 40px;
 		margin-right: 10px;
