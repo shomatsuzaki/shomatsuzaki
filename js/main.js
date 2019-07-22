@@ -40,7 +40,7 @@ window.onload = function() {
   var $randomrole = $('.rand2');
   var alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
   var nameletters = ["s", "h", "o", " ", "m", "a", "t", "s", "u", "z", "a", "k", "i"];
-  var roleletters = ["a", "r", "t", " ", "d", "i", "r", "e", "c", "t", "o", "r"];
+  var roleletters = ["s", "e", "n", "i", "o", "r", " ", "a", "r", "t", " ", "d", "i", "r", "e", "c", "t", "o", "r"];
   var $timer = 10;
   var data = 0;
   var index;
