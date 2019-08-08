@@ -105,7 +105,7 @@ $(document).ready(function() {
       }
     });
     // stop function if no rands left
-    if (data > 500) {
+    if (data > 700) {
       clearInterval(scraminterval);
       // $('#name').html('sho matsuzaki');
       // $('#name').css('opacity','1');
