@@ -72,6 +72,7 @@ video {
 	text-transform: uppercase;
 	text-align: center;
 	color: #fff;
+	letter-spacing: 3px;
 }
 
 #role {
@@ -81,11 +82,6 @@ video {
 	font-weight: 300;
 	text-align: center;
 	color: #fff;
-}
-
-#name span, #role span {
-	text-align: center;
-	display: inline-block;
 }
 
 .subheader {
@@ -485,26 +481,17 @@ p {
 	}
 
 	#name {
-		letter-spacing: -2px;
+		letter-spacing: 1px;
 		font-size: 21px;
 	}
 
 	#role {
-		letter-spacing: -1px;
 		font-size: 14px;
 		margin-top: 6px;
 	}
 
 	h2, #subname, h3 {
 		font-size: 16px;
-	}
-
-	#name span {
-		width: 16px;
-	}
-
-	#role span {
-		width: 10px;
 	}
 
 	.linkedin, .email {
@@ -585,25 +572,16 @@ p {
 
 @media only screen and (min-width: 350px) {
 	#name {
-		letter-spacing: -2px;
 		font-size: 25px;
 	}
 
 	#role {
-		letter-spacing: -1px;
+		letter-spacing: 1px;
 		font-size: 16px;
-	}
-
-	#name span {
-		width: 18px;
-	}
-
-	#role span {
-		width: 12px;
 	}
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 769px) {
 	#container, #stickyheader {
 		padding-left: 25px;
 		padding-right: 25px;
@@ -619,20 +597,13 @@ p {
 	}
 
 	#name {
-		letter-spacing: -2px;
+		letter-spacing: 4px;
 		font-size: 40px;
 	}
 
 	#role, h2, #subname, h3 {
+		letter-spacing: 2px;
 		font-size: 27px;
-	}
-
-	#name span {
-		width: 34px;
-	}
-
-	#role span {
-		width: 24px;
 	}
 
 	.linkedin, .email {
@@ -664,7 +635,7 @@ p {
 	}
 
 	h2 {
-		width: 175px;
+		width: 190px;
 		margin-bottom: 27px;
 	}
 
@@ -711,23 +682,13 @@ p {
 	}
 
 	#name {
-		letter-spacing: -2px;
+		letter-spacing: 6px;
 		font-size: 50px;
-		/*font-size: 44px;*/
 	}
 
 	#role {
 		margin-top: 10px;
-	}
-
-	#name span {
-		width: 38px;
-		/*width: 46px;*/
-	}
-
-	#role span {
-		width: 24px;
-		/*width: 32px;*/
+		letter-spacing: 3px;
 	}
 
 	#about, p {
@@ -773,20 +734,16 @@ p {
 	}
 
 	#name {
-		letter-spacing: -3px;
+		letter-spacing: 6px;
 		font-size: 60px;
 	}
 
-	#name span {
-		width: 44px;
-	}
-
-	#role span {
-		width: 32px;
+	#role {
+		margin-top: 12px;
+		letter-spacing: 4px;
 	}
 
 	#role, #subname, h3 {
-		letter-spacing: -1px;
 		font-size: 36px;
 	}
 
@@ -807,7 +764,7 @@ p {
 
 	h2 {
 		font-size: 30px;
-		width: 128px;
+		width: 200px;
 		margin-bottom: 30px;
 	}
 
