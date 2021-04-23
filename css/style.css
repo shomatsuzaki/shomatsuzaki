@@ -13,7 +13,7 @@ body {
     background-color: #fff;
     font-family: 'Montserrat', sans-serif;
     /*-------------------*/
-    font-size: 14px;
+    font-size: 8px;
     font-weight: 300;
     margin: 0 auto;
     width: 100%;
@@ -165,11 +165,6 @@ video {
  	-webkit-transition: opacity .5s ease;
 }
 
-.category {
-	display: inline;
-	opacity: .4;
-}
-
 #btncontainer {
 	margin-right: auto;
 }
@@ -308,24 +303,36 @@ button:focus {
 }
 
 .projectinfo span {
-	font-weight: 300;
+	font-weight: 500;
 }
 
 #about {
 	display: block;
 	font-weight: 300;
-	line-height: 1.5;
 	text-align: left;
 }
 
-h2 {
+#about-text {
+	display: inline-block;
+	width: 67%;
+	padding-left: 10px;
+	line-height: 1.5;
+	vertical-align: middle;
+}
+
+/*h2 {
 	display: block;
 	font-weight: 500;
-	padding: 4px 0;
-	margin: 0 auto;
-	text-align: center;
+	padding: 0 0 4px 0;
+	text-align: left;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
+}*/
+
+#prof-pic {
+	display: inline-block;
+	vertical-align: middle;
+	width: 30%;
 }
 
 /*----------------------------------*/
@@ -371,7 +378,7 @@ p {
 	font-weight: 300;
 	line-height: 1.5;
 	text-align: left;
-	font-size: 15px;
+	font-size: 12px;
 }
 
 .projectvid {
@@ -490,7 +497,7 @@ p {
 		margin-top: 6px;
 	}
 
-	h2, #subname, h3 {
+	#subname, h3 {
 		font-size: 16px;
 	}
 
@@ -522,12 +529,7 @@ p {
 
 	#about {
 		margin: 20px auto 70px auto;
-		width: 90%;
-	}
-	
-	h2 {
-		width: 110px;
-		margin-bottom: 18px;
+		width: 100%;
 	}
 
 	#projectcontainer {
@@ -535,7 +537,7 @@ p {
 	}
 
 	p {
-		font-size: 13px;
+		font-size: 11px;
 		width: 90%;
 	}
 
@@ -581,7 +583,11 @@ p {
 	}
 }
 
-@media only screen and (min-width: 769px) {
+@media only screen and (min-width: 760px) {
+	body {
+		font-size: 12px;
+	}
+
 	#container, #stickyheader {
 		padding-left: 25px;
 		padding-right: 25px;
@@ -601,7 +607,7 @@ p {
 		font-size: 40px;
 	}
 
-	#role, h2, #subname, h3 {
+	#role, #subname, h3 {
 		letter-spacing: 2px;
 		font-size: 27px;
 	}
@@ -631,12 +637,7 @@ p {
 
 	#about {
 		margin: 30px auto 90px auto;
-		width: 700px;
-	}
-
-	h2 {
-		width: 190px;
-		margin-bottom: 27px;
+		width: 85%;
 	}
 
 	#projectcontainer {
@@ -644,7 +645,7 @@ p {
 	}
 
 	p {
-		font-size: 15px;
+		font-size: 14px;
 		width: 500px;
 	}
 
@@ -691,8 +692,13 @@ p {
 		letter-spacing: 3px;
 	}
 
-	#about, p {
-		width: 600px;
+	#about {
+		width: 80%;
+	}
+
+	p {
+		width: 60%;
+		font-size: 16px;
 	}
 
 	#home, .navoption {
@@ -759,13 +765,7 @@ p {
 
 	#about {
 		margin: 40px auto 100px auto;
-		width: 900px;
-	}
-
-	h2 {
-		font-size: 30px;
-		width: 220px;
-		margin-bottom: 30px;
+		width: 60%;
 	}
 
 	#projectcontainer {
