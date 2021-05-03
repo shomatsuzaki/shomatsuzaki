@@ -31,92 +31,6 @@ function stickyHeader() {
   }
 }
 
-////////////////////
-// TEXT DE-SCRAMBLER
-////////////////////
-
-// $(document).ready(function() {
-//   var $randomname = $('.rand1');
-//   var $randomrole = $('.rand2');
-//   var alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-//   var nameletters = ["s", "h", "o", " ", "m", "a", "t", "s", "u", "z", "a", "k", "i"];
-//   var roleletters = ["a", "s", "s", "o", "c", " ", "c", "r", "e", "a", "t", "i", "v", "e", " ", "d", "i", "r", "e", "c", "t", "o", "r"];
-//   var $timer = 10;
-//   var data = 0;
-//   var index;
-//   var change;
-//   var scraminterval;
-//   var n, r;
-
-//   $randomname.css('opacity','.5');
-//   $randomrole.css('opacity','.5');
-
-//   // assign each letter a random number from 0 to 99 as attr 'data-max'
-//   $randomname.each(function() {
-//     change = Math.round(Math.random()*99);
-//     $(this).attr('data-max', change);
-//   });
-//   $randomrole.each(function() {
-//     change = Math.round(Math.random()*99);
-//     $(this).attr('data-max', change);
-//   });
-
-//   // return random number from 0 to 25 (for each letter in alphabet)
-//   function randletter() {
-//     return Math.round(Math.random()*25);
-//   }
-
-//   // return random number from 1 to length of an array
-//   function randselect(len) {
-//     return Math.floor(Math.random()*len+1);
-//   }
-
-//   // create one iteration of scrambled letters for both name and role
-//   function scramble() {
-//     n = randselect($randomname.length);
-//     // pick random name letter and choose random letter for it
-//     $('.rand1:nth-of-type('+n+')').html(alphabet[randletter()]);
-//     // set 'data-number' attr to data value (starts at 0 and increments)
-//     $('.rand1:nth-of-type('+n+')').attr('data-number', data);
-
-//     r = randselect($randomrole.length);
-//     // pick random role letter and choose random letter for it
-//     $('.rand2:nth-of-type('+r+')').html(alphabet[randletter()]);
-//     // set 'data-number' attr to data value (starts at 0 and increments)
-//     $('.rand2:nth-of-type('+r+')').attr('data-number', data);
-//     data++;
-
-//     // for every name letter, switch to correct letter if data-number > data-max
-//     $randomname.each(function() {
-//       if (parseInt($(this).attr('data-number')) > parseInt($(this).attr('data-max'))) {
-//         index = $('#name .ltr').index(this);
-//         $(this).html(nameletters[index]);
-//         $(this).css('opacity','1');
-//         $(this).removeClass('rand1');
-//       }
-//     });
-//     // for every role letter, switch to correct letter if data-number > data-max
-//     $randomrole.each(function() {
-//       if (parseInt($(this).attr('data-number')) > parseInt($(this).attr('data-max'))) {
-//         index = $('#role .ltr').index(this);
-//         $(this).html(roleletters[index]);
-//         $(this).css('opacity','1');
-//         $(this).removeClass('rand2');
-//       }
-//     });
-//     // stop function if no rands left
-//     if (data > 700) {
-//       clearInterval(scraminterval);
-//       // $('#name').html('sho matsuzaki');
-//       // $('#name').css('opacity','1');
-//       // $('#role').html('art director');
-//       // $('#role').css('opacity','1');
-//     }
-//   }
-
-//   scraminterval = setInterval(scramble, $timer);
-// });
-
 /////////////////////////
 // DIRECTION AWARE HOVER
 /////////////////////////
@@ -141,40 +55,6 @@ document.querySelectorAll('button').forEach((elem) => {
   }
 
 })
-
-/////////////////////////
-// ANIMATED URL AND TITLE
-/////////////////////////
-
-// function wavyurl() {
-//     var i, n, s = '';
-
-//     for (i = 0; i < 10; i++) {
-//         n = Math.floor(Math.sin((Date.now()/200) + (i/2)) * 4) + 4;
-
-//         s += String.fromCharCode(0x2581 + n);
-
-//         // s += String.fromCharCode(0x2581 + n);
-//     }
-
-//     // window.location.hash = s;
-//     document.title = s;
-
-//     setTimeout(wavyurl, 20);
-// }
-
-// wavyurl();
-
-// var f = ['🌑', '🌒', '🌓', '🌔', '🌝', '🌖', '🌗', '🌘'];
-
-// function animateUrl() {
-//     location.hash = f[Math.floor((Date.now()/100)%f.length)];
-//     document.title = 'Sho Matsuzaki ' + f[Math.floor((Date.now()/100)%f.length)];
-
-//     setTimeout(animateUrl, 50);
-// }
-
-// animateUrl();
 
 ///////////////////////
 // FILTER FUNCTIONALITY
