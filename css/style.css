@@ -11,6 +11,10 @@ Author: Sho Matsuzaki
     box-sizing: border-box; /* IE */
 }
 
+html {
+	scroll-behavior: smooth;
+}
+
 body {
     color: #000;
     background-color: #fff;
@@ -18,6 +22,12 @@ body {
     font-weight: 300;
     margin: 0 auto;
     width: 100%;
+    font-size: 12px;
+}
+
+a {
+	text-decoration: none;
+	color: #000;
 }
 
 .subheader {
@@ -62,6 +72,7 @@ body {
  	width: 23px;
 	height: 23px;
 	margin-right: 6px;
+	margin-left: 6px;
 }
 
 .email {
@@ -140,7 +151,6 @@ video {
 	display: block;
 	z-index: 10;
 	font-weight: 700;
-	text-transform: uppercase;
 	text-align: center;
 	color: #fff;
 	letter-spacing: 1px;
@@ -172,10 +182,11 @@ video {
 }
 
 #btncontainer {
+	display: none;
 	margin-right: auto;
 }
 
-button {
+.btn {
 	font-family: 'Montserrat', sans-serif;
 	position: relative;
 	cursor: pointer;
@@ -190,11 +201,10 @@ button {
  	-ms-transition: opacity .5s ease;
  	-moz-transition: opacity .5s ease;
  	-webkit-transition: opacity .5s ease;
- 	font-size: 12px;
- 	margin: 0 4px;
+ 	margin-right: 8px;
 }
 
-button::after {
+.btn::after {
 	--scale: 0;
 	content: '';
 	position: absolute;
@@ -212,15 +222,15 @@ button::after {
 	transition: transform .3s cubic-bezier(.535, .05, .355, 1), -webkit-transform .3s cubic-bezier(.535, .05, .355, 1);
 }
 
-button:hover {
+.btn:hover {
 	opacity: 1;
 }
 
-button:hover::after {
+.btn:hover::after {
 	--scale: 1;
 }
 
-button:focus {
+.btn:focus {
 	outline:0;
 }
 
@@ -352,7 +362,6 @@ button:focus {
 	text-decoration: none;
 	color: #000;
 	display: inline-block;
-	text-transform: uppercase;
 	font-size: 16px;
 }
 
@@ -531,7 +540,11 @@ p {
 		padding-right: 25px;
 	}
 
-	button {
+	#btncontainer {
+		display: block;
+	}
+
+	button, a {
 		font-size: 13.5px;
 		margin: 0 8px;
 	}
@@ -627,7 +640,7 @@ p {
 		letter-spacing: 3px;
 	}
 
-	button {
+	button, a {
 		margin: 0 10px;
 		font-size: 17px;
 	}
