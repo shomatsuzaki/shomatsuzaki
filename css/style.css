@@ -151,7 +151,7 @@ video {
 	position: relative;
 	display: block;
 	z-index: 10;
-	font-weight: 700;
+	font-weight: 500;
 	text-align: center;
 	color: #fff;
 	letter-spacing: 1px;
@@ -196,7 +196,7 @@ video {
 	border: none;
 	padding: 0;
 	background: none;
-	opacity: .4;
+	opacity: 1;
 	transition: opacity .5s ease;
 	-o-transition: opacity .5s ease;
  	-ms-transition: opacity .5s ease;
@@ -458,7 +458,7 @@ hr {
 	height: 0;
 	overflow: hidden;
 	max-width: 100%;
-	margin: 24px 0;
+	margin: 10px 0 48px 0;
 }
 
 .projectvid iframe, object, embed {
@@ -606,10 +606,6 @@ p {
 		margin: 0 40px;
 	}
 
-	.projectvid {
-		margin: 28px 0;
-	}
-
 	.printportrait {
 		width: 38vw;
 	}
@@ -633,6 +629,7 @@ p {
 	/*HOMEPAGE*/
 
 	#name {
+		font-weight: 700;
 		letter-spacing: 6px;
 		font-size: 50px;
 	}
@@ -645,6 +642,10 @@ p {
 	button {
 		margin: 0 10px;
 		font-size: 17px;
+	}
+
+	.btn {
+		opacity: .4;
 	}
 
 	.projectinfo {
@@ -752,7 +753,7 @@ p {
 	}
 
 	.projectvid {
-		margin: 35px 0;
+		margin: 20px 0 70px 0;
 	}	
 
 	h3 {
