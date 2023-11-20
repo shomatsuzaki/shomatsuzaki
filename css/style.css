@@ -28,6 +28,7 @@ body {
 a {
 	text-decoration: none;
 	color: #000;
+	font-weight: 500;
 }
 
 .subheader {
@@ -355,6 +356,7 @@ video {
 	margin: 0 auto;
 	width: 100%;
 	padding: 0 20px;
+	text-align: center;
 }
 
 #subname {
@@ -408,7 +410,7 @@ hr {
 
 .arrow {
 	border: solid;
- 	border-width: 0 1px 1px 0;
+ 	border-width: 0 2px 2px 0;
  	display: inline-block;
  	padding: 5px;
 }
@@ -494,13 +496,13 @@ h3 span {
 }
 
 p {
-	display: block;
-	margin: 10px auto 60px auto;
+	display: inline-block;
+	margin: 10px auto 20px auto;
 	font-weight: 300;
 	line-height: 1.5;
 	text-align: left;
 	font-size: 11px;
-	width: 90%;
+	max-width: 90%;
 }
 
 
@@ -544,7 +546,7 @@ p {
 		display: block;
 	}
 
-	button, a {
+	button {
 		font-size: 13.5px;
 		margin: 0 8px;
 	}
@@ -619,7 +621,7 @@ p {
 
 	p {
 		font-size: 14px;
-		width: 500px;
+		max-width: 500px;
 	}
 	
 }
@@ -640,7 +642,7 @@ p {
 		letter-spacing: 3px;
 	}
 
-	button, a {
+	button {
 		margin: 0 10px;
 		font-size: 17px;
 	}
@@ -687,7 +689,7 @@ p {
 	}
 
 	p {
-		width: 60%;
+		max-width: 60%;
 		font-size: 16px;
 	}
 	
