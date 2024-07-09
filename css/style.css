@@ -61,6 +61,16 @@ body {
 	vector-effect: non-scaling-stroke;
 }
 
+#radial-gradient {
+	position: absolute;
+	width: 350vw;
+	height: 350vh;
+	height: 350dvh;
+	background: var(--off-white);
+	background: radial-gradient(circle, var(--transparent) 15%, var(--light-grid) 50%);
+	z-index: 1;
+}
+
 #vt-mask1, #vt-mask3 {
 	animation: logo-line-vt 1600ms ease-in forwards;
 }
@@ -94,45 +104,30 @@ body {
 }
 
 @keyframes logo-line-vt {
-	from {
-		transform: translateY(0px);
-	}
 	to {
 		transform: translateY(8px);
 	}
 }
 
 @keyframes logo-line-vt-rev {
-	from {
-		transform: translateY(0px);
-	}
 	to {
 		transform: translateY(-8px);
 	}
 }
 
 @keyframes logo-line-hz {
-	from {
-		transform: translateX(0px);
-	}
 	to {
 		transform: translateX(8px);
 	}
 }
 
 @keyframes logo-line-hz-rev {
-	from {
-		transform: translateX(0px);
-	}
 	to {
 		transform: translateX(-8px);
 	}
 }
 
 @keyframes logo-pan {
-	from {
-		transform: translateY(0);
-	}
 	to {
 /*		move logo to top of screen (-207.8125vw), then down 2.5 squares (7.8125vw)*/
 /*		each square is 1/32 of the viewport width*/
@@ -142,29 +137,24 @@ body {
 }
 
 @media screen and (max-width: 767px) {
-	#grid-logo {
+	#grid-logo, #radial-gradient {
 		animation: logo-pan 1000ms 3600ms ease-in-out forwards;
 	}
 }
 
 @media screen and (min-width: 768px) {
-	#grid-logo {
+	#grid-logo, #radial-gradient {
 		animation: logo-pan 1000ms 3600ms ease-in-out forwards;
 	}
 }
 
 @media screen and (min-width: 1200px) {
-	#grid-logo {
-/*		width: 100vw;*/
+	#grid-logo, #radial-gradient {
 		height: 350vw;
 		animation: logo-zoom 1000ms 3600ms ease-in-out forwards;
 	}
 
 	@keyframes logo-zoom {
-		from {
-			stroke-width: 1;
-			height: 350vw;
-		}
 		to {
 			stroke-width: 2;
 			height: 1662.5vw;
