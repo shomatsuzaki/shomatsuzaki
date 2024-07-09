@@ -1,0 +1,172 @@
+/*----------------------------------ALL PAGES---------------------------------*/
+
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+:root {
+	--transparent: #f8f6f200;
+	--off-white: #f8f6f2;
+	--light-grid: #ede6d9;
+	--dark-grid: #9F9581;
+	--light-color: #ffffff;
+	--dark-color: #000000;
+}
+
+html {
+	scroll-behavior: smooth;
+	font-size: 62.5%; /* sets base font to 10px not 16px so rem is base 10 */
+}
+
+body {
+	background-color: var(--off-white);
+	font-family: "Inter", sans-serif;
+	font-size: 1.6rem;
+	font-optical-sizing: auto;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+/*----------------------------------GRID+LOGO---------------------------------*/
+
+#homepage {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+	height: 100dvh;
+	overflow: hidden;
+}
+
+#grid-logo {
+	overflow: visible;
+	stroke-width: 1;
+	z-index: 0;
+/*	for all screens except desktop*/
+/*	width: 118.75vw;*/
+	height: 415.625vw;
+}
+
+.logo-line {
+	stroke: var(--dark-grid);
+	stroke-linecap: square;
+	vector-effect: non-scaling-stroke;
+}
+
+#grid-cell {
+	stroke: var(--light-grid);
+	stroke-linecap: square;
+	vector-effect: non-scaling-stroke;
+}
+
+#vt-mask1, #vt-mask3 {
+	animation: logo-line-vt 1600ms ease-in forwards;
+}
+
+#vt-mask2, #vt-mask4 {
+	animation: logo-line-vt-rev 1600ms ease-in forwards;
+}
+
+#hz-mask1, #hz-mask2 {
+	animation: logo-line-hz-rev 1600ms 1300ms linear forwards;
+}
+
+#hz-mask3, #hz-mask4 {
+	animation: logo-line-hz 1600ms 1300ms linear forwards;
+}
+
+#vt-mask5, #vt-mask7 {
+	animation: logo-line-vt 1600ms 2000ms ease-out forwards;
+}
+
+#vt-mask6 {
+	animation: logo-line-vt-rev 1600ms 2000ms ease-out forwards;
+}
+
+#hz-mask5 {
+	animation: logo-line-hz-rev 1600ms 2000ms ease-out forwards;
+}
+
+#hz-mask6 {
+	animation: logo-line-hz 1600ms 2000ms ease-out forwards;
+}
+
+@keyframes logo-line-vt {
+	from {
+		transform: translateY(0px);
+	}
+	to {
+		transform: translateY(8px);
+	}
+}
+
+@keyframes logo-line-vt-rev {
+	from {
+		transform: translateY(0px);
+	}
+	to {
+		transform: translateY(-8px);
+	}
+}
+
+@keyframes logo-line-hz {
+	from {
+		transform: translateX(0px);
+	}
+	to {
+		transform: translateX(8px);
+	}
+}
+
+@keyframes logo-line-hz-rev {
+	from {
+		transform: translateX(0px);
+	}
+	to {
+		transform: translateX(-8px);
+	}
+}
+
+@keyframes logo-pan {
+	from {
+		transform: translateY(0);
+	}
+	to {
+/*		move logo to top of screen (-207.8125vw), then down 2.5 squares (7.8125vw)*/
+/*		each square is 1/32 of the viewport width*/
+		transform: translateY(calc(-50vh + 7.8125vw));
+	}
+}
+
+@media screen and (max-width: 767px) {
+	#grid-logo {
+		animation: logo-pan 1000ms 3600ms ease-in-out forwards;
+	}
+}
+
+@media screen and (min-width: 768px) {
+	#grid-logo {
+		animation: logo-pan 1000ms 3600ms ease-in-out forwards;
+	}
+}
+
+@media screen and (min-width: 1200px) {
+	#grid-logo {
+/*		width: 100vw;*/
+		height: 350vw;
+		animation: logo-zoom 1000ms 3600ms ease-in-out forwards;
+	}
+
+	@keyframes logo-zoom {
+		from {
+			stroke-width: 1;
+			height: 350vw;
+		}
+		to {
+			stroke-width: 2;
+			height: 1662.5vw;
+		}
+	}
+}
