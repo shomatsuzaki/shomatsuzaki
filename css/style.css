@@ -137,6 +137,7 @@ body {
 /*		move logo to top of screen (-207.8125vw), then down 2.5 squares (7.8125vw)*/
 /*		each square is 1/32 of the viewport width*/
 		transform: translateY(calc(-50vh + 7.8125vw));
+		transform: translateY(calc(-50dvh + 7.8125vw));
 	}
 }
 
