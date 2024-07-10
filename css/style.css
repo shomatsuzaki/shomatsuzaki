@@ -147,11 +147,12 @@ body {
 /*---------------------------------PROJECT FEED-------------------------------*/
 
 #project-feed {
+	display: grid;
 	opacity: 0;
+	overflow: hidden;
 	position: absolute;
 	inset: 0;
 	margin: auto;
-	display: grid;
 	place-items: start;
 	align-content: start;
 	width: 100%;
@@ -169,13 +170,19 @@ body {
 }
 
 .project-info {
+	/*may need to be made responsive*/
 	padding: 3rem;
+}
+
+.project-hero {
+	background-color: #ffdb0030;
 }
 
 @keyframes appear {
 	to {
 		opacity: 1;
 		visibility: visible;
+		overflow: scroll;
 	}
 }
 
@@ -361,7 +368,8 @@ body {
 		grid-template-columns: repeat(2, 1fr);
 	}
 
-	.project-row > div:nth-last-child(-n+4) {
+	.project-image {
+		/*remove all cells that aren't project info or hero image*/
 		display: none;
 	}
 
@@ -372,4 +380,6 @@ body {
 }
 
 
-
+/*----------------------------------------------------------------------------*/
+/*-----------------------------------END--------------------------------------*/
+/*----------------------------------------------------------------------------*/
