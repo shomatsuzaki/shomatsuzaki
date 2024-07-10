@@ -1,3 +1,7 @@
+/*----------------------------------------------------------------------------*/
+/*----------------------------------ALL SIZES---------------------------------*/
+/*----------------------------------------------------------------------------*/
+
 /*----------------------------------ALL PAGES---------------------------------*/
 
 *, *::before, *::after {
@@ -34,21 +38,13 @@ body {
 	height: 100vh;
 	height: 100dvh;
 	overflow: hidden;
+	animation: disappear 1000ms 8500ms ease-out forwards;
 }
 
 #grid-logo {
-	position: absolute;
-	/*top: 50%;
-	left: 50%;
-	transform: translate(-50%,-50%);*/
-	top: calc(calc(415.625vw - 100vh) / -2);
-	top: calc(calc(415.625vw - 100dvh) / -2);
-	left: calc(calc(118.75vw - 100vw) / -2);
 	stroke-width: 1;
+	position: absolute;
 	z-index: 0;
-/*	for all screens except desktop*/
-/*	width: 118.75vw;*/
-	height: 415.625vw;
 }
 
 .logo-line {
@@ -57,25 +53,12 @@ body {
 	vector-effect: non-scaling-stroke;
 }
 
-#grid-cell {
+.grid-line {
 	stroke: var(--light-grid);
 	stroke-linecap: square;
 	vector-effect: non-scaling-stroke;
+	animation: darken 1000ms 7500ms ease-out forwards;
 }
-
-/*#radial-gradient {
-	position: absolute;
-	top: calc(calc(400vh - 100vh) / -2);
-	top: calc(calc(400dvh - 100dvh) / -2);
-	left: calc(calc(200vw - 100vw) / -2);
-	width: 200vw;
-	height: 400vh;
-	height: 400dvh;
-	overflow: hidden;
-	background: var(--off-white);
-	background: radial-gradient(circle, var(--transparent) 15%, var(--dark-grid) 100%);
-	z-index: 1;
-}*/
 
 #vt-mask1, #vt-mask3 {
 	animation: logo-line-vt 2000ms ease-in forwards;
@@ -133,45 +116,260 @@ body {
 	}
 }
 
-@keyframes logo-pan {
+@keyframes disappear {
 	to {
-/*		move logo to top of screen (-50vh), then down 2.5 squares (7.8125vw)*/
-/*		each square is 1/32 of the viewport width*/
-		transform: translateY(calc(-50vh + 7.8125vw));
-		transform: translateY(calc(-50dvh + 7.8125vw));
+		opacity: 0;
+		visibility: hidden;
+		display: none;
 	}
 }
 
-@media screen and (max-width: 767px) {
-	#grid-logo {
-		animation: logo-pan 1000ms 4500ms ease-in-out forwards;
+@keyframes darken {
+	to {
+		stroke: var(--dark-grid);
 	}
 }
 
-@media screen and (min-width: 768px) {
-	#grid-logo {
-		animation: logo-pan 1000ms 4500ms ease-in-out forwards;
+/*#radial-gradient {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	width: 200vw;
+	height: 400vh;
+	height: 400dvh;
+	overflow: hidden;
+	background: var(--off-white);
+	background: radial-gradient(circle, var(--transparent) 15%, var(--dark-grid) 100%);
+	z-index: 1;
+}*/
+
+/*---------------------------------PROJECT FEED-------------------------------*/
+
+#project-feed {
+	opacity: 0;
+	position: absolute;
+	inset: 0;
+	margin: auto;
+	display: grid;
+	place-items: start;
+	align-content: start;
+	width: 100%;
+	animation: appear 600ms 8600ms ease-out forwards;
+}
+
+.project-row {
+	display: contents;
+}
+
+.project-cell {
+	border: 0.5px var(--dark-grid) solid;
+	width: 100%;
+	display: block;
+}
+
+.project-info {
+	padding: 3rem;
+}
+
+@keyframes appear {
+	to {
+		opacity: 1;
+		visibility: visible;
 	}
 }
 
-@media screen and (min-width: 1200px) {
+/*----------------------------------------------------------------------------*/
+/*----------------------------------DESKTOP-----------------------------------*/
+/*----------------------------------------------------------------------------*/
+
+@media screen and (min-width: 1201px) {
+
+/*----------------------------------GRID+LOGO---------------------------------*/
+
 	#grid-logo {
+		/*top/left/transform50 trick will not work because transform must be used again for animation*/
 		top: calc(calc(350vw - 100vh) / -2);
 		top: calc(calc(350vw - 100dvh) / -2);
 		left: 0;
-/*		width: 100vw;*/
+		/*width: 100vw;*/
 		height: 350vw;
-		animation: logo-zoom 1000ms 4500ms ease-in-out forwards;
+		animation: logo-transition 4000ms 4500ms ease-in-out forwards;
 	}
 
-	@keyframes logo-zoom {
-		to {
+	@keyframes logo-transition {
+		25% {
 			stroke-width: 2;
-			top: calc(calc(1662.5vw - 100vh) / -2);
-			top: calc(calc(1662.5vw - 100dvh) / -2);
-			left: calc(calc(475vw - 100vw) / -2);
-/*			width: 475vw;*/
-			height: 1662.5vw;
+			/*zoom in to 8 squares wide*/
+			/*width: 475vw;*/
+			height: calc(350vw * 4.75);
+			top: calc(calc(calc(350vw * 4.75) - 100vh) / -2);
+			top: calc(calc(calc(350vw * 4.75) - 100dvh) / -2);
+			left: calc(calc(calc(100vw * 4.75) - 100vw) / -2);
+		}
+		50% {
+			stroke-width: 2;
+			/*width: 475vw;*/
+			height: calc(350vw * 4.75);
+			top: calc(calc(calc(350vw * 4.75) - 100vh) / -2);
+			top: calc(calc(calc(350vw * 4.75) - 100dvh) / -2);
+			left: calc(calc(calc(100vw * 4.75) - 100vw) / -2);
+			transform: translateY(0);
+		}
+		100% {
+			stroke-width: 2;
+			/*zoom in to 6 squares wide*/
+			/*width: 633.33vw;*/
+			height: calc(350vw * calc(38 / 6));
+			top: calc(calc(calc(350vw * calc(38 / 6)) - 100vh) / -2);
+			top: calc(calc(calc(350vw * calc(38 / 6)) - 100dvh) / -2);
+			left: calc(calc(calc(100vw * calc(38 / 6)) - 100vw) / -2);
+			/*move middle of logo to top of screen (-50vh), then down 1.5 squares (25vw)*/
+			/*each square is 1/6 of the viewport width*/
+			transform: translateY(calc(-50vh + 25vw));
+			transform: translateY(calc(-50dvh + 25vw));
 		}
 	}
+
+/*---------------------------------PROJECT FEED-------------------------------*/
+
+	#project-feed {
+		grid-template-columns: repeat(6, 1fr);
+	}
+
+	.project-cell {
+		height: calc(100vw / 6);
+	}
 }
+
+/*----------------------------------------------------------------------------*/
+/*----------------------------------TABLET------------------------------------*/
+/*----------------------------------------------------------------------------*/
+
+@media screen and (max-width: 1200px) {
+
+/*----------------------------------GRID+LOGO---------------------------------*/
+
+	#grid-logo {
+		/*width: 118.75vw;*/
+		height: calc(350vw * 1.1875);
+		/*top/left/transform50 trick will not work because transform must be used again for animation*/
+		top: calc(calc(calc(350vw * 1.1875) - 100vh) / -2);
+		top: calc(calc(calc(350vw * 1.1875) - 100dvh) / -2);
+		left: calc(calc(calc(100vw * 1.1875) - 100vw) / -2);
+		animation: logo-transition 4000ms 4500ms ease-in-out forwards;
+	}
+
+	@keyframes logo-transition {
+		25% {
+			/*move middle of logo to top of screen (-50vh), then down 2.5 squares (7.8125vw)*/
+			/*each square is 1/32 of the viewport width*/
+			transform: translateY(calc(-50vh + 7.8125vw));
+			transform: translateY(calc(-50dvh + 7.8125vw));
+		}
+		50% {
+			stroke-width: 1;
+			height: calc(350vw * 1.1875);
+			top: calc(calc(calc(350vw * 1.1875) - 100vh) / -2);
+			top: calc(calc(calc(350vw * 1.1875) - 100dvh) / -2);
+			left: calc(calc(calc(100vw * 1.1875) - 100vw) / -2);
+			transform: translateY(calc(-50vh + 7.8125vw));
+			transform: translateY(calc(-50dvh + 7.8125vw));
+		}
+		100% {
+			stroke-width: 2;
+			/*zoom in to 4 squares wide*/
+			/*width: 1128.125vw;*/
+			height: calc(350vw * calc(38 / 4));
+			top: calc(calc(calc(350vw * calc(38 / 4)) - 100vh) / -2);
+			top: calc(calc(calc(350vw * calc(38 / 4)) - 100dvh) / -2);
+			left: calc(calc(calc(100vw * calc(38 / 4)) - 100vw) / -2);
+			/*move middle of logo to top of screen (-50vh), then down 1.5 squares (37.5vw)*/
+			/*each square is 1/4 of the viewport width*/
+			transform: translateY(calc(-50vh + 37.5vw));
+			transform: translateY(calc(-50dvh + 37.5vw));
+		}
+	}
+
+/*---------------------------------PROJECT FEED-------------------------------*/
+
+	#project-feed {
+		grid-template-columns: repeat(4, 1fr);
+	}
+
+	.project-row > div:nth-last-child(-n+2) {
+		display: none;
+	}
+
+	.project-cell {
+		height: calc(100vw / 4);
+	}
+}
+
+/*----------------------------------------------------------------------------*/
+/*----------------------------------MOBILE------------------------------------*/
+/*----------------------------------------------------------------------------*/
+
+@media screen and (max-width: 768px) {
+
+/*----------------------------------GRID+LOGO---------------------------------*/
+
+	#grid-logo {
+		/*width: 118.75vw;*/
+		height: calc(350vw * 1.1875);
+		/*top/left/transform50 trick will not work because transform must be used again for animation*/
+		top: calc(calc(calc(350vw * 1.1875) - 100vh) / -2);
+		top: calc(calc(calc(350vw * 1.1875) - 100dvh) / -2);
+		left: calc(calc(calc(100vw * 1.1875) - 100vw) / -2);
+		animation: logo-transition 4000ms 4500ms ease-in-out forwards;
+	}
+
+	@keyframes logo-transition {
+		25% {
+			/*move middle of logo to top of screen (-50vh), then down 2.5 squares (7.8125vw)*/
+			/*each square is 1/32 of the viewport width*/
+			transform: translateY(calc(-50vh + 7.8125vw));
+			transform: translateY(calc(-50dvh + 7.8125vw));
+		}
+		50% {
+			stroke-width: 1;
+			height: calc(350vw * 1.1875);
+			top: calc(calc(calc(350vw * 1.1875) - 100vh) / -2);
+			top: calc(calc(calc(350vw * 1.1875) - 100dvh) / -2);
+			left: calc(calc(calc(100vw * 1.1875) - 100vw) / -2);
+			transform: translateY(calc(-50vh + 7.8125vw));
+			transform: translateY(calc(-50dvh + 7.8125vw));
+		}
+		100% {
+			stroke-width: 2;
+			/*zoom in to 2 squares wide*/
+			/*width: 1900vw;*/
+			height: calc(350vw * calc(38 / 2));
+			top: calc(calc(calc(350vw * calc(38 / 2)) - 100vh) / -2);
+			top: calc(calc(calc(350vw * calc(38 / 2)) - 100dvh) / -2);
+			left: calc(calc(calc(100vw * calc(38 / 2)) - 100vw) / -2);
+			/*move middle of logo to top of screen (-50vh), then down 1.5 squares (75vw)*/
+			/*each square is 1/2 of the viewport width*/
+			transform: translateY(calc(-50vh + 75vw));
+			transform: translateY(calc(-50dvh + 75vw));
+		}
+	}
+
+/*---------------------------------PROJECT FEED-------------------------------*/
+
+	#project-feed {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.project-row > div:nth-last-child(-n+4) {
+		display: none;
+	}
+
+	.project-cell {
+		height: calc(100vw / 2);
+	}
+
+}
+
+
+
