@@ -25,23 +25,25 @@ body {
 	font-optical-sizing: auto;
 	margin: 0;
 	padding: 0;
-	overflow: hidden;
 }
 
 /*----------------------------------GRID+LOGO---------------------------------*/
 
 #homepage {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100vw;
+	position: relative;
 	height: 100vh;
 	height: 100dvh;
 	overflow: hidden;
 }
 
 #grid-logo {
-	overflow: visible;
+	position: absolute;
+	/*top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);*/
+	top: calc(calc(415.625vw - 100vh) / -2);
+	top: calc(calc(415.625vw - 100dvh) / -2);
+	left: calc(calc(118.75vw - 100vw) / -2);
 	stroke-width: 1;
 	z-index: 0;
 /*	for all screens except desktop*/
@@ -61,46 +63,50 @@ body {
 	vector-effect: non-scaling-stroke;
 }
 
-#radial-gradient {
+/*#radial-gradient {
 	position: absolute;
-	width: 350vw;
-	height: 350vh;
-	height: 350dvh;
+	top: calc(calc(400vh - 100vh) / -2);
+	top: calc(calc(400dvh - 100dvh) / -2);
+	left: calc(calc(200vw - 100vw) / -2);
+	width: 200vw;
+	height: 400vh;
+	height: 400dvh;
+	overflow: hidden;
 	background: var(--off-white);
-	background: radial-gradient(circle, var(--transparent) 15%, var(--light-grid) 50%);
+	background: radial-gradient(circle, var(--transparent) 15%, var(--dark-grid) 100%);
 	z-index: 1;
-}
+}*/
 
 #vt-mask1, #vt-mask3 {
-	animation: logo-line-vt 1600ms ease-in forwards;
+	animation: logo-line-vt 2000ms ease-in forwards;
 }
 
 #vt-mask2, #vt-mask4 {
-	animation: logo-line-vt-rev 1600ms ease-in forwards;
+	animation: logo-line-vt-rev 2000ms ease-in forwards;
 }
 
 #hz-mask1, #hz-mask2 {
-	animation: logo-line-hz-rev 1600ms 1300ms linear forwards;
+	animation: logo-line-hz-rev 2000ms 1500ms linear forwards;
 }
 
 #hz-mask3, #hz-mask4 {
-	animation: logo-line-hz 1600ms 1300ms linear forwards;
+	animation: logo-line-hz 2000ms 1500ms linear forwards;
 }
 
 #vt-mask5, #vt-mask7 {
-	animation: logo-line-vt 1600ms 2000ms ease-out forwards;
+	animation: logo-line-vt 2000ms 2400ms ease-out forwards;
 }
 
 #vt-mask6 {
-	animation: logo-line-vt-rev 1600ms 2000ms ease-out forwards;
+	animation: logo-line-vt-rev 2000ms 2400ms ease-out forwards;
 }
 
 #hz-mask5 {
-	animation: logo-line-hz-rev 1600ms 2000ms ease-out forwards;
+	animation: logo-line-hz-rev 2000ms 2400ms ease-out forwards;
 }
 
 #hz-mask6 {
-	animation: logo-line-hz 1600ms 2000ms ease-out forwards;
+	animation: logo-line-hz 2000ms 2400ms ease-out forwards;
 }
 
 @keyframes logo-line-vt {
@@ -129,7 +135,7 @@ body {
 
 @keyframes logo-pan {
 	to {
-/*		move logo to top of screen (-207.8125vw), then down 2.5 squares (7.8125vw)*/
+/*		move logo to top of screen (-50vh), then down 2.5 squares (7.8125vw)*/
 /*		each square is 1/32 of the viewport width*/
 		transform: translateY(calc(-50vh + 7.8125vw));
 		transform: translateY(calc(-50dvh + 7.8125vw));
@@ -137,26 +143,34 @@ body {
 }
 
 @media screen and (max-width: 767px) {
-	#grid-logo, #radial-gradient {
-		animation: logo-pan 1000ms 3600ms ease-in-out forwards;
+	#grid-logo {
+		animation: logo-pan 1000ms 4500ms ease-in-out forwards;
 	}
 }
 
 @media screen and (min-width: 768px) {
-	#grid-logo, #radial-gradient {
-		animation: logo-pan 1000ms 3600ms ease-in-out forwards;
+	#grid-logo {
+		animation: logo-pan 1000ms 4500ms ease-in-out forwards;
 	}
 }
 
 @media screen and (min-width: 1200px) {
-	#grid-logo, #radial-gradient {
+	#grid-logo {
+		top: calc(calc(350vw - 100vh) / -2);
+		top: calc(calc(350vw - 100dvh) / -2);
+		left: 0;
+/*		width: 100vw;*/
 		height: 350vw;
-		animation: logo-zoom 1000ms 3600ms ease-in-out forwards;
+		animation: logo-zoom 1000ms 4500ms ease-in-out forwards;
 	}
 
 	@keyframes logo-zoom {
 		to {
 			stroke-width: 2;
+			top: calc(calc(1662.5vw - 100vh) / -2);
+			top: calc(calc(1662.5vw - 100dvh) / -2);
+			left: calc(calc(475vw - 100vw) / -2);
+/*			width: 475vw;*/
 			height: 1662.5vw;
 		}
 	}
