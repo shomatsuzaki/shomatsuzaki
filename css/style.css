@@ -31,6 +31,7 @@ body {
 	font-optical-sizing: auto;
 	margin: 0;
 	padding: 0;
+	height: 1000vh;
 }
 
 /*----------------------------------GRID+LOGO---------------------------------*/
@@ -44,7 +45,7 @@ body {
 
 #grid-logo {
 	stroke-width: 1;
-	position: absolute;
+	position: fixed;
 	z-index: 0;
 }
 
@@ -58,38 +59,6 @@ body {
 	stroke: var(--light-grid);
 	stroke-linecap: square;
 	vector-effect: non-scaling-stroke;
-}
-
-#vt-mask1, #vt-mask3 {
-	animation: logo-line-vt 2000ms ease-in forwards;
-}
-
-#vt-mask2, #vt-mask4 {
-	animation: logo-line-vt-rev 2000ms ease-in forwards;
-}
-
-#hz-mask1, #hz-mask2 {
-	animation: logo-line-hz-rev 2000ms 1600ms linear forwards;
-}
-
-#hz-mask3, #hz-mask4 {
-	animation: logo-line-hz 2000ms 1600ms linear forwards;
-}
-
-#vt-mask5, #vt-mask7 {
-	animation: logo-line-vt 2000ms 2400ms ease-out forwards;
-}
-
-#vt-mask6 {
-	animation: logo-line-vt-rev 2000ms 2400ms ease-out forwards;
-}
-
-#hz-mask5 {
-	animation: logo-line-hz-rev 2000ms 2400ms ease-out forwards;
-}
-
-#hz-mask6 {
-	animation: logo-line-hz 2000ms 2400ms ease-out forwards;
 }
 
 #preloader {
@@ -134,30 +103,6 @@ body {
 	line-height: 70px;
 }
 
-@keyframes logo-line-vt {
-	to {
-		transform: translateY(8px);
-	}
-}
-
-@keyframes logo-line-vt-rev {
-	to {
-		transform: translateY(-8px);
-	}
-}
-
-@keyframes logo-line-hz {
-	to {
-		transform: translateX(8px);
-	}
-}
-
-@keyframes logo-line-hz-rev {
-	to {
-		transform: translateX(-8px);
-	}
-}
-
 @keyframes disappear {
 	to {
 		opacity: 0;
@@ -192,7 +137,7 @@ body {
 	display: grid;
 	opacity: 0;
 	overflow: hidden;
-	position: absolute;
+	position: fixed;
 	width: 100%;
 	z-index: 2;
 }
@@ -229,7 +174,7 @@ body {
 	display: grid;
 	opacity: 0;
 	overflow: hidden;
-	position: absolute;
+	position: fixed;
 	inset: 0;
 	margin: auto;
 	place-items: start;
