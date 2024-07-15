@@ -24,8 +24,10 @@ html {
 
 body {
 	background-color: var(--off-white);
-	font-family: "Inter", sans-serif;
+/*	font-family: "Inter", sans-serif;*/
+	font-family: "Figtree", sans-serif;
 	font-size: 1.6rem;
+	font-weight: 200;
 	font-optical-sizing: auto;
 	margin: 0;
 	padding: 0;
@@ -38,7 +40,6 @@ body {
 	height: 100vh;
 	height: 100dvh;
 	overflow: hidden;
-	animation: disappear 1000ms 8500ms ease-out forwards;
 }
 
 #grid-logo {
@@ -57,7 +58,6 @@ body {
 	stroke: var(--light-grid);
 	stroke-linecap: square;
 	vector-effect: non-scaling-stroke;
-	animation: darken 1000ms 7500ms ease-out forwards;
 }
 
 #vt-mask1, #vt-mask3 {
@@ -69,11 +69,11 @@ body {
 }
 
 #hz-mask1, #hz-mask2 {
-	animation: logo-line-hz-rev 2000ms 1500ms linear forwards;
+	animation: logo-line-hz-rev 2000ms 1600ms linear forwards;
 }
 
 #hz-mask3, #hz-mask4 {
-	animation: logo-line-hz 2000ms 1500ms linear forwards;
+	animation: logo-line-hz 2000ms 1600ms linear forwards;
 }
 
 #vt-mask5, #vt-mask7 {
@@ -144,6 +144,25 @@ body {
 	z-index: 1;
 }*/
 
+/*--------------------------------HOMEPAGE INFO-------------------------------*/
+
+#homepage-info {
+	display: grid;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	width: 100%;
+}
+
+#homepage-info > * {
+	margin: 0;
+	font-weight: 500;
+}
+
+#skills, #date-time,#developer {
+	font-weight: 200;
+}
+
 /*---------------------------------PROJECT FEED-------------------------------*/
 
 #project-feed {
@@ -156,7 +175,6 @@ body {
 	place-items: start;
 	align-content: start;
 	width: 100%;
-	animation: appear 600ms 8600ms ease-out forwards;
 }
 
 .project-row {
@@ -171,7 +189,7 @@ body {
 
 .project-info {
 	/*may need to be made responsive*/
-	padding: 3rem;
+	padding: 2vw;
 }
 
 .project-hero {
@@ -190,9 +208,13 @@ body {
 /*----------------------------------DESKTOP-----------------------------------*/
 /*----------------------------------------------------------------------------*/
 
-@media screen and (min-width: 1201px) {
+@media screen and (min-width: 901px) {
 
 /*----------------------------------GRID+LOGO---------------------------------*/
+
+	#homepage {
+/*		animation: disappear 1000ms 10500ms ease-out forwards;*/
+	}
 
 	#grid-logo {
 		/*top/left/transform50 trick will not work because transform must be used again for animation*/
@@ -201,11 +223,15 @@ body {
 		left: 0;
 		/*width: 100vw;*/
 		height: 350vw;
-		animation: logo-transition 4000ms 4500ms ease-in-out forwards;
+		animation: logo-transition 6000ms 4500ms ease-in-out forwards;
+	}
+
+	.grid-line {
+/*		animation: darken 1000ms 9500ms ease-out forwards;*/
 	}
 
 	@keyframes logo-transition {
-		25% {
+		15% {
 			stroke-width: 2;
 			/*zoom in to 8 squares wide*/
 			/*width: 475vw;*/
@@ -214,7 +240,7 @@ body {
 			top: calc(calc(calc(350vw * 4.75) - 100dvh) / -2);
 			left: calc(calc(calc(100vw * 4.75) - 100vw) / -2);
 		}
-		50% {
+		100% {
 			stroke-width: 2;
 			/*width: 475vw;*/
 			height: calc(350vw * 4.75);
@@ -223,25 +249,133 @@ body {
 			left: calc(calc(calc(100vw * 4.75) - 100vw) / -2);
 			transform: translateY(0);
 		}
-		100% {
+		/*100% {
 			stroke-width: 2;
-			/*zoom in to 6 squares wide*/
-			/*width: 633.33vw;*/
+			////zoom in to 6 squares wide
+			////width: 633.33vw;
 			height: calc(350vw * calc(38 / 6));
 			top: calc(calc(calc(350vw * calc(38 / 6)) - 100vh) / -2);
 			top: calc(calc(calc(350vw * calc(38 / 6)) - 100dvh) / -2);
 			left: calc(calc(calc(100vw * calc(38 / 6)) - 100vw) / -2);
-			/*move middle of logo to top of screen (-50vh), then down 1.5 squares (25vw)*/
-			/*each square is 1/6 of the viewport width*/
+			////move middle of logo to top of screen (-50vh), then down 1.5 squares (25vw)
+			////each square is 1/6 of the viewport width
 			transform: translateY(calc(-50vh + 25vw));
 			transform: translateY(calc(-50dvh + 25vw));
-		}
+		}*/
+	}
+
+/*--------------------------------HOMEPAGE INFO-------------------------------*/
+
+	#homepage-info {
+		grid-template-columns: repeat(8, 1fr);
+		grid-template-rows: repeat(5, calc(100vw / 8));
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+		animation: appear 600ms 5400ms ease-out forwards;
+	}
+
+	#homepage-info > * {
+		padding: 0.4vw 0.6vw;
+	}
+
+	#name {
+		grid-column: 2 / 4;
+		grid-row: 2 / 3;
+		place-self: start;
+		padding: 1.7vw;
+		font-size: min(4.7vw, 90px);
+		line-height: 4.6vw;
+	}
+
+	#title {
+		grid-column: 3 / 4;
+		grid-row: 3 / 4;
+		place-self: start;
+		font-size: min(1.2vw, 28px);
+	}
+
+	#skills {
+		grid-column: 2 / 3;
+		grid-row: 4 / 5;
+		align-self: start;
+		justify-self: end;
+		text-align: right;
+		font-size: min(1.0vw, 24px);
+		line-height: 1.4vw;
+	}
+
+	#about {
+		grid-column: 5 / 6;
+		grid-row: 2 / 3;
+		align-self: end;
+		justify-self: start;
+		font-size: min(1.0vw, 24px);
+	}
+
+	#contact {
+		grid-column: 5 / 6;
+		grid-row: 4 / 5;
+		align-self: start;
+		justify-self: start;
+		font-size: min(1.0vw, 24px);
+	}
+
+	#linkedin {
+		grid-column: 7 / 8;
+		grid-row: 3 / 4;
+		align-self: start;
+		justify-self: start;
+		font-size: min(1.0vw, 24px);
+	}
+
+	#scroll {
+		margin-top: 2vh;
+		grid-column: 4 / 6;
+		grid-row: 5 / 6;
+		align-self: start;
+		justify-self: center;
+		text-align: center;
+		font-size: min(1.0vw, 24px);
+	}
+
+	.side-arrow {
+		width: 0.6vw;
+		margin-left: 4px;
+	}
+
+	.down-arrow {
+		width: 0.6vw;
+		transform: rotate(135deg);
+		margin-left: 1px;
+	}
+
+	#date-time {
+		grid-column: 1 / 2;
+		grid-row: 2 / 3;
+		place-self: start;
+		font-size: min(0.75vw, 14px);
+		writing-mode: vertical-rl;
+		border-top: 1px var(--dark-grid) solid;
+		margin-bottom: -1px;
+	}
+
+	#developer {
+		grid-column: 8 / 9;
+		grid-row: 4 / 5;
+		place-self: end;
+		font-size: min(0.75vw, 14px);
+		writing-mode: vertical-lr;
+		transform: rotate(180deg);
+		border-top: 1px var(--dark-grid) solid;
+		margin-bottom: -1px;
 	}
 
 /*---------------------------------PROJECT FEED-------------------------------*/
 
 	#project-feed {
 		grid-template-columns: repeat(6, 1fr);
+/*		animation: appear 600ms 10500ms ease-out forwards;*/
 	}
 
 	.project-cell {
@@ -253,9 +387,13 @@ body {
 /*----------------------------------TABLET------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 900px) {
 
 /*----------------------------------GRID+LOGO---------------------------------*/
+
+	#homepage {
+/*		animation: disappear 1000ms 12500ms ease-out forwards;*/
+	}
 
 	#grid-logo {
 		/*width: 118.75vw;*/
@@ -264,17 +402,21 @@ body {
 		top: calc(calc(calc(350vw * 1.1875) - 100vh) / -2);
 		top: calc(calc(calc(350vw * 1.1875) - 100dvh) / -2);
 		left: calc(calc(calc(100vw * 1.1875) - 100vw) / -2);
-		animation: logo-transition 4000ms 4500ms ease-in-out forwards;
+		animation: logo-transition 8000ms 4500ms ease-in-out forwards;
+	}
+
+	.grid-line {
+/*		animation: darken 1000ms 11500ms ease-out forwards;*/
 	}
 
 	@keyframes logo-transition {
-		25% {
+		15% {
 			/*move middle of logo to top of screen (-50vh), then down 2.5 squares (7.8125vw)*/
 			/*each square is 1/32 of the viewport width*/
 			transform: translateY(calc(-50vh + 7.8125vw));
 			transform: translateY(calc(-50dvh + 7.8125vw));
 		}
-		50% {
+		100% {
 			stroke-width: 1;
 			height: calc(350vw * 1.1875);
 			top: calc(calc(calc(350vw * 1.1875) - 100vh) / -2);
@@ -283,25 +425,137 @@ body {
 			transform: translateY(calc(-50vh + 7.8125vw));
 			transform: translateY(calc(-50dvh + 7.8125vw));
 		}
-		100% {
+		/*100% {
 			stroke-width: 2;
-			/*zoom in to 4 squares wide*/
-			/*width: 1128.125vw;*/
+			////zoom in to 4 squares wide
+			////width: 1128.125vw;
 			height: calc(350vw * calc(38 / 4));
 			top: calc(calc(calc(350vw * calc(38 / 4)) - 100vh) / -2);
 			top: calc(calc(calc(350vw * calc(38 / 4)) - 100dvh) / -2);
 			left: calc(calc(calc(100vw * calc(38 / 4)) - 100vw) / -2);
-			/*move middle of logo to top of screen (-50vh), then down 1.5 squares (37.5vw)*/
-			/*each square is 1/4 of the viewport width*/
+			////move middle of logo to top of screen (-50vh), then down 1.5 squares (37.5vw)
+			////each square is 1/4 of the viewport width
 			transform: translateY(calc(-50vh + 37.5vw));
 			transform: translateY(calc(-50dvh + 37.5vw));
-		}
+		}*/
+	}
+
+/*--------------------------------HOMEPAGE INFO-------------------------------*/
+
+	#homepage-info {
+		grid-template-columns: repeat(32, 1fr);
+		grid-template-rows: repeat(36, calc(100vw / 32));
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		animation: appear 600ms 5700ms ease-out forwards;
+	}
+
+	#name {
+		grid-column: 5 / 29;
+		grid-row: 9 / 16;
+		align-self: center;
+		justify-self: start;
+		font-size: 13vw;
+		line-height: 11.5vw;
+	}
+
+	#title {
+		grid-column: 5 / 29;
+		grid-row: 17 / 18;
+		align-self: center;
+		justify-self: start;
+		font-size: 3.4vw;
+		padding-left: 4px;
+	}
+
+	#skills {
+		grid-column: 5 / 29;
+		grid-row: 22 / 28;
+		align-self: center;
+		justify-self: start;
+		font-size: 2.3vw;
+		line-height: 3.1vw;
+		padding-left: 4px;
+	}
+
+	#about {
+		grid-column: 5 / 9;
+		grid-row: 3 / 4;
+		align-self: center;
+		justify-self: start;
+		font-size: 2.3vw;
+		padding-left: 4px;
+	}
+
+	#contact {
+		grid-column: 25 / 29;
+		grid-row: 3 / 4;
+		align-self: center;
+		justify-self: end;
+		font-size: 2.3vw;
+		padding-right: 4px;
+	}
+
+	#linkedin {
+		display: none;
+		visibility: hidden;
+		opacity: 0;
+	}
+
+	#scroll {
+		grid-column: 14 / 20;
+		grid-row: 32 / 34;
+		place-self: center;
+		text-align: center;
+		font-size: 2.3vw;
+	}
+
+	.side-arrow {
+		width: 1.5vw;
+		margin-left: 2px;
+	}
+
+	.down-arrow {
+		width: 1.5vw;
+		transform: rotate(135deg);
+		margin-left: 0.5px;
+		margin-top: 6px;
+	}
+
+	#date-time {
+		grid-column: 1 / 2;
+		grid-row: 11 / 18;
+		align-self: start;
+		justify-self: center;
+		font-size: 1.3vw;
+		writing-mode: vertical-rl;
+		border-top: 0.5px var(--dark-grid) solid;
+		margin-left: 1px;
+		padding-top: 0.6vw;
+		padding-right: 0.6vw;
+		width: 100%;
+	}
+
+	#developer {
+		grid-column: 32 / 33;
+		grid-row: 21 / 28;
+		align-self: end;
+		font-size: 1.3vw;
+		writing-mode: vertical-lr;
+		transform: rotate(180deg);
+		border-top: 0.5px var(--dark-grid) solid;
+		margin-bottom: -1px;
+		padding-top: 0.6vw;
+		padding-left: 0.6vw;
+		width: 100%;
 	}
 
 /*---------------------------------PROJECT FEED-------------------------------*/
 
 	#project-feed {
 		grid-template-columns: repeat(4, 1fr);
+/*		animation: appear 600ms 12500ms ease-out forwards;*/
 	}
 
 	.project-row > div:nth-last-child(-n+2) {
@@ -317,9 +571,13 @@ body {
 /*----------------------------------MOBILE------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 600px) {
 
 /*----------------------------------GRID+LOGO---------------------------------*/
+
+	#homepage {
+/*		animation: disappear 1000ms 12500ms ease-out forwards;*/
+	}
 
 	#grid-logo {
 		/*width: 118.75vw;*/
@@ -328,17 +586,21 @@ body {
 		top: calc(calc(calc(350vw * 1.1875) - 100vh) / -2);
 		top: calc(calc(calc(350vw * 1.1875) - 100dvh) / -2);
 		left: calc(calc(calc(100vw * 1.1875) - 100vw) / -2);
-		animation: logo-transition 4000ms 4500ms ease-in-out forwards;
+		animation: logo-transition 8000ms 4500ms ease-in-out forwards;
+	}
+
+	.grid-line {
+/*		animation: darken 1000ms 11500ms ease-out forwards;*/
 	}
 
 	@keyframes logo-transition {
-		25% {
+		15% {
 			/*move middle of logo to top of screen (-50vh), then down 2.5 squares (7.8125vw)*/
 			/*each square is 1/32 of the viewport width*/
 			transform: translateY(calc(-50vh + 7.8125vw));
 			transform: translateY(calc(-50dvh + 7.8125vw));
 		}
-		50% {
+		100% {
 			stroke-width: 1;
 			height: calc(350vw * 1.1875);
 			top: calc(calc(calc(350vw * 1.1875) - 100vh) / -2);
@@ -347,25 +609,121 @@ body {
 			transform: translateY(calc(-50vh + 7.8125vw));
 			transform: translateY(calc(-50dvh + 7.8125vw));
 		}
-		100% {
+		/*100% {
 			stroke-width: 2;
-			/*zoom in to 2 squares wide*/
-			/*width: 1900vw;*/
+			////zoom in to 2 squares wide
+			////width: 1900vw;
 			height: calc(350vw * calc(38 / 2));
 			top: calc(calc(calc(350vw * calc(38 / 2)) - 100vh) / -2);
 			top: calc(calc(calc(350vw * calc(38 / 2)) - 100dvh) / -2);
 			left: calc(calc(calc(100vw * calc(38 / 2)) - 100vw) / -2);
-			/*move middle of logo to top of screen (-50vh), then down 1.5 squares (75vw)*/
-			/*each square is 1/2 of the viewport width*/
+			////move middle of logo to top of screen (-50vh), then down 1.5 squares (75vw)
+			////each square is 1/2 of the viewport width
 			transform: translateY(calc(-50vh + 75vw));
 			transform: translateY(calc(-50dvh + 75vw));
-		}
+		}*/
+	}
+
+/*--------------------------------HOMEPAGE INFO-------------------------------*/
+
+	#homepage-info {
+		grid-template-columns: repeat(32, 1fr);
+		grid-template-rows: repeat(53, calc(100vw / 32));
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		animation: appear 600ms 5700ms ease-out forwards;
+	}
+
+	#name {
+		grid-column: 5 / 29;
+		grid-row: 12 / 22;
+		align-self: center;
+		justify-self: start;
+		font-size: 16.6vw;
+		line-height: 16vw;
+	}
+
+	#title {
+		grid-column: 5 / 29;
+		grid-row: 23 / 25;
+		align-self: center;
+		justify-self: start;
+		font-size: 4.6vw;
+		padding-left: 4px;
+	}
+
+	#skills {
+		grid-column: 5 / 29;
+		grid-row: 30 / 38;
+		align-self: center;
+		justify-self: start;
+		font-size: 3.2vw;
+		line-height: 4.0vw;
+		padding-left: 4px;
+	}
+
+	#about {
+		grid-column: 5 / 10;
+		grid-row: 3 / 4;
+		align-self: center;
+		justify-self: start;
+		font-size: 3.2vw;
+		padding-left: 4px;
+	}
+
+	#contact {
+		grid-column: 23 / 29;
+		grid-row: 3 / 4;
+		align-self: center;
+		justify-self: end;
+		font-size: 3.2vw;
+		padding-right: 4px;
+	}
+
+	#linkedin {
+		display: none;
+		visibility: hidden;
+		opacity: 0;
+	}
+
+	#scroll {
+		grid-column: 13 / 21;
+		grid-row: 44 / 47;
+		place-self: center;
+		text-align: center;
+		font-size: 3.2vw;
+	}
+
+	.side-arrow {
+		width: 2.0vw;
+		margin-left: 2px;
+	}
+
+	.down-arrow {
+		width: 2.0vw;
+		transform: rotate(135deg);
+		margin-left: 0.5px;
+		margin-top: 6px;
+	}
+
+	#date-time {
+		display: none;
+		visibility: hidden;
+		opacity: 0;
+	}
+
+	#developer {
+		display: none;
+		visibility: hidden;
+		opacity: 0;
 	}
 
 /*---------------------------------PROJECT FEED-------------------------------*/
 
 	#project-feed {
 		grid-template-columns: repeat(2, 1fr);
+/*		animation: appear 600ms 12500ms ease-out forwards;*/
 	}
 
 	.project-image {
@@ -378,6 +736,10 @@ body {
 	}
 
 }
+
+/*----------------------------------------------------------------------------*/
+/*---------------------NEED CHECK FOR MOBILE LANDSCAPE------------------------*/
+/*----------------------------------------------------------------------------*/
 
 
 /*----------------------------------------------------------------------------*/
