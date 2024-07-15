@@ -26,8 +26,8 @@ body {
 	background-color: var(--off-white);
 /*	font-family: "Inter", sans-serif;*/
 	font-family: "Figtree", sans-serif;
-	font-size: 1.6rem;
-	font-weight: 200;
+	font-size: 1.8rem;
+	font-weight: 300;
 	font-optical-sizing: auto;
 	margin: 0;
 	padding: 0;
@@ -92,6 +92,48 @@ body {
 	animation: logo-line-hz 2000ms 2400ms ease-out forwards;
 }
 
+#preloader {
+	position: fixed;
+	width: 100%;
+	height: 100vh;
+	height: 100dvh;
+	z-index: 1;
+	overflow: hidden;
+	transition: all 1000ms;
+}
+
+.percentage {
+	position: fixed;
+	width: 100px;
+	height: 100px;
+	padding: 30px;
+	color: var(--dark-grid);
+}
+
+.top-left {
+	top: 0;
+	left: 0;
+}
+
+.top-right {
+	top: 0;
+	right: 0;
+	text-align: right;
+}
+
+.bottom-left {
+	bottom: 0;
+	left: 0;
+	line-height: 70px;
+}
+
+.bottom-right {
+	bottom: 0;
+	right: 0;
+	text-align: right;
+	line-height: 70px;
+}
+
 @keyframes logo-line-vt {
 	to {
 		transform: translateY(8px);
@@ -152,6 +194,7 @@ body {
 	overflow: hidden;
 	position: absolute;
 	width: 100%;
+	z-index: 2;
 }
 
 #homepage-info > * {
@@ -160,7 +203,11 @@ body {
 }
 
 #skills, #date-time,#developer {
-	font-weight: 200;
+	font-weight: 300;
+}
+
+#date-time, #developer {
+	color: var(--dark-grid);
 }
 
 #scroll {
@@ -188,6 +235,7 @@ body {
 	place-items: start;
 	align-content: start;
 	width: 100%;
+	z-index: 3;
 }
 
 .project-row {
@@ -226,7 +274,7 @@ body {
 /*----------------------------------GRID+LOGO---------------------------------*/
 
 	#homepage {
-/*		animation: disappear 1000ms 10500ms ease-out forwards;*/
+		animation: disappear 1000ms 10500ms ease-out forwards;
 	}
 
 	#grid-logo {
@@ -240,7 +288,7 @@ body {
 	}
 
 	.grid-line {
-/*		animation: darken 1000ms 9500ms ease-out forwards;*/
+		animation: darken 1000ms 9500ms ease-out forwards;
 	}
 
 	@keyframes logo-transition {
@@ -253,7 +301,7 @@ body {
 			top: calc(calc(calc(350vw * 4.75) - 100dvh) / -2);
 			left: calc(calc(calc(100vw * 4.75) - 100vw) / -2);
 		}
-		100% {
+		30% {
 			stroke-width: 2;
 			/*width: 475vw;*/
 			height: calc(350vw * 4.75);
@@ -262,19 +310,19 @@ body {
 			left: calc(calc(calc(100vw * 4.75) - 100vw) / -2);
 			transform: translateY(0);
 		}
-		/*100% {
+		100% {
 			stroke-width: 2;
-			////zoom in to 6 squares wide
-			////width: 633.33vw;
+/*			zoom in to 6 squares wide*/
+/*			width: 633.33vw;*/
 			height: calc(350vw * calc(38 / 6));
 			top: calc(calc(calc(350vw * calc(38 / 6)) - 100vh) / -2);
 			top: calc(calc(calc(350vw * calc(38 / 6)) - 100dvh) / -2);
 			left: calc(calc(calc(100vw * calc(38 / 6)) - 100vw) / -2);
-			////move middle of logo to top of screen (-50vh), then down 1.5 squares (25vw)
-			////each square is 1/6 of the viewport width
+/*			move middle of logo to top of screen (-50vh), then down 1.5 squares (25vw)*/
+/*			each square is 1/6 of the viewport width*/
 			transform: translateY(calc(-50vh + 25vw));
 			transform: translateY(calc(-50dvh + 25vw));
-		}*/
+		}
 	}
 
 /*--------------------------------HOMEPAGE INFO-------------------------------*/
@@ -388,7 +436,7 @@ body {
 
 	#project-feed {
 		grid-template-columns: repeat(6, 1fr);
-/*		animation: appear 600ms 10500ms ease-out forwards;*/
+		animation: appear 600ms 10500ms ease-out forwards;
 	}
 
 	.project-cell {
@@ -405,7 +453,7 @@ body {
 /*----------------------------------GRID+LOGO---------------------------------*/
 
 	#homepage {
-/*		animation: disappear 1000ms 12500ms ease-out forwards;*/
+		animation: disappear 1000ms 12500ms ease-out forwards;
 	}
 
 	#grid-logo {
@@ -419,7 +467,7 @@ body {
 	}
 
 	.grid-line {
-/*		animation: darken 1000ms 11500ms ease-out forwards;*/
+		animation: darken 1000ms 11500ms ease-out forwards;
 	}
 
 	@keyframes logo-transition {
@@ -429,7 +477,7 @@ body {
 			transform: translateY(calc(-50vh + 7.8125vw));
 			transform: translateY(calc(-50dvh + 7.8125vw));
 		}
-		100% {
+		30% {
 			stroke-width: 1;
 			height: calc(350vw * 1.1875);
 			top: calc(calc(calc(350vw * 1.1875) - 100vh) / -2);
@@ -438,19 +486,19 @@ body {
 			transform: translateY(calc(-50vh + 7.8125vw));
 			transform: translateY(calc(-50dvh + 7.8125vw));
 		}
-		/*100% {
+		100% {
 			stroke-width: 2;
-			////zoom in to 4 squares wide
-			////width: 1128.125vw;
+/*			zoom in to 4 squares wide*/
+/*			width: 1128.125vw;*/
 			height: calc(350vw * calc(38 / 4));
 			top: calc(calc(calc(350vw * calc(38 / 4)) - 100vh) / -2);
 			top: calc(calc(calc(350vw * calc(38 / 4)) - 100dvh) / -2);
 			left: calc(calc(calc(100vw * calc(38 / 4)) - 100vw) / -2);
-			////move middle of logo to top of screen (-50vh), then down 1.5 squares (37.5vw)
-			////each square is 1/4 of the viewport width
+/*			move middle of logo to top of screen (-50vh), then down 1.5 squares (37.5vw)*/
+/*			each square is 1/4 of the viewport width*/
 			transform: translateY(calc(-50vh + 37.5vw));
 			transform: translateY(calc(-50dvh + 37.5vw));
-		}*/
+		}
 	}
 
 /*--------------------------------HOMEPAGE INFO-------------------------------*/
@@ -568,7 +616,7 @@ body {
 
 	#project-feed {
 		grid-template-columns: repeat(4, 1fr);
-/*		animation: appear 600ms 12500ms ease-out forwards;*/
+		animation: appear 600ms 12500ms ease-out forwards;
 	}
 
 	.project-row > div:nth-last-child(-n+2) {
@@ -589,7 +637,7 @@ body {
 /*----------------------------------GRID+LOGO---------------------------------*/
 
 	#homepage {
-/*		animation: disappear 1000ms 12500ms ease-out forwards;*/
+		animation: disappear 1000ms 12500ms ease-out forwards;
 	}
 
 	#grid-logo {
@@ -603,7 +651,11 @@ body {
 	}
 
 	.grid-line {
-/*		animation: darken 1000ms 11500ms ease-out forwards;*/
+		animation: darken 1000ms 11500ms ease-out forwards;
+	}
+
+	.percentage {
+		padding: 15px;
 	}
 
 	@keyframes logo-transition {
@@ -613,7 +665,7 @@ body {
 			transform: translateY(calc(-50vh + 7.8125vw));
 			transform: translateY(calc(-50dvh + 7.8125vw));
 		}
-		100% {
+		30% {
 			stroke-width: 1;
 			height: calc(350vw * 1.1875);
 			top: calc(calc(calc(350vw * 1.1875) - 100vh) / -2);
@@ -622,19 +674,19 @@ body {
 			transform: translateY(calc(-50vh + 7.8125vw));
 			transform: translateY(calc(-50dvh + 7.8125vw));
 		}
-		/*100% {
+		100% {
 			stroke-width: 2;
-			////zoom in to 2 squares wide
-			////width: 1900vw;
+/*			zoom in to 2 squares wide*/
+/*			width: 1900vw;*/
 			height: calc(350vw * calc(38 / 2));
 			top: calc(calc(calc(350vw * calc(38 / 2)) - 100vh) / -2);
 			top: calc(calc(calc(350vw * calc(38 / 2)) - 100dvh) / -2);
 			left: calc(calc(calc(100vw * calc(38 / 2)) - 100vw) / -2);
-			////move middle of logo to top of screen (-50vh), then down 1.5 squares (75vw)
-			////each square is 1/2 of the viewport width
+/*			move middle of logo to top of screen (-50vh), then down 1.5 squares (75vw)*/
+/*			each square is 1/2 of the viewport width*/
 			transform: translateY(calc(-50vh + 75vw));
 			transform: translateY(calc(-50dvh + 75vw));
-		}*/
+		}
 	}
 
 /*--------------------------------HOMEPAGE INFO-------------------------------*/
@@ -736,7 +788,7 @@ body {
 
 	#project-feed {
 		grid-template-columns: repeat(2, 1fr);
-/*		animation: appear 600ms 12500ms ease-out forwards;*/
+		animation: appear 600ms 12500ms ease-out forwards;
 	}
 
 	.project-image {
