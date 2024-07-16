@@ -18,7 +18,7 @@
 }
 
 html {
-	scroll-behavior: smooth;
+	scroll-behavior: auto;
 	font-size: 62.5%; /* sets base font to 10px not 16px so rem is base 10 */
 }
 
@@ -68,7 +68,7 @@ body {
 	height: 100dvh;
 	z-index: 1;
 	overflow: hidden;
-	transition: all 1000ms;
+	transition: opacity 1000ms;
 }
 
 .percentage {
@@ -76,7 +76,7 @@ body {
 	width: 100px;
 	height: 100px;
 	padding: 30px;
-	color: var(--dark-grid);
+	letter-spacing: 1px;
 }
 
 .top-left {
@@ -151,10 +151,6 @@ body {
 	font-weight: 300;
 }
 
-#date-time, #developer {
-	color: var(--dark-grid);
-}
-
 #scroll {
 	animation: float 3800ms ease-in-out infinite;
 }
@@ -219,21 +215,20 @@ body {
 /*----------------------------------GRID+LOGO---------------------------------*/
 
 	#homepage {
-		animation: disappear 1000ms 10500ms ease-out forwards;
+/*		animation: disappear 1000ms 10500ms ease-out forwards;*/
 	}
 
 	#grid-logo {
-		/*top/left/transform50 trick will not work because transform must be used again for animation*/
 		top: calc(calc(350vw - 100vh) / -2);
 		top: calc(calc(350vw - 100dvh) / -2);
 		left: 0;
 		/*width: 100vw;*/
 		height: 350vw;
-		animation: logo-transition 6000ms 4500ms ease-in-out forwards;
+/*		animation: logo-transition 6000ms 4500ms ease-in-out forwards;*/
 	}
 
 	.grid-line {
-		animation: darken 1000ms 9500ms ease-out forwards;
+/*		animation: darken 1000ms 9500ms ease-out forwards;*/
 	}
 
 	@keyframes logo-transition {
@@ -278,7 +273,7 @@ body {
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%,-50%);
-		animation: appear 600ms 5400ms ease-out forwards;
+		transition: opacity 1000ms ease-out;
 	}
 
 	#homepage-info > * {
@@ -381,7 +376,7 @@ body {
 
 	#project-feed {
 		grid-template-columns: repeat(6, 1fr);
-		animation: appear 600ms 10500ms ease-out forwards;
+/*		animation: appear 600ms 10500ms ease-out forwards;*/
 	}
 
 	.project-cell {
@@ -398,21 +393,20 @@ body {
 /*----------------------------------GRID+LOGO---------------------------------*/
 
 	#homepage {
-		animation: disappear 1000ms 12500ms ease-out forwards;
+/*		animation: disappear 1000ms 12500ms ease-out forwards;*/
 	}
 
 	#grid-logo {
 		/*width: 118.75vw;*/
 		height: calc(350vw * 1.1875);
-		/*top/left/transform50 trick will not work because transform must be used again for animation*/
 		top: calc(calc(calc(350vw * 1.1875) - 100vh) / -2);
 		top: calc(calc(calc(350vw * 1.1875) - 100dvh) / -2);
 		left: calc(calc(calc(100vw * 1.1875) - 100vw) / -2);
-		animation: logo-transition 8000ms 4500ms ease-in-out forwards;
+/*		animation: logo-transition 8000ms 4500ms ease-in-out forwards;*/
 	}
 
 	.grid-line {
-		animation: darken 1000ms 11500ms ease-out forwards;
+/*		animation: darken 1000ms 11500ms ease-out forwards;*/
 	}
 
 	@keyframes logo-transition {
@@ -454,7 +448,7 @@ body {
 		top: 0;
 		left: 50%;
 		transform: translateX(-50%);
-		animation: appear 600ms 5700ms ease-out forwards;
+		transition: opacity 1000ms ease-out;
 	}
 
 	#name {
@@ -561,7 +555,7 @@ body {
 
 	#project-feed {
 		grid-template-columns: repeat(4, 1fr);
-		animation: appear 600ms 12500ms ease-out forwards;
+/*		animation: appear 600ms 12500ms ease-out forwards;*/
 	}
 
 	.project-row > div:nth-last-child(-n+2) {
@@ -582,21 +576,20 @@ body {
 /*----------------------------------GRID+LOGO---------------------------------*/
 
 	#homepage {
-		animation: disappear 1000ms 12500ms ease-out forwards;
+/*		animation: disappear 1000ms 12500ms ease-out forwards;*/
 	}
 
 	#grid-logo {
 		/*width: 118.75vw;*/
 		height: calc(350vw * 1.1875);
-		/*top/left/transform50 trick will not work because transform must be used again for animation*/
 		top: calc(calc(calc(350vw * 1.1875) - 100vh) / -2);
 		top: calc(calc(calc(350vw * 1.1875) - 100dvh) / -2);
 		left: calc(calc(calc(100vw * 1.1875) - 100vw) / -2);
-		animation: logo-transition 8000ms 4500ms ease-in-out forwards;
+/*		animation: logo-transition 8000ms 4500ms ease-in-out forwards;*/
 	}
 
 	.grid-line {
-		animation: darken 1000ms 11500ms ease-out forwards;
+/*		animation: darken 1000ms 11500ms ease-out forwards;*/
 	}
 
 	.percentage {
@@ -642,7 +635,7 @@ body {
 		top: 0;
 		left: 50%;
 		transform: translateX(-50%);
-		animation: appear 600ms 5700ms ease-out forwards;
+		transition: opacity 1000ms ease-out;
 	}
 
 	#name {
@@ -733,7 +726,7 @@ body {
 
 	#project-feed {
 		grid-template-columns: repeat(2, 1fr);
-		animation: appear 600ms 12500ms ease-out forwards;
+/*		animation: appear 600ms 12500ms ease-out forwards;*/
 	}
 
 	.project-image {
