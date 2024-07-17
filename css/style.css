@@ -15,25 +15,38 @@
 	--dark-grid: #9F9581;
 	--light-color: #ffffff;
 	--dark-color: #000000;
+	--desk-font-XL: min(4.7vw, 90px);
+	--desk-font-L: min(2.8vw, 54px);
+	--desk-font-M: min(1.2vw, 28px);
+	--desk-font-S: min(1.0vw, 24px);
+	--desk-font-XS: min(0.75vw, 14px);
+	--tab-font-XL: 11vw;
+	--tab-font-L: 5vw;
+	--tab-font-M: 3.4vw;
+	--tab-font-S: 2vw;
+	--tab-font-XS: 1.4vw;
+	--mob-font-XL: 16.6vw;
+	--mob-font-L: 9vw;
+	--mob-font-M: 4.6vw;
+	--mob-font-S: 3.2vw;
 }
 
 html {
-	font-size: 62.5%; /* sets base font to 10px not 16px so rem is base 10 */
+	/*unclear if this helps*/
+	overscroll-behavior: contain;
 }
 
 body {
 	background-color: var(--off-white);
-/*	font-family: "Inter", sans-serif;*/
+	/*font-family: "Inter", sans-serif;*/
 	font-family: "Figtree", sans-serif;
-	font-size: 1.8rem;
 	font-weight: 300;
 	font-optical-sizing: auto;
 	margin: 0;
 	padding: 0;
-	height: 500vh;
 }
 
-/*----------------------------------GRID+LOGO---------------------------------*/
+/*-----------------------------GRID+LOGO+PRELOADER----------------------------*/
 
 #homepage {
 	position: fixed;
@@ -47,7 +60,6 @@ body {
 	stroke-width: 1;
 	position: fixed;
 	z-index: 0;
-/*	transition: opacity 500ms linear; TRY TO BIND TRANSITION TO SCROLL*/
 }
 
 .logo-line {
@@ -153,7 +165,6 @@ body {
 	align-content: start;
 	width: 100%;
 	z-index: 3;
-/*	transition: opacity 500ms linear; TRY TO BIND TRANSITION TO SCROLL*/
 }
 
 .project-row {
@@ -166,19 +177,21 @@ body {
 	display: block;
 }
 
-.project-info {
-	/*may need to be made responsive*/
-	padding: 2vw;
-}
-
-.project-info span {
+.project-text {
 	opacity: 0;
 	filter: blur(4px);
+	font-weight: 300;
 	transition: opacity 500ms ease-out, filter 500ms ease-out;
 }
 
-.project-hero {
-	background-color: #ffdb00;
+.project-text span {
+	font-weight: 500;
+}
+
+.project-number {
+	font-weight: 500;
+	border-bottom: 1px solid var(--dark-grid);
+	width: fit-content;
 }
 
 /*----------------------------------------------------------------------------*/
@@ -187,7 +200,11 @@ body {
 
 @media screen and (min-width: 901px) {
 
-/*----------------------------------GRID+LOGO---------------------------------*/
+	body {
+		height: 400vh;
+	}
+
+/*-----------------------------GRID+LOGO+PRELOADER----------------------------*/
 
 	#grid-logo {
 		/*grid height is 3.5x its width, desktop width is screen width*/
@@ -195,6 +212,10 @@ body {
 		top: calc(calc(350vw - 100vh) / -2);
 		top: calc(calc(350vw - 100dvh) / -2);
 		left: 0;
+	}
+
+	.percentage {
+		font-size: var(--desk-font-M);
 	}
 
 /*--------------------------------HOMEPAGE INFO-------------------------------*/
@@ -216,7 +237,7 @@ body {
 		grid-row: 2 / 3;
 		place-self: start;
 		padding: 1.7vw;
-		font-size: min(4.7vw, 90px);
+		font-size: var(--desk-font-XL);
 		line-height: 4.6vw;
 	}
 
@@ -224,7 +245,7 @@ body {
 		grid-column: 3 / 4;
 		grid-row: 3 / 4;
 		place-self: start;
-		font-size: min(1.2vw, 28px);
+		font-size: var(--desk-font-M);
 	}
 
 	#skills {
@@ -233,7 +254,7 @@ body {
 		align-self: start;
 		justify-self: end;
 		text-align: right;
-		font-size: min(1.0vw, 24px);
+		font-size: var(--desk-font-S);
 		line-height: 1.4vw;
 	}
 
@@ -242,7 +263,7 @@ body {
 		grid-row: 2 / 3;
 		align-self: end;
 		justify-self: start;
-		font-size: min(1.0vw, 24px);
+		font-size: var(--desk-font-S);
 	}
 
 	#contact {
@@ -250,7 +271,7 @@ body {
 		grid-row: 4 / 5;
 		align-self: start;
 		justify-self: start;
-		font-size: min(1.0vw, 24px);
+		font-size: var(--desk-font-S);
 	}
 
 	#linkedin {
@@ -258,7 +279,7 @@ body {
 		grid-row: 3 / 4;
 		align-self: start;
 		justify-self: start;
-		font-size: min(1.0vw, 24px);
+		font-size: var(--desk-font-S);
 	}
 
 	#scroll {
@@ -268,7 +289,7 @@ body {
 		align-self: start;
 		justify-self: center;
 		text-align: center;
-		font-size: min(1.0vw, 24px);
+		font-size: var(--desk-font-S);
 	}
 
 	.side-arrow {
@@ -286,7 +307,7 @@ body {
 		grid-column: 1 / 2;
 		grid-row: 2 / 3;
 		place-self: start;
-		font-size: min(0.75vw, 14px);
+		font-size: var(--desk-font-XS);
 		writing-mode: vertical-rl;
 		border-top: 1px var(--dark-grid) solid;
 		margin-bottom: -1px;
@@ -296,7 +317,7 @@ body {
 		grid-column: 8 / 9;
 		grid-row: 4 / 5;
 		place-self: end;
-		font-size: min(0.75vw, 14px);
+		font-size: var(--desk-font-XS);
 		writing-mode: vertical-lr;
 		transform: rotate(180deg);
 		border-top: 1px var(--dark-grid) solid;
@@ -312,6 +333,23 @@ body {
 	.project-cell {
 		height: calc(100vw / 6);
 	}
+
+	.project-info {
+		padding: 2vw;
+	}
+
+	.project-text {
+		font-size: var(--desk-font-M);
+		line-height: 1.4vw;
+	}
+
+	.project-number {
+		font-size: var(--desk-font-L);
+		line-height: 2.1vw;
+		padding-bottom: 1.4vw;
+		margin-bottom: 1.4vw;
+	}
+
 }
 
 /*----------------------------------------------------------------------------*/
@@ -320,7 +358,11 @@ body {
 
 @media screen and (max-width: 900px) {
 
-/*----------------------------------GRID+LOGO---------------------------------*/
+	body {
+		height: 300vh;
+	}
+
+/*-----------------------------GRID+LOGO+PRELOADER----------------------------*/
 
 	#grid-logo {
 		/*grid on table and mobiel is initially zoomed in slightly*/
@@ -328,6 +370,10 @@ body {
 		top: calc(calc(calc(350vw * 1.1875) - 100vh) / -2);
 		top: calc(calc(calc(350vw * 1.1875) - 100dvh) / -2);
 		left: calc(calc(calc(100vw * 1.1875) - 100vw) / -2);
+	}
+
+	.percentage {
+		font-size: var(--tab-font-S);
 	}
 
 /*--------------------------------HOMEPAGE INFO-------------------------------*/
@@ -345,7 +391,7 @@ body {
 		grid-row: 9 / 16;
 		align-self: center;
 		justify-self: start;
-		font-size: 13vw;
+		font-size: var(--tab-font-XL);
 		line-height: 11.5vw;
 	}
 
@@ -354,7 +400,7 @@ body {
 		grid-row: 17 / 18;
 		align-self: center;
 		justify-self: start;
-		font-size: 3.4vw;
+		font-size: var(--tab-font-M);
 		padding-left: 4px;
 	}
 
@@ -363,7 +409,7 @@ body {
 		grid-row: 22 / 28;
 		align-self: center;
 		justify-self: start;
-		font-size: 2.3vw;
+		font-size: var(--tab-font-S);
 		line-height: 3.1vw;
 		padding-left: 4px;
 	}
@@ -373,7 +419,7 @@ body {
 		grid-row: 3 / 4;
 		align-self: center;
 		justify-self: start;
-		font-size: 2.3vw;
+		font-size: var(--tab-font-S);
 		padding-left: 4px;
 	}
 
@@ -382,7 +428,7 @@ body {
 		grid-row: 3 / 4;
 		align-self: center;
 		justify-self: end;
-		font-size: 2.3vw;
+		font-size: var(--tab-font-S);
 		padding-right: 4px;
 	}
 
@@ -397,7 +443,7 @@ body {
 		grid-row: 32 / 34;
 		place-self: center;
 		text-align: center;
-		font-size: 2.3vw;
+		font-size: var(--tab-font-S);
 	}
 
 	.side-arrow {
@@ -414,10 +460,10 @@ body {
 
 	#date-time {
 		grid-column: 1 / 2;
-		grid-row: 11 / 18;
+		grid-row: 11 / 20;
 		align-self: start;
 		justify-self: center;
-		font-size: 1.3vw;
+		font-size: var(--tab-font-XS);
 		writing-mode: vertical-rl;
 		border-top: 0.5px var(--dark-grid) solid;
 		margin-left: 1px;
@@ -428,9 +474,9 @@ body {
 
 	#developer {
 		grid-column: 32 / 33;
-		grid-row: 21 / 28;
+		grid-row: 19 / 28;
 		align-self: end;
-		font-size: 1.3vw;
+		font-size: var(--tab-font-XS);
 		writing-mode: vertical-lr;
 		transform: rotate(180deg);
 		border-top: 0.5px var(--dark-grid) solid;
@@ -453,6 +499,22 @@ body {
 	.project-cell {
 		height: calc(100vw / 4);
 	}
+
+	.project-info {
+		padding: 3vw;
+	}
+
+	.project-text {
+		font-size: var(--tab-font-S);
+		line-height: 2.2vw;
+	}
+
+	.project-number {
+		font-size: var(--tab-font-L);
+		line-height: 4.5vw;
+		padding-bottom: 2vw;
+		margin-bottom: 2vw;
+	}
 }
 
 /*----------------------------------------------------------------------------*/
@@ -461,7 +523,11 @@ body {
 
 @media screen and (max-width: 600px) {
 
-/*----------------------------------GRID+LOGO---------------------------------*/
+	body {
+		height: 300vh;
+	}
+
+/*-----------------------------GRID+LOGO+PRELOADER----------------------------*/
 
 	#grid-logo {
 		/*grid on table and mobiel is initially zoomed in slightly*/
@@ -473,6 +539,7 @@ body {
 
 	.percentage {
 		padding: 15px;
+		font-size: var(--mob-font-S);
 	}
 
 /*--------------------------------HOMEPAGE INFO-------------------------------*/
@@ -490,7 +557,7 @@ body {
 		grid-row: 12 / 22;
 		align-self: center;
 		justify-self: start;
-		font-size: 16.6vw;
+		font-size: var(--mob-font-XL);
 		line-height: 16vw;
 	}
 
@@ -499,7 +566,7 @@ body {
 		grid-row: 23 / 25;
 		align-self: center;
 		justify-self: start;
-		font-size: 4.6vw;
+		font-size: var(--mob-font-M);
 		padding-left: 4px;
 	}
 
@@ -508,7 +575,7 @@ body {
 		grid-row: 30 / 38;
 		align-self: center;
 		justify-self: start;
-		font-size: 3.2vw;
+		font-size: var(--mob-font-S);
 		line-height: 4.0vw;
 		padding-left: 4px;
 	}
@@ -518,7 +585,7 @@ body {
 		grid-row: 3 / 4;
 		align-self: center;
 		justify-self: start;
-		font-size: 3.2vw;
+		font-size: var(--mob-font-S);
 		padding-left: 4px;
 	}
 
@@ -527,7 +594,7 @@ body {
 		grid-row: 3 / 4;
 		align-self: center;
 		justify-self: end;
-		font-size: 3.2vw;
+		font-size: var(--mob-font-S);
 		padding-right: 4px;
 	}
 
@@ -542,7 +609,7 @@ body {
 		grid-row: 44 / 47;
 		place-self: center;
 		text-align: center;
-		font-size: 3.2vw;
+		font-size: var(--mob-font-S);
 	}
 
 	.side-arrow {
@@ -582,6 +649,22 @@ body {
 
 	.project-cell {
 		height: calc(100vw / 2);
+	}
+
+	.project-info {
+		padding: 5vw;
+	}
+
+	.project-text {
+		font-size: var(--mob-font-S);
+		line-height: 4vw;
+	}
+
+	.project-number {
+		font-size: var(--mob-font-L);
+		line-height: 8vw;
+		padding-bottom: 4vw;
+		margin-bottom: 4vw;
 	}
 
 }

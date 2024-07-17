@@ -199,7 +199,7 @@ function animateGrid() {
 	var handler = setInterval(function() {
 		if (frame > totalFrames) {
 			//make homepage info children visible
-			var homeChildren = homepageInfo.querySelectorAll('div');
+			var homeChildren = homepageInfo.querySelectorAll("div");
 			for (var i = 0; i < homeChildren.length; i++) {
 				homeChildren[i].style.opacity = "1";
 				homeChildren[i].style.filter = "blur(0px)";
@@ -268,10 +268,10 @@ let lastScrollVal = 0;
 function blendColors(colorA, colorB, amount) {
 	const [rA, gA, bA] = colorA.match(/\w\w/g).map((c) => parseInt(c, 16));
 	const [rB, gB, bB] = colorB.match(/\w\w/g).map((c) => parseInt(c, 16));
-	const r = Math.round(rA + (rB - rA) * amount).toString(16).padStart(2, '0');
-	const g = Math.round(gA + (gB - gA) * amount).toString(16).padStart(2, '0');
-	const b = Math.round(bA + (bB - bA) * amount).toString(16).padStart(2, '0');
-	return '#' + r + g + b;
+	const r = Math.round(rA + (rB - rA) * amount).toString(16).padStart(2, "0");
+	const g = Math.round(gA + (gB - gA) * amount).toString(16).padStart(2, "0");
+	const b = Math.round(bA + (bB - bA) * amount).toString(16).padStart(2, "0");
+	return "#" + r + g + b;
 }
 
 function scrollAnimation() {
@@ -323,7 +323,7 @@ function scrollAnimation() {
 		// if user started to scroll down
 		if (scrollVal > 0 && scrollDirection) {
 			// make homepage info children disappear
-			var homeChildren = homepageInfo.querySelectorAll('div');
+			var homeChildren = homepageInfo.querySelectorAll("div");
 			for (var i = 0; i < homeChildren.length; i++) {
 				homeChildren[i].style.opacity = "0";
 				homeChildren[i].style.filter = "blur(4px)";
@@ -332,44 +332,44 @@ function scrollAnimation() {
 		// if user is about to scroll back up to the very top
 		else if (scrollVal < 0.2 && !scrollDirection) {
 			// bring homepage info back
-			var homeChildren = homepageInfo.querySelectorAll('div');
+			var homeChildren = homepageInfo.querySelectorAll("div");
 			for (var i = 0; i < homeChildren.length; i++) {
 				homeChildren[i].style.opacity = "1";
 				homeChildren[i].style.filter = "blur(0px)";
 			}
 		}
 
-		// control grid zooming in/out between 0% and 80% scroll
+		// control grid zooming in/out between 0% and 90% scroll
 		// desktop animation
 		if (vw > 900) {
-			grid.style.height = (deskStartHeight + ((deskEndHeight - deskStartHeight) * Math.min(1, scrollVal/.8))) + "px";
-			grid.style.top = (deskStartTop + ((deskEndTop - deskStartTop) * Math.min(1, scrollVal/.8))) + "px";
-			grid.style.left = (deskStartLeft + ((deskEndLeft - deskStartLeft) * Math.min(1, scrollVal/.8))) + "px";			
+			grid.style.height = (deskStartHeight + ((deskEndHeight - deskStartHeight) * Math.min(1, scrollVal/.9))) + "px";
+			grid.style.top = (deskStartTop + ((deskEndTop - deskStartTop) * Math.min(1, scrollVal/.9))) + "px";
+			grid.style.left = (deskStartLeft + ((deskEndLeft - deskStartLeft) * Math.min(1, scrollVal/.9))) + "px";			
 		}	
 		// tablet animation	
 		else if (vw > 600) {
 			grid.style.strokeWidth = "" + (1 + scrollVal); // increase stroke width to 2 gradually
-			grid.style.height = (tabStartHeight + ((tabEndHeight - tabStartHeight) * Math.min(1, scrollVal/.8))) + "px";
-			grid.style.top = (tabStartTop + ((tabEndTop - tabStartTop) * Math.min(1, scrollVal/.8))) + "px";
-			grid.style.left = (tabStartLeft + ((tabEndLeft - tabStartLeft) * Math.min(1, scrollVal/.8))) + "px";
+			grid.style.height = (tabStartHeight + ((tabEndHeight - tabStartHeight) * Math.min(1, scrollVal/.9))) + "px";
+			grid.style.top = (tabStartTop + ((tabEndTop - tabStartTop) * Math.min(1, scrollVal/.9))) + "px";
+			grid.style.left = (tabStartLeft + ((tabEndLeft - tabStartLeft) * Math.min(1, scrollVal/.9))) + "px";
 		}
 		// mobile animation
 		else {
 			grid.style.strokeWidth = "" + (1 + scrollVal); // increase stroke width to 2 gradually
-			grid.style.height = (mobStartHeight + ((mobEndHeight - mobStartHeight) * Math.min(1, scrollVal/.8))) + "px";
-			grid.style.top = (mobStartTop + ((mobEndTop - mobStartTop) * Math.min(1, scrollVal/.8))) + "px";
-			grid.style.left = (mobStartLeft + ((mobEndLeft - mobStartLeft) * Math.min(1, scrollVal/.8))) + "px";
+			grid.style.height = (mobStartHeight + ((mobEndHeight - mobStartHeight) * Math.min(1, scrollVal/.9))) + "px";
+			grid.style.top = (mobStartTop + ((mobEndTop - mobStartTop) * Math.min(1, scrollVal/.9))) + "px";
+			grid.style.left = (mobStartLeft + ((mobEndLeft - mobStartLeft) * Math.min(1, scrollVal/.9))) + "px";
 		}
 
-		// control project feed and grid fading in/out between 80% and 100% scroll
-		projectFeed.style.opacity = Math.max(0, (scrollVal - .8)*5);
-		grid.style.opacity = Math.min(1, (scrollVal - 1)*-5);
+		// control project feed and grid fading in/out between 90% and 100% scroll
+		projectFeed.style.opacity = Math.max(0, (scrollVal - .9)*10);
+		grid.style.opacity = Math.min(1, (scrollVal - 1)*-10);
 
 		// control fully entering project feed at 100% scroll
 		if (scrollVal < 1) {
 			projectFeed.style.overflow = "hidden";
 			inProjectView = false;
-			var projChildren = projectFeed.querySelectorAll('span');
+			var projChildren = projectFeed.querySelectorAll(".project-text");
 			for (var i = 0; i < projChildren.length; i++) {
 				projChildren[i].style.opacity = "0";
 				projChildren[i].style.filter = "blur(4px)";
@@ -377,7 +377,7 @@ function scrollAnimation() {
 		} else {
 			projectFeed.style.overflow = "scroll";
 			inProjectView = true;
-			var projChildren = projectFeed.querySelectorAll('span');
+			var projChildren = projectFeed.querySelectorAll(".project-text");
 			for (var i = 0; i < projChildren.length; i++) {
 				projChildren[i].style.opacity = "1";
 				projChildren[i].style.filter = "blur(0px)";
@@ -385,12 +385,27 @@ function scrollAnimation() {
 		}
 		
 		// change grid stroke color to fully dark
-		// for (var i = 0; i < gridLines.length; i++) {
-		//    gridLines[i].style.stroke = blendColors(startColor, endColor, scrollVal);
-		// }
+		for (var i = 0; i < gridLines.length; i++) {
+		   gridLines[i].style.stroke = blendColors(startColor, endColor, scrollVal);
+		}
 	} else {
 		// make sure page is at very top while preloader runs
 		window.scrollTo(0,0);
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//                                 PROJECT FEED                               //
+////////////////////////////////////////////////////////////////////////////////
+
+// dynamically add project numbers to each row
+let projectRows = document.getElementsByClassName("project-row");
+for (var i = 0; i < projectRows.length; i++) {
+	var projectNum = projectRows[i].querySelector(".project-number");
+	if (i < 9) {
+		projectNum.innerHTML = "0" + (i + 1);
+	} else {
+		projectNum.innerHTML = "" + (i + 1);
 	}
 }
 
