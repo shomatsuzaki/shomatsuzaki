@@ -47,6 +47,7 @@ body {
 	stroke-width: 1;
 	position: fixed;
 	z-index: 0;
+	transition: opacity 500ms linear;
 }
 
 .logo-line {
@@ -103,30 +104,22 @@ body {
 	line-height: 70px;
 }
 
-@keyframes disappear {
-	to {
-		opacity: 0;
-		visibility: hidden;
-		display: none;
-	}
-}
-
 /*--------------------------------HOMEPAGE INFO-------------------------------*/
 
 #homepage-info {
 	display: grid;
-	opacity: 0;
 	overflow: hidden;
 	position: fixed;
 	width: 100%;
 	z-index: 2;
-	filter: blur(4px);
-	transition: opacity 500ms ease-out, filter 500ms ease-out;
 }
 
 #homepage-info > * {
 	margin: 0;
 	font-weight: 500;
+	opacity: 0;
+	filter: blur(4px);
+	transition: opacity 500ms ease-out, filter 500ms ease-out;
 }
 
 #skills, #date-time,#developer {
@@ -135,6 +128,7 @@ body {
 
 #scroll {
 	animation: float 3800ms ease-in-out infinite;
+	transition: opacity 2000ms ease-out, filter 1000ms ease-out;
 }
 
 @keyframes float {
@@ -159,6 +153,7 @@ body {
 	align-content: start;
 	width: 100%;
 	z-index: 3;
+	transition: opacity 500ms linear;
 }
 
 .project-row {
@@ -171,6 +166,12 @@ body {
 	display: block;
 }
 
+.project-cell span {
+	opacity: 0;
+	filter: blur(4px);
+	transition: opacity 500ms ease-out, filter 500ms ease-out;
+}
+
 .project-info {
 	/*may need to be made responsive*/
 	padding: 2vw;
@@ -180,14 +181,6 @@ body {
 	background-color: #ffdb0030;
 }
 
-@keyframes appear {
-	to {
-		opacity: 1;
-		visibility: visible;
-		overflow: scroll;
-	}
-}
-
 /*----------------------------------------------------------------------------*/
 /*----------------------------------DESKTOP-----------------------------------*/
 /*----------------------------------------------------------------------------*/
@@ -195,10 +188,6 @@ body {
 @media screen and (min-width: 901px) {
 
 /*----------------------------------GRID+LOGO---------------------------------*/
-
-	#homepage {
-/*		animation: disappear 1000ms 10500ms ease-out forwards;*/
-	}
 
 	#grid-logo {
 		/*width: 100vw;*/
@@ -318,7 +307,6 @@ body {
 
 	#project-feed {
 		grid-template-columns: repeat(6, 1fr);
-/*		animation: appear 600ms 10500ms ease-out forwards;*/
 	}
 
 	.project-cell {
@@ -333,10 +321,6 @@ body {
 @media screen and (max-width: 900px) {
 
 /*----------------------------------GRID+LOGO---------------------------------*/
-
-	#homepage {
-/*		animation: disappear 1000ms 12500ms ease-out forwards;*/
-	}
 
 	#grid-logo {
 		/*width: 118.75vw;*/
@@ -460,7 +444,6 @@ body {
 
 	#project-feed {
 		grid-template-columns: repeat(4, 1fr);
-/*		animation: appear 600ms 12500ms ease-out forwards;*/
 	}
 
 	.project-row > div:nth-last-child(-n+2) {
@@ -479,10 +462,6 @@ body {
 @media screen and (max-width: 600px) {
 
 /*----------------------------------GRID+LOGO---------------------------------*/
-
-	#homepage {
-/*		animation: disappear 1000ms 12500ms ease-out forwards;*/
-	}
 
 	#grid-logo {
 		/*width: 118.75vw;*/
@@ -594,7 +573,6 @@ body {
 
 	#project-feed {
 		grid-template-columns: repeat(2, 1fr);
-/*		animation: appear 600ms 12500ms ease-out forwards;*/
 	}
 
 	.project-image {

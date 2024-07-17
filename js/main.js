@@ -5,6 +5,7 @@
 // get elements that need to be targeted repeatedly
 let grid = document.getElementById("grid-logo");
 let homepageInfo = document.getElementById("homepage-info");
+let projectFeed = document.getElementById("project-feed");
 
 // get viewport width and height
 let vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
@@ -200,8 +201,11 @@ function animateGrid() {
 	var handler = setInterval(function() {
 		if (frame > totalFrames) {
 			//make homepage info visible
-			homepageInfo.style.opacity = "1";
-			homepageInfo.style.filter = "blur(0px)";
+			var children = homepageInfo.querySelectorAll('div');
+			for (var i = 0; i < children.length; i++) {
+				children[i].style.opacity = "1";
+				children[i].style.filter = "blur(0px)";
+			}
 			//stop animation
 			clearInterval(handler);
 		} else if (frame >= 0) {
@@ -313,18 +317,46 @@ function scrollAnimation() {
 		}
 		if (scrollVal > 0 && scrollDirection) {
 			// make homepage info disappear
-			homepageInfo.style.opacity = "0";
-			homepageInfo.style.filter = "blur(4px)";
-			if (scrollVal == 1) {
-				inProjectView = true;
+			var homeChildren = homepageInfo.querySelectorAll('div');
+			for (var i = 0; i < homeChildren.length; i++) {
+				homeChildren[i].style.opacity = "0";
+				homeChildren[i].style.filter = "blur(4px)";
 			}
 		}
-		else if (scrollVal < 0.2 && !scrollDirection) {
+		if (scrollVal == 1 && scrollDirection) {
+			// bring project feed into view
+			projectFeed.style.opacity = "1";
+			// make grid disappear
+			grid.style.opacity = "0";
+			projectFeed.style.overflow = "scroll";
+			// bring project feed info into view
+			var projChildren = projectFeed.querySelectorAll('span');
+			for (var i = 0; i < projChildren.length; i++) {
+				projChildren[i].style.opacity = "1";
+				projChildren[i].style.filter = "blur(0px)";
+			}
+			inProjectView = true;
+		}
+		if (scrollVal < 1 && !scrollDirection) {
+			// make grid reappear
+			grid.style.opacity = "1";
+			// make project feed disappear
+			projectFeed.style.opacity = "0";
+			projectFeed.style.overflow = "hidden";
+			// make project feed info disappear
+			var projChildren = projectFeed.querySelectorAll('span');
+			for (var i = 0; i < projChildren.length; i++) {
+				projChildren[i].style.opacity = "0";
+				projChildren[i].style.filter = "blur(4px)";
+			}
+			inProjectView = false;
+		}
+		if (scrollVal < 0.2 && !scrollDirection) {
 			// bring homepage info back
-			homepageInfo.style.opacity = "1";
-			homepageInfo.style.filter = "blur(0px)";
-			if (scrollVal == 0) {
-				inProjectView = false;
+			var homeChildren = homepageInfo.querySelectorAll('div');
+			for (var i = 0; i < homeChildren.length; i++) {
+				homeChildren[i].style.opacity = "1";
+				homeChildren[i].style.filter = "blur(0px)";
 			}
 		}
 		// change grid stroke color
@@ -336,6 +368,10 @@ function scrollAnimation() {
 			grid.style.height = (deskStartHeight + ((deskEndHeight - deskStartHeight) * scrollVal)) + "px";
 			grid.style.top = (deskStartTop + ((deskEndTop - deskStartTop) * scrollVal)) + "px";
 			grid.style.left = (deskStartLeft + ((deskEndLeft - deskStartLeft) * scrollVal)) + "px";
+			// scale and position hidden project feed to line up with grid when grid disappears
+			projectFeed.style.transform = "scale(" + (0.75 + 0.25*scrollVal) + ")";
+			// projectFeed.style.top = (????? - ?????*scrollVal) + "px";
+			// NEED TO SORT OUT VERTICAL COMPENSATION SO PROJECT FEED DIV MATCHES LOGO WHEN ANIMATING IN AND OUT
 		}	
 		// tablet animation	
 		else if (vw > 600) {
@@ -343,6 +379,10 @@ function scrollAnimation() {
 			grid.style.height = (tabStartHeight + ((tabEndHeight - tabStartHeight) * scrollVal)) + "px";
 			grid.style.top = (tabStartTop + ((tabEndTop - tabStartTop) * scrollVal)) + "px";
 			grid.style.left = (tabStartLeft + ((tabEndLeft - tabStartLeft) * scrollVal)) + "px";
+			// scale and position hidden project feed to line up with grid when grid disappears
+			projectFeed.style.transform = "scale(" + (0.125 + 0.875*scrollVal) + ")";
+			// projectFeed.style.top = (????? - ?????*scrollVal) + "px";
+			// NEED TO SORT OUT VERTICAL COMPENSATION SO PROJECT FEED DIV MATCHES LOGO WHEN ANIMATING IN AND OUT
 		}
 		// mobile animation
 		else {
@@ -350,6 +390,10 @@ function scrollAnimation() {
 			grid.style.height = (mobStartHeight + ((mobEndHeight - mobStartHeight) * scrollVal)) + "px";
 			grid.style.top = (mobStartTop + ((mobEndTop - mobStartTop) * scrollVal)) + "px";
 			grid.style.left = (mobStartLeft + ((mobEndLeft - mobStartLeft) * scrollVal)) + "px";
+			// scale and position hidden project feed to line up with grid when grid disappears
+			projectFeed.style.transform = "scale(" + (0.0625 + 0.9375*scrollVal) + ")";
+			// projectFeed.style.top = (????? - ?????*scrollVal) + "px";
+			// NEED TO SORT OUT VERTICAL COMPENSATION SO PROJECT FEED DIV MATCHES LOGO WHEN ANIMATING IN AND OUT
 		}
 	} else {
 		// move scroll to the very top if preloader animation is not done and user scrolls
