@@ -368,6 +368,7 @@ function scrollAnimation() {
 		// control fully entering project feed at 100% scroll
 		if (scrollVal < 1) {
 			projectFeed.style.overflow = "hidden";
+			projectFeed.style.zIndex = "0";
 			inProjectView = false;
 			var projChildren = projectFeed.querySelectorAll(".project-text");
 			for (var i = 0; i < projChildren.length; i++) {
@@ -376,6 +377,7 @@ function scrollAnimation() {
 			}
 		} else {
 			projectFeed.style.overflow = "scroll";
+			projectFeed.style.zIndex = "2";
 			inProjectView = true;
 			var projChildren = projectFeed.querySelectorAll(".project-text");
 			for (var i = 0; i < projChildren.length; i++) {
