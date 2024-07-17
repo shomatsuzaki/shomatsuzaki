@@ -3,8 +3,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // get elements that need to be targeted repeatedly
-let grid = document.getElementById("grid-logo");
-let homepageInfo = document.getElementById("homepage-info");
+let grid = document.getElementById("grid-logo"); // lives within homepage div
+let homepageInfo = document.getElementById("homepage-info"); // lives within homepage div
 let projectFeed = document.getElementById("project-feed");
 
 // get viewport width and height
@@ -17,28 +17,24 @@ let isLoaded = false;
 // boolean for whether or not we're in project view and scroll animation is done
 let inProjectView = false;
 
-// cubic ease-in function, takes in and outputs a value from 0 to 1
+// cubic functions for easing, take in and output a value from 0 to 1
 function easeInCubic(x) {
 	return x*x*x;
 }
-
-// cubic ease-out function, takes in and outputs a value from 0 to 1
 function easeOutCubic(x) {
 	return 1 - Math.pow(1 - x, 3);
 }
-
-// cubic ease-in-out function, takes in and outputs a value from 0 to 1
 function easeInOutCubic(x) {
 	return x < 0.5 ? 4*x*x*x : 1 - Math.pow(-2*x + 2, 3)/2;
 }
 
-// resize event listener to update viewport width and height
+// resize event listener to update viewport width+height and grid
 window.onresize = function() {
 	// update viewport width and height
 	vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 	vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
-	// resize grid based on where we are in user flow
+	// resize grid based on where we are in user flow, since SVG grid won't scale dynamically
 	if (!isLoaded) {
 		if (vw > 900) {
 			// desktop
@@ -91,10 +87,10 @@ window.onresize = function() {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-	percentLoad();
-	animateLogo();
-	displayTime();
-	window.scrollTo(0,0);
+	percentLoad(); // runs preloader percent animation
+	animateLogo(); // runs SHO logo animation during preloader
+	displayTime(); // runs current time display in homepage info
+	window.scrollTo(0,0); // moves scroll position to top for smooth initial scroll animation
 });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -104,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function percentLoad() {
 	// get all the percentage HTML elements
 	var percentages = document.getElementsByClassName("percentage"),
-		fps = 25;
+		fps = 60;
 		endCount = 100,
 		count = 0;
 
@@ -119,11 +115,13 @@ function percentLoad() {
 		}
 		count++;
 		if (count > endCount) {
-			document.getElementById("preloader").style.opacity = "0";
+			var preloader = document.getElementById("preloader");
+			preloader.style.opacity = "0";
+			preloader.style.filter = "blur(4px)";
 			isLoaded = true;
 			clearInterval(handler);
 		}
-	}, 1100/fps);
+	}, 1800/fps); // runs every 30ms for total of 3s animation
 }
 
 function animateLogo() {
@@ -200,11 +198,11 @@ function animateGrid() {
 		mobEndTop = mobHeight/-2 + 2.5*1/32*vw; // each square is 1/32 vw, need to move grid up half vh then down 2.5 squares
 	var handler = setInterval(function() {
 		if (frame > totalFrames) {
-			//make homepage info visible
-			var children = homepageInfo.querySelectorAll('div');
-			for (var i = 0; i < children.length; i++) {
-				children[i].style.opacity = "1";
-				children[i].style.filter = "blur(0px)";
+			//make homepage info children visible
+			var homeChildren = homepageInfo.querySelectorAll('div');
+			for (var i = 0; i < homeChildren.length; i++) {
+				homeChildren[i].style.opacity = "1";
+				homeChildren[i].style.filter = "blur(0px)";
 			}
 			//stop animation
 			clearInterval(handler);
@@ -252,16 +250,21 @@ function displayTime() {
 //                              SCROLL TO PROJECTS                            //
 ////////////////////////////////////////////////////////////////////////////////
 
+window.addEventListener("scroll", () => {
+	scrollAnimation();
+});
+
 // boolean for whether or not scroll animation has happened before
 let firstTime = true;
 
 // boolean for which direction user is scrolling, true is down
 let scrollDirection = true;
 
-// value for checking which direction user is scrolling
+// value for storing last scroll val, for scrollDirection to work
 let lastScrollVal = 0;
 
 // function to blend two hex code colors by an amount from 0 to 1
+// used to gradually darken grid
 function blendColors(colorA, colorB, amount) {
 	const [rA, gA, bA] = colorA.match(/\w\w/g).map((c) => parseInt(c, 16));
 	const [rB, gB, bB] = colorB.match(/\w\w/g).map((c) => parseInt(c, 16));
@@ -273,10 +276,10 @@ function blendColors(colorA, colorB, amount) {
 
 function scrollAnimation() {
 	// pageYOffset goes from 0 to full document height minus viewport height
-	// this sets the scroll value to a decimal between 0 and 1, with 1 being full scroll
+	// sets the scroll value to a decimal between 0 and 1, with 1 being full scroll
 	var scrollVal = window.pageYOffset / (document.body.offsetHeight - vh);
 
-	// check scroll direction
+	// store scroll direction
 	if (scrollVal >= lastScrollVal) {
 		scrollDirection = true; // scrolling down
 	} else {
@@ -296,11 +299,11 @@ function scrollAnimation() {
 			mobEndHeight = 3.5*vw*38/2, // zoomed so 2 of 38 columns in view
 			deskStartTop = deskStartHeight/-2 + vh/2, // center grid
 			deskEndTop = deskEndHeight/-2 + 1.5*1/6*vw, // center grid to top of view, then down 1.5 squares
-			tabStartTop = tabStartHeight/-2 + 2.5*1/32*vw,
-			tabEndTop = tabEndHeight/-2 + 1.5*1/4*vw,
+			tabStartTop = tabStartHeight/-2 + 2.5*1/32*vw, //center grid to top of view, then down 2.5 squares (for one grid padding at top)
+			tabEndTop = tabEndHeight/-2 + 1.5*1/4*vw, // center grid to top of view, then down 1.5 squares
 			mobStartTop = tabStartTop,
-			mobEndTop = mobEndHeight/-2 + 1.5*1/2*vw,
-			deskStartLeft = (vw*38/8)/-2 + vw/2, // for grid to be centered, left must be negative half of grid width (38/8x of width) + half of view
+			mobEndTop = mobEndHeight/-2 + 1.5*1/2*vw, // center grid to top of view, then down 1.5 squares
+			deskStartLeft = (vw*38/8)/-2 + vw/2, // center grid
 			deskEndLeft = (vw*38/6)/-2 + vw/2,
 			tabStartLeft = (vw*38/32)/-2 + vw/2,
 			tabEndLeft = (vw*38/4)/-2 + vw/2,
@@ -315,43 +318,19 @@ function scrollAnimation() {
 			window.scrollTo(0,0);
 			firstTime = false;
 		}
+
+		// control homepage info appear and disappearing
+		// if user started to scroll down
 		if (scrollVal > 0 && scrollDirection) {
-			// make homepage info disappear
+			// make homepage info children disappear
 			var homeChildren = homepageInfo.querySelectorAll('div');
 			for (var i = 0; i < homeChildren.length; i++) {
 				homeChildren[i].style.opacity = "0";
 				homeChildren[i].style.filter = "blur(4px)";
 			}
 		}
-		if (scrollVal == 1 && scrollDirection) {
-			// bring project feed into view
-			projectFeed.style.opacity = "1";
-			// make grid disappear
-			grid.style.opacity = "0";
-			projectFeed.style.overflow = "scroll";
-			// bring project feed info into view
-			var projChildren = projectFeed.querySelectorAll('span');
-			for (var i = 0; i < projChildren.length; i++) {
-				projChildren[i].style.opacity = "1";
-				projChildren[i].style.filter = "blur(0px)";
-			}
-			inProjectView = true;
-		}
-		if (scrollVal < 1 && !scrollDirection) {
-			// make grid reappear
-			grid.style.opacity = "1";
-			// make project feed disappear
-			projectFeed.style.opacity = "0";
-			projectFeed.style.overflow = "hidden";
-			// make project feed info disappear
-			var projChildren = projectFeed.querySelectorAll('span');
-			for (var i = 0; i < projChildren.length; i++) {
-				projChildren[i].style.opacity = "0";
-				projChildren[i].style.filter = "blur(4px)";
-			}
-			inProjectView = false;
-		}
-		if (scrollVal < 0.2 && !scrollDirection) {
+		// if user is about to scroll back up to the very top
+		else if (scrollVal < 0.2 && !scrollDirection) {
 			// bring homepage info back
 			var homeChildren = homepageInfo.querySelectorAll('div');
 			for (var i = 0; i < homeChildren.length; i++) {
@@ -359,50 +338,60 @@ function scrollAnimation() {
 				homeChildren[i].style.filter = "blur(0px)";
 			}
 		}
-		// change grid stroke color
-		for (var i = 0; i < gridLines.length; i++) {
-		   gridLines[i].style.stroke = blendColors(startColor, endColor, scrollVal);
-		}
+
+		// control grid zooming in/out between 0% and 80% scroll
 		// desktop animation
 		if (vw > 900) {
-			grid.style.height = (deskStartHeight + ((deskEndHeight - deskStartHeight) * scrollVal)) + "px";
-			grid.style.top = (deskStartTop + ((deskEndTop - deskStartTop) * scrollVal)) + "px";
-			grid.style.left = (deskStartLeft + ((deskEndLeft - deskStartLeft) * scrollVal)) + "px";
-			// scale and position hidden project feed to line up with grid when grid disappears
-			projectFeed.style.transform = "scale(" + (0.75 + 0.25*scrollVal) + ")";
-			// projectFeed.style.top = (????? - ?????*scrollVal) + "px";
-			// NEED TO SORT OUT VERTICAL COMPENSATION SO PROJECT FEED DIV MATCHES LOGO WHEN ANIMATING IN AND OUT
+			grid.style.height = (deskStartHeight + ((deskEndHeight - deskStartHeight) * Math.min(1, scrollVal/.8))) + "px";
+			grid.style.top = (deskStartTop + ((deskEndTop - deskStartTop) * Math.min(1, scrollVal/.8))) + "px";
+			grid.style.left = (deskStartLeft + ((deskEndLeft - deskStartLeft) * Math.min(1, scrollVal/.8))) + "px";			
 		}	
 		// tablet animation	
 		else if (vw > 600) {
-			grid.style.strokeWidth = "" + (1 + scrollVal);
-			grid.style.height = (tabStartHeight + ((tabEndHeight - tabStartHeight) * scrollVal)) + "px";
-			grid.style.top = (tabStartTop + ((tabEndTop - tabStartTop) * scrollVal)) + "px";
-			grid.style.left = (tabStartLeft + ((tabEndLeft - tabStartLeft) * scrollVal)) + "px";
-			// scale and position hidden project feed to line up with grid when grid disappears
-			projectFeed.style.transform = "scale(" + (0.125 + 0.875*scrollVal) + ")";
-			// projectFeed.style.top = (????? - ?????*scrollVal) + "px";
-			// NEED TO SORT OUT VERTICAL COMPENSATION SO PROJECT FEED DIV MATCHES LOGO WHEN ANIMATING IN AND OUT
+			grid.style.strokeWidth = "" + (1 + scrollVal); // increase stroke width to 2 gradually
+			grid.style.height = (tabStartHeight + ((tabEndHeight - tabStartHeight) * Math.min(1, scrollVal/.8))) + "px";
+			grid.style.top = (tabStartTop + ((tabEndTop - tabStartTop) * Math.min(1, scrollVal/.8))) + "px";
+			grid.style.left = (tabStartLeft + ((tabEndLeft - tabStartLeft) * Math.min(1, scrollVal/.8))) + "px";
 		}
 		// mobile animation
 		else {
-			grid.style.strokeWidth = "" + (1 + scrollVal);
-			grid.style.height = (mobStartHeight + ((mobEndHeight - mobStartHeight) * scrollVal)) + "px";
-			grid.style.top = (mobStartTop + ((mobEndTop - mobStartTop) * scrollVal)) + "px";
-			grid.style.left = (mobStartLeft + ((mobEndLeft - mobStartLeft) * scrollVal)) + "px";
-			// scale and position hidden project feed to line up with grid when grid disappears
-			projectFeed.style.transform = "scale(" + (0.0625 + 0.9375*scrollVal) + ")";
-			// projectFeed.style.top = (????? - ?????*scrollVal) + "px";
-			// NEED TO SORT OUT VERTICAL COMPENSATION SO PROJECT FEED DIV MATCHES LOGO WHEN ANIMATING IN AND OUT
+			grid.style.strokeWidth = "" + (1 + scrollVal); // increase stroke width to 2 gradually
+			grid.style.height = (mobStartHeight + ((mobEndHeight - mobStartHeight) * Math.min(1, scrollVal/.8))) + "px";
+			grid.style.top = (mobStartTop + ((mobEndTop - mobStartTop) * Math.min(1, scrollVal/.8))) + "px";
+			grid.style.left = (mobStartLeft + ((mobEndLeft - mobStartLeft) * Math.min(1, scrollVal/.8))) + "px";
 		}
+
+		// control project feed and grid fading in/out between 80% and 100% scroll
+		projectFeed.style.opacity = Math.max(0, (scrollVal - .8)*5);
+		grid.style.opacity = Math.min(1, (scrollVal - 1)*-5);
+
+		// control fully entering project feed at 100% scroll
+		if (scrollVal < 1) {
+			projectFeed.style.overflow = "hidden";
+			inProjectView = false;
+			var projChildren = projectFeed.querySelectorAll('span');
+			for (var i = 0; i < projChildren.length; i++) {
+				projChildren[i].style.opacity = "0";
+				projChildren[i].style.filter = "blur(4px)";
+			}
+		} else {
+			projectFeed.style.overflow = "scroll";
+			inProjectView = true;
+			var projChildren = projectFeed.querySelectorAll('span');
+			for (var i = 0; i < projChildren.length; i++) {
+				projChildren[i].style.opacity = "1";
+				projChildren[i].style.filter = "blur(0px)";
+			}
+		}
+		
+		// change grid stroke color to fully dark
+		// for (var i = 0; i < gridLines.length; i++) {
+		//    gridLines[i].style.stroke = blendColors(startColor, endColor, scrollVal);
+		// }
 	} else {
-		// move scroll to the very top if preloader animation is not done and user scrolls
+		// make sure page is at very top while preloader runs
 		window.scrollTo(0,0);
 	}
 }
-
-window.addEventListener("scroll", () => {
-	scrollAnimation();
-});
 
 
