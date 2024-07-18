@@ -4,17 +4,18 @@
 
 // get all color values of CSS variables
 const root = document.documentElement; // select the root element (:root)
-const transparent = getComputedStyle(root).getPropertyValue('--transparent').trim();
-const offWhite = getComputedStyle(root).getPropertyValue('--off-white').trim();
-const lightGrid = getComputedStyle(root).getPropertyValue('--light-grid').trim();
-const darkGrid = getComputedStyle(root).getPropertyValue('--dark-grid').trim();
-const lightColor = getComputedStyle(root).getPropertyValue('--light-color').trim();
-const darkColor = getComputedStyle(root).getPropertyValue('--dark-color').trim();
+const transparent = getComputedStyle(root).getPropertyValue("--transparent").trim();
+const offWhite = getComputedStyle(root).getPropertyValue("--off-white").trim();
+const lightGrid = getComputedStyle(root).getPropertyValue("--light-grid").trim();
+const darkGrid = getComputedStyle(root).getPropertyValue("--dark-grid").trim();
+const lightColor = getComputedStyle(root).getPropertyValue("--light-color").trim();
+const darkColor = getComputedStyle(root).getPropertyValue("--dark-color").trim();
 
 // get elements that need to be targeted repeatedly
 let grid = document.getElementById("grid-logo"); // lives within homepage div
 let homepageInfo = document.getElementById("homepage-info"); // lives within homepage div
 let projectFeed = document.getElementById("project-feed");
+let projectRows = document.querySelectorAll(".project-row");
 
 // get viewport width and height
 let vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
@@ -23,10 +24,10 @@ let vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight
 // boolean for whether or not load animation is done
 let isLoaded = false;
 
-// boolean for whether or not we're in feed view and scroll animation is done
+// boolean for whether or not we are in feed view and scroll animation is done
 let inFeedView = false;
 
-// boolean for whether or not we're seeing an individual project
+// boolean for whether or not we are seeing an individual project
 let inProjectView = false;
 
 // cubic functions for easing, take in and output a value from 0 to 1
@@ -40,13 +41,65 @@ function easeInOutCubic(x) {
 	return x < 0.5 ? 4*x*x*x : 1 - Math.pow(-2*x + 2, 3)/2;
 }
 
+// function to hide any elements that are not in tablet/mobile
+function hideElements() {
+	var dateTime = document.getElementById("date-time");
+	var developer = document.getElementById("developer");
+	var linkedIn = document.getElementById("linkedin");
+	if (vw > 900) {
+		linkedIn.classList.remove("hidden");
+		dateTime.classList.remove("hidden");
+		developer.classList.remove("hidden");
+		projectRows.forEach((row) => {
+			var projectCells = row.children;
+			for (var i = 0; i < projectCells.length-1; i++) {
+				// ignores project-view
+				projectCells[i].classList.remove("hidden");
+			}
+		});
+	} else if (vw > 600) {
+		linkedIn.classList.add("hidden");
+		dateTime.classList.remove("hidden");
+		developer.classList.remove("hidden");
+		projectRows.forEach((row) => {
+			var projectCells = row.children;
+			for (var i = 0; i < projectCells.length-1; i++) {
+				// ignores project-view
+				if (i < 4) {
+					projectCells[i].classList.remove("hidden");
+				} else {
+					projectCells[i].classList.add("hidden");
+				}
+			}
+		});
+	} else {
+		linkedIn.classList.add("hidden");
+		dateTime.classList.add("hidden");
+		developer.classList.add("hidden");
+		projectRows.forEach((row) => {
+			var projectCells = row.children;
+			for (var i = 0; i < projectCells.length-1; i++) {
+				// ignores project-view
+				if (projectCells[i].classList.contains("project-image")) {
+					projectCells[i].classList.add("hidden");
+				} else {
+					projectCells[i].classList.remove("hidden");
+				}
+			}
+		});
+	}
+}
+
 // resize event listener to update viewport width+height and grid
 window.onresize = function() {
 	// update viewport width and height
 	vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 	vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
-	// resize grid based on where we are in user flow, since SVG grid won't scale dynamically
+	// re-hide/show elements
+	hideElements();
+
+	// resize grid based on where we are in user flow, since SVG grid will not scale dynamically
 	if (!isLoaded) {
 		if (vw > 900) {
 			// desktop
@@ -61,7 +114,8 @@ window.onresize = function() {
 			grid.style.left = ((vw*38/32)/-2 + vw/2) + "px";
 			grid.style.strokeWidth = "1px";
 		}
-	} else if (isLoaded && !inFeedView) {
+	}
+	if (isLoaded && !inFeedView) {
 		if (vw > 900) {
 			// desktop
 			grid.style.height = (3.5*vw*38/8) + "px";
@@ -75,7 +129,8 @@ window.onresize = function() {
 			grid.style.left = ((vw*38/32)/-2 + vw/2) + "px";
 			grid.style.strokeWidth = "1px";
 		}
-	} else {
+	}
+	if (inFeedView) {
 		if (vw > 900) {
 			// desktop
 			grid.style.height = (3.5*vw*38/6) + "px";
@@ -96,9 +151,26 @@ window.onresize = function() {
 			grid.style.strokeWidth = "2px";
 		}
 	}
+	if (inProjectView) {
+		projectRows.forEach((row, index) => {
+			var projectView = row.querySelector(".project-view");
+			projectView.style.width = vw + "px";
+			projectView.style.height = vh + "px";
+			projectView.style.top = "0px";
+			projectView.style.left = "0px";				
+			if (vw > 900) {
+				projectView.style.padding = .1*vw + "px";
+			} else if (vw > 600) {
+				projectView.style.paddingTop = .2*vw + "px";
+			} else {
+				projectView.style.paddingTop = .2*vw + "px";
+			}
+		});
+	}
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+	hideElements(); // hides any elements that need to be hidden
 	percentLoad(); // runs preloader percent animation
 	animateLogo(); // runs SHO logo animation during preloader
 	displayTime(); // runs current time display in homepage info
@@ -373,7 +445,7 @@ function scrollAnimation() {
 
 		// control project feed and grid fading in/out between 90% and 100% scroll
 		projectFeed.style.opacity = Math.max(0, (scrollVal - .9)*10);
-		projectFeed.style.zIndex = Math.round(Math.max(0, (scrollVal - .9)*20)); //z-index gradually goes from 0 to 2, moving in front of grid
+		projectFeed.style.zIndex = Math.max(0, (scrollVal - .9)*20).toFixed(); //z-index gradually goes from 0 to 2, moving in front of grid
 		grid.style.opacity = Math.min(1, (scrollVal - 1)*-10);
 
 		// control fully entering project feed at 100% scroll
@@ -409,8 +481,6 @@ function scrollAnimation() {
 //                                 PROJECT FEED                               //
 ////////////////////////////////////////////////////////////////////////////////
 
-let projectRows = document.querySelectorAll(".project-row");
-
 projectRows.forEach((row, index) => {
 	// dynamically add project numbers to each row
 	if (index < 9) {
@@ -418,42 +488,109 @@ projectRows.forEach((row, index) => {
 	} else {
 		row.querySelector(".project-number").innerHTML = "" + (index + 1);
 	}
+	// dynamically add project info to hidden project-view
+	row.querySelector(".project-text-repeat").innerHTML = row.querySelector(".project-text").innerHTML;
 
 	// add event listener for mousing over a row
 	row.addEventListener("mouseover", function() {
+		// rollover animation for each row
 		if (vw > 600) {
 			// set background to black and text to white
-			var info = row.querySelector(".project-info");
-			info.style.backgroundColor = darkColor + "";
-			info.style.color = lightColor + "";
+			var infoCell = row.querySelector(".project-info");
+			infoCell.style.backgroundColor = darkColor + "";
+			infoCell.style.color = lightColor + "";
 			// animate in all images
 			var images = row.querySelectorAll("img");
 			images.forEach((image, index) => {
-				image.style.transitionDelay = (index*50) + "ms";
+				if (index < 5) { // exclude close button
+					image.style.transitionDelay = (index*50) + "ms";
+				}
 			});
 			images.forEach((image, index) => {
-				image.style.opacity = "1";
+				if (index < 5) { // exclude close button
+					image.style.opacity = "1";
+				}
+				
 			});
 		}
 	});
+
 	// add event listener for mousing out of a row
 	row.addEventListener("mouseout", function() {
+		// reverting rollover animation for each row
 		if (vw > 600) {
 			// set background to black and text to white
-			var info = row.querySelector(".project-info");
-			info.style.backgroundColor = offWhite + "";
-			info.style.color = darkColor + "";
+			var infoCell = row.querySelector(".project-info");
+			infoCell.style.backgroundColor = offWhite + "";
+			infoCell.style.color = darkColor + "";
 			// animate out all images
 			var images = row.querySelectorAll("img");
 			images.forEach((image, index) => {
-				image.style.opacity = "0";
+				if (index < 5) { // exclude close button
+					image.style.opacity = "0";
+				}
 			});
 		}
 	});
 
 	// add event listener for clicking on row
 	row.addEventListener("click", function() {
-		console.log("clicked");
+		// keeping hidden project-view cells aligned with project-info cells
+		// 1. calculate "left" of square relative to viewport (project-cell index * square width)
+		var infoLeft;
+		var hiddenNum = 0; // need to account for hidden cells that are counted in the row index
+		for (var i = 0; i < row.children.length; i++) {
+			if (row.children[i].classList.contains("hidden")) {
+				hiddenNum++;
+			}
+			else if (row.children[i].classList.contains("project-info")) {
+				if (vw > 900) {
+					infoLeft = (i - hiddenNum)*vw/6;
+					break;
+				} else if (vw > 600) {
+					infoLeft = (i - hiddenNum)*vw/4;
+					break;
+				} else {
+					infoLeft = (i - hiddenNum)*vw/2;
+					break;
+				}
+			}
+		}
+		// 2. calculate "top" of square relative to viewport (row index * square width - feed scrollTop)
+		var infoTop;
+		if (vw > 900) {
+			infoTop = index*vw/6 - projectFeed.scrollTop;
+		} else if (vw > 600) {
+			infoTop = index*vw/4 - projectFeed.scrollTop;
+		} else {
+			infoTop = index*vw/2 - projectFeed.scrollTop;
+		}
+		// 3. move project view (with duplicate project info) at the correct top and left
+		var projectView = row.querySelector(".project-view");
+		projectView.style.top = infoTop + "px";
+		projectView.style.left = infoLeft + "px";
+		// 4. make project-view appear, in line with project-info cell already there
+		projectView.classList.remove("hidden");
+		setTimeout(function() {
+			projectView.style.width = vw + "px";
+			projectView.style.height = vh + "px";
+			projectView.style.top = "0px";
+			projectView.style.left = "0px";
+			if (vw > 900) {
+				projectView.style.padding = .1*vw + "px";
+			} else if (vw > 600) {
+				projectView.style.paddingTop = .2*vw + "px";
+			} else {
+				projectView.style.paddingTop = .2*vw + "px";
+			}
+			inProjectView = true;
+		}, 100);
+		projectFeed.style.overflow = "hidden";
+		document.body.style.overflow = "hidden";
+		projectView.querySelector(".close").classList.remove("hidden");
+		setTimeout(function() {
+			projectView.querySelector(".close").style.opacity = "1";
+		}, 100);
 	});
 });
 

@@ -46,6 +46,12 @@ body {
 	padding: 0;
 }
 
+.hidden {
+	display: none;
+	visibility: hidden;
+	opacity: 0;
+}
+
 /*-----------------------------GRID+LOGO+PRELOADER----------------------------*/
 
 #homepage {
@@ -175,10 +181,13 @@ body {
 	cursor: pointer;
 }
 
+.project-info {
+	display: flex;
+}
+
 .project-cell {
 	border: 0.5px var(--dark-grid) solid;
 	width: 100%;
-	display: block;
 	overflow: hidden;
 }
 
@@ -203,6 +212,43 @@ body {
 	font-weight: 500;
 	border-bottom: 1px solid var(--dark-grid);
 	width: fit-content;
+}
+
+/*------------------------------INDIVIDUAL PROJECT----------------------------*/
+
+.project-view {
+	position: fixed;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	border: 1px var(--dark-grid) solid;
+	background-color: var(--dark-color);
+	color: var(--light-color);
+	z-index: 10;
+	overflow: hidden;
+	transition: all 500ms cubic-bezier(0.79,0.14,0.15,0.86);
+}
+
+.project-view:hover {
+	cursor: auto;
+}
+
+.project-text-repeat {
+	font-weight: 300;
+}
+
+.project-text-repeat span {
+	font-weight: 500;
+}
+
+.close {
+	opacity: 0;
+	transition: transform 500ms cubic-bezier(0.79,0.14,0.15,0.86), opacity 1s 1s;
+}
+
+.close:hover {
+	transform: rotate(180deg);
+	cursor: pointer;
 }
 
 /*----------------------------------------------------------------------------*/
@@ -349,7 +395,7 @@ body {
 		padding: 2vw;
 	}
 
-	.project-text {
+	.project-text, .project-text-repeat {
 		font-size: var(--desk-font-M);
 		line-height: 1.4vw;
 	}
@@ -359,6 +405,18 @@ body {
 		line-height: 2.1vw;
 		padding-bottom: 1.4vw;
 		margin-bottom: 1.4vw;
+	}
+
+/*------------------------------INDIVIDUAL PROJECT----------------------------*/
+
+	.project-view {
+		padding: 2vw;
+		width: calc(100vw / 6);
+		height: calc(100vw / 6);
+	}
+
+	.close {
+		width: 2.5vw;
 	}
 
 }
@@ -443,12 +501,6 @@ body {
 		padding-right: 4px;
 	}
 
-	#linkedin {
-		display: none;
-		visibility: hidden;
-		opacity: 0;
-	}
-
 	#scroll {
 		grid-column: 14 / 20;
 		grid-row: 32 / 34;
@@ -503,10 +555,6 @@ body {
 		grid-template-columns: repeat(4, 1fr);
 	}
 
-	.project-row > div:nth-last-child(-n+2) {
-		display: none;
-	}
-
 	.project-cell {
 		height: calc(100vw / 4);
 	}
@@ -515,7 +563,7 @@ body {
 		padding: 3vw;
 	}
 
-	.project-text {
+	.project-text, .project-text-repeat {
 		font-size: var(--tab-font-S);
 		line-height: 2.2vw;
 	}
@@ -526,6 +574,19 @@ body {
 		padding-bottom: 2vw;
 		margin-bottom: 2vw;
 	}
+
+/*------------------------------INDIVIDUAL PROJECT----------------------------*/
+
+	.project-view {
+		padding: 5vw;
+		width: calc(100vw / 4);
+		height: calc(100vw / 4);
+	}
+
+	.close {
+		width: 4.5vw;
+	}
+
 }
 
 /*----------------------------------------------------------------------------*/
@@ -609,12 +670,6 @@ body {
 		padding-right: 4px;
 	}
 
-	#linkedin {
-		display: none;
-		visibility: hidden;
-		opacity: 0;
-	}
-
 	#scroll {
 		grid-column: 13 / 21;
 		grid-row: 44 / 47;
@@ -635,27 +690,10 @@ body {
 		margin-top: 6px;
 	}
 
-	#date-time {
-		display: none;
-		visibility: hidden;
-		opacity: 0;
-	}
-
-	#developer {
-		display: none;
-		visibility: hidden;
-		opacity: 0;
-	}
-
 /*---------------------------------PROJECT FEED-------------------------------*/
 
 	#project-feed {
 		grid-template-columns: repeat(2, 1fr);
-	}
-
-	.project-image {
-		/*remove all cells that aren't project info or hero image*/
-		display: none;
 	}
 
 	.project-cell {
@@ -666,7 +704,7 @@ body {
 		padding: 5vw;
 	}
 
-	.project-text {
+	.project-text, .project-text-repeat {
 		font-size: var(--mob-font-S);
 		line-height: 4vw;
 	}
@@ -679,7 +717,19 @@ body {
 	}
 
 	.project-cell img {
-		opacity: 1;
+		opacity: 1 !important;
+	}
+
+/*------------------------------INDIVIDUAL PROJECT----------------------------*/
+
+	.project-view {
+		padding: 5vw;
+		width: calc(100vw / 2);
+		height: calc(100vw / 2);
+	}
+
+	.close {
+		width: 8vw;
 	}
 
 }
