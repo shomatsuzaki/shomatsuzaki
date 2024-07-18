@@ -23,7 +23,10 @@ let vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight
 // boolean for whether or not load animation is done
 let isLoaded = false;
 
-// boolean for whether or not we're in project view and scroll animation is done
+// boolean for whether or not we're in feed view and scroll animation is done
+let inFeedView = false;
+
+// boolean for whether or not we're seeing an individual project
 let inProjectView = false;
 
 // cubic functions for easing, take in and output a value from 0 to 1
@@ -58,7 +61,7 @@ window.onresize = function() {
 			grid.style.left = ((vw*38/32)/-2 + vw/2) + "px";
 			grid.style.strokeWidth = "1px";
 		}
-	} else if (isLoaded && !inProjectView) {
+	} else if (isLoaded && !inFeedView) {
 		if (vw > 900) {
 			// desktop
 			grid.style.height = (3.5*vw*38/8) + "px";
@@ -370,13 +373,13 @@ function scrollAnimation() {
 
 		// control project feed and grid fading in/out between 90% and 100% scroll
 		projectFeed.style.opacity = Math.max(0, (scrollVal - .9)*10);
+		projectFeed.style.zIndex = Math.round(Math.max(0, (scrollVal - .9)*20)); //z-index gradually goes from 0 to 2, moving in front of grid
 		grid.style.opacity = Math.min(1, (scrollVal - 1)*-10);
 
 		// control fully entering project feed at 100% scroll
 		if (scrollVal < 1) {
 			projectFeed.style.overflow = "hidden";
-			projectFeed.style.zIndex = "0";
-			inProjectView = false;
+			inFeedView = false;
 			var projChildren = projectFeed.querySelectorAll(".project-text");
 			for (var i = 0; i < projChildren.length; i++) {
 				projChildren[i].style.opacity = "0";
@@ -384,8 +387,7 @@ function scrollAnimation() {
 			}
 		} else {
 			projectFeed.style.overflow = "scroll";
-			projectFeed.style.zIndex = "2";
-			inProjectView = true;
+			inFeedView = true;
 			var projChildren = projectFeed.querySelectorAll(".project-text");
 			for (var i = 0; i < projChildren.length; i++) {
 				projChildren[i].style.opacity = "1";
@@ -419,31 +421,39 @@ projectRows.forEach((row, index) => {
 
 	// add event listener for mousing over a row
 	row.addEventListener("mouseover", function() {
-		// set background to black and text to white
-		var info = row.querySelector(".project-info");
-		info.style.backgroundColor = darkColor + "";
-		info.style.color = lightColor + "";
-		// animate in all images
-		var images = row.querySelectorAll("img");
-		images.forEach((image, index) => {
-			image.style.transitionDelay = (index*50) + "ms";
-		});
-		images.forEach((image, index) => {
-			image.style.opacity = "1";
-		});
+		if (vw > 600) {
+			// set background to black and text to white
+			var info = row.querySelector(".project-info");
+			info.style.backgroundColor = darkColor + "";
+			info.style.color = lightColor + "";
+			// animate in all images
+			var images = row.querySelectorAll("img");
+			images.forEach((image, index) => {
+				image.style.transitionDelay = (index*50) + "ms";
+			});
+			images.forEach((image, index) => {
+				image.style.opacity = "1";
+			});
+		}
 	});
-
 	// add event listener for mousing out of a row
 	row.addEventListener("mouseout", function() {
-		// set background to black and text to white
-		var info = row.querySelector(".project-info");
-		info.style.backgroundColor = offWhite + "";
-		info.style.color = darkColor + "";
-		// animate out all images
-		var images = row.querySelectorAll("img");
-		images.forEach((image, index) => {
-			image.style.opacity = "0";
-		});
+		if (vw > 600) {
+			// set background to black and text to white
+			var info = row.querySelector(".project-info");
+			info.style.backgroundColor = offWhite + "";
+			info.style.color = darkColor + "";
+			// animate out all images
+			var images = row.querySelectorAll("img");
+			images.forEach((image, index) => {
+				image.style.opacity = "0";
+			});
+		}
+	});
+
+	// add event listener for clicking on row
+	row.addEventListener("click", function() {
+		console.log("clicked");
 	});
 });
 
