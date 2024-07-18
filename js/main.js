@@ -2,6 +2,15 @@
 //                                   GENERAL                                  //
 ////////////////////////////////////////////////////////////////////////////////
 
+// get all color values of CSS variables
+const root = document.documentElement; // select the root element (:root)
+const transparent = getComputedStyle(root).getPropertyValue('--transparent').trim();
+const offWhite = getComputedStyle(root).getPropertyValue('--off-white').trim();
+const lightGrid = getComputedStyle(root).getPropertyValue('--light-grid').trim();
+const darkGrid = getComputedStyle(root).getPropertyValue('--dark-grid').trim();
+const lightColor = getComputedStyle(root).getPropertyValue('--light-color').trim();
+const darkColor = getComputedStyle(root).getPropertyValue('--dark-color').trim();
+
 // get elements that need to be targeted repeatedly
 let grid = document.getElementById("grid-logo"); // lives within homepage div
 let homepageInfo = document.getElementById("homepage-info"); // lives within homepage div
@@ -308,9 +317,7 @@ function scrollAnimation() {
 			tabStartLeft = (vw*38/32)/-2 + vw/2,
 			tabEndLeft = (vw*38/4)/-2 + vw/2,
 			mobStartLeft = tabStartLeft,
-			mobEndLeft = (vw*38/2)/-2 + vw/2,
-			startColor = getComputedStyle(gridLines[0]).getPropertyValue("--light-grid"),
-			endColor = getComputedStyle(logoLines[0]).getPropertyValue("--dark-grid");
+			mobEndLeft = (vw*38/2)/-2 + vw/2;
 		
 		// set scroll position to 0 so initial animation is smooth
 		if (firstTime) {
@@ -388,7 +395,7 @@ function scrollAnimation() {
 		
 		// change grid stroke color to fully dark
 		for (var i = 0; i < gridLines.length; i++) {
-		   gridLines[i].style.stroke = blendColors(startColor, endColor, scrollVal);
+		   gridLines[i].style.stroke = blendColors(lightGrid, darkGrid, scrollVal);
 		}
 	} else {
 		// make sure page is at very top while preloader runs
@@ -400,15 +407,44 @@ function scrollAnimation() {
 //                                 PROJECT FEED                               //
 ////////////////////////////////////////////////////////////////////////////////
 
-// dynamically add project numbers to each row
-let projectRows = document.getElementsByClassName("project-row");
-for (var i = 0; i < projectRows.length; i++) {
-	var projectNum = projectRows[i].querySelector(".project-number");
-	if (i < 9) {
-		projectNum.innerHTML = "0" + (i + 1);
+let projectRows = document.querySelectorAll(".project-row");
+
+projectRows.forEach((row, index) => {
+	// dynamically add project numbers to each row
+	if (index < 9) {
+		row.querySelector(".project-number").innerHTML = "0" + (index + 1);
 	} else {
-		projectNum.innerHTML = "" + (i + 1);
+		row.querySelector(".project-number").innerHTML = "" + (index + 1);
 	}
-}
+
+	// add event listener for mousing over a row
+	row.addEventListener("mouseover", function() {
+		// set background to black and text to white
+		var info = row.querySelector(".project-info");
+		info.style.backgroundColor = darkColor + "";
+		info.style.color = lightColor + "";
+		// animate in all images
+		var images = row.querySelectorAll("img");
+		images.forEach((image, index) => {
+			image.style.transitionDelay = (index*50) + "ms";
+		});
+		images.forEach((image, index) => {
+			image.style.opacity = "1";
+		});
+	});
+
+	// add event listener for mousing out of a row
+	row.addEventListener("mouseout", function() {
+		// set background to black and text to white
+		var info = row.querySelector(".project-info");
+		info.style.backgroundColor = offWhite + "";
+		info.style.color = darkColor + "";
+		// animate out all images
+		var images = row.querySelectorAll("img");
+		images.forEach((image, index) => {
+			image.style.opacity = "0";
+		});
+	});
+});
 
 
