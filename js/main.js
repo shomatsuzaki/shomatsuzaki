@@ -500,7 +500,7 @@ projectRows.forEach((row, index) => {
 	}
 	// for desktop and tablet, dynamically set transition delay for all cells except project view
 	if (vw > 600) {
-		var allCells = row.querySelectorAll(".project-info, .project-cell img");
+		var allCells = row.querySelectorAll(".project-cell img");
 		allCells.forEach((cell, index) => {
 			cell.style.transitionDelay = (index*50) + "ms";
 		});

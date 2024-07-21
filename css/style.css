@@ -181,10 +181,6 @@ body {
 	cursor: pointer;
 }
 
-/*.project-info {
-	display: flex;
-}*/
-
 .project-cell {
 	border: 0.5px var(--dark-grid) solid;
 	width: 100%;
@@ -392,6 +388,7 @@ body {
 	}
 
 	.project-cell, .project-view {
+		width: calc(100vw / 6);
 		height: calc(100vw / 6);
 	}
 
@@ -556,6 +553,7 @@ body {
 	}
 
 	.project-cell, .project-view {
+		width: calc(100vw / 4);
 		height: calc(100vw / 4);
 	}
 
@@ -693,6 +691,7 @@ body {
 	}
 
 	.project-cell, .project-view {
+		width: calc(100vw / 2);
 		height: calc(100vw / 2);
 	}
 
