@@ -136,7 +136,7 @@ window.onresize = function() {
 			// dynamically set text width of project view
 			var projectText = row.querySelector(".project-text");
 			var projectTextRepeat = row.querySelector(".project-text-repeat");
-			projectTextRepeat.style.width = (getComputedStyle(projectText).width) + "px";
+			projectTextRepeat.style.width = getComputedStyle(projectText).width;
 		});
 		if (vw > 900) {
 			// desktop
@@ -167,10 +167,8 @@ window.onresize = function() {
 			projectView.style.left = "0px";				
 			if (vw > 900) {
 				projectView.style.padding = .1*vw + "px";
-			} else if (vw > 600) {
-				projectView.style.paddingTop = .2*vw + "px";
 			} else {
-				projectView.style.paddingTop = .2*vw + "px";
+				projectView.style.padding = .2*vw + "px " + .05*vw + "px";
 			}
 		});
 	}
@@ -493,6 +491,64 @@ function scrollAnimation() {
 var infoTop = 0,
 	infoLeft = 0;
 
+projectRows.forEach((row, index) => {
+	// dynamically add project numbers to each row
+	if (index < 9) {
+		row.querySelector(".project-number").innerHTML = "0" + (index + 1);
+	} else {
+		row.querySelector(".project-number").innerHTML = "" + (index + 1);
+	}
+	// for desktop and tablet, dynamically set transition delay for all cells except project view
+	if (vw > 600) {
+		var allCells = row.querySelectorAll(".project-info, .project-cell img");
+		allCells.forEach((cell, index) => {
+			cell.style.transitionDelay = (index*50) + "ms";
+		});
+	}
+	// dynamically add project info to hidden project view
+	var projectText = row.querySelector(".project-text");
+	var projectTextRepeat = row.querySelector(".project-text-repeat");
+	projectTextRepeat.innerHTML = projectText.innerHTML;
+	// dynamically set text width of project view
+	projectTextRepeat.style.width = getComputedStyle(projectText).width;
+	// add event listener for mousing over a row
+	row.addEventListener("mouseover", function() {
+		// rollover animation for each row
+		if (vw > 600) {
+			// set background to black and text to white
+			var infoCell = row.querySelector(".project-info");
+			infoCell.style.backgroundColor = darkColor + "";
+			infoCell.style.color = lightColor + "";
+			// animate in all images
+			var images = row.querySelectorAll(".project-cell img");
+			images.forEach((image, index) => {
+				image.style.opacity = "1";
+			});
+		}
+	});
+
+	// add event listener for mousing out of a row
+	row.addEventListener("mouseout", function() {
+		// reverting rollover animation for each row
+		if (vw > 600) {
+			// set background to black and text to white
+			var infoCell = row.querySelector(".project-info");
+			infoCell.style.backgroundColor = offWhite + "";
+			infoCell.style.color = darkColor + "";
+			// animate out all images
+			var images = row.querySelectorAll(".project-cell img");
+			images.forEach((image, index) => {
+				image.style.opacity = "0";
+			});
+		}
+	});
+
+	// add event listener for clicking on row
+	row.addEventListener("click", function() {
+		openProject(row, index);
+	}, {once: true}); // don't let user click repeatedly
+});
+
 function openProject(row, index) {
 	// 1. calculate "left" of square relative to viewport (project-cell index * square width)
 	var hiddenNum = 0; // need to account for hidden cells that are counted in the row index
@@ -540,7 +596,7 @@ function openProject(row, index) {
 		if (vw > 900) {
 			projectView.style.padding = .1*vw + "px";
 		} else {
-			projectView.style.paddingTop = .2*vw + "px";
+			projectView.style.padding = .2*vw + "px " + .05*vw + "px";
 		}
 		inProjectView = true;
 		// 7. after another 500ms, animate in project view elements
@@ -550,69 +606,6 @@ function openProject(row, index) {
 		}, 500);
 	}, 100);
 }
-
-projectRows.forEach((row, index) => {
-	// dynamically add project numbers to each row
-	if (index < 9) {
-		row.querySelector(".project-number").innerHTML = "0" + (index + 1);
-	} else {
-		row.querySelector(".project-number").innerHTML = "" + (index + 1);
-	}
-	// for desktop and tablet, dynamically set transition delay for all cells except project view
-	if (vw > 600) {
-		var allCells = row.querySelectorAll(".project-cell");
-		allCells.forEach((cell, index) => {
-			cell.style.transitionDelay = (index*50) + "ms";
-		});
-	}
-	// dynamically add project info to hidden project view
-	var projectText = row.querySelector(".project-text");
-	var projectTextRepeat = row.querySelector(".project-text-repeat");
-	projectTextRepeat.innerHTML = projectText.innerHTML;
-	// dynamically set text width of project view
-	// var projectInfo = row.querySelector(".project-info");
-	projectTextRepeat.style.width = (getComputedStyle(projectText).width) + "px";
-	// add event listener for mousing over a row
-	row.addEventListener("mouseover", function() {
-		// rollover animation for each row
-		if (vw > 600) {
-			// set background to black and text to white
-			var infoCell = row.querySelector(".project-info");
-			infoCell.style.backgroundColor = darkColor + "";
-			infoCell.style.color = lightColor + "";
-			// animate in all images
-			var images = row.querySelectorAll("img");
-			images.forEach((image, index) => {
-				if (index < 5 && images.length > 1) { // exclude close button
-					image.style.opacity = "1";
-				}
-			});
-		}
-	});
-
-	// add event listener for mousing out of a row
-	row.addEventListener("mouseout", function() {
-		// reverting rollover animation for each row
-		if (vw > 600) {
-			// set background to black and text to white
-			var infoCell = row.querySelector(".project-info");
-			infoCell.style.backgroundColor = offWhite + "";
-			infoCell.style.color = darkColor + "";
-			// animate out all images
-			var images = row.querySelectorAll("img");
-			images.forEach((image, index) => {
-				if (index < 5 && images.length > 1) { // exclude close button
-					image.style.opacity = "0";
-				}
-			});
-		}
-	});
-
-	// add event listener for clicking on row
-	row.addEventListener("click", function() {
-		openProject(row, index);
-	}, {once: true}); // don't let user click repeatedly
-});
 
 ////////////////////////////////////////////////////////////////////////////////
 //                              INDIVIDUAL PROJECT                            //
@@ -635,7 +628,7 @@ projectCloses.forEach((close, index) => {
 			} else if (vw > 600) {
 				projectView.style.width = vw/4 + "px";
 				projectView.style.height = vw/4 + "px";
-				projectView.style.paddingTop = .03*vw + "px";
+				projectView.style.padding = .03*vw + "px";
 			} else {
 				projectView.style.width = vw/2 + "px";
 				projectView.style.height = vw/2 + "px";
@@ -657,6 +650,6 @@ projectCloses.forEach((close, index) => {
 					}, {once: true});
 				}, 500);
 			}, 500);
-		}, 800);
+		}, 600);
 	});
 });

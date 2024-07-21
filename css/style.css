@@ -391,11 +391,11 @@ body {
 		grid-template-columns: repeat(6, 1fr);
 	}
 
-	.project-cell {
+	.project-cell, .project-view {
 		height: calc(100vw / 6);
 	}
 
-	.project-info {
+	.project-info, .project-view {
 		padding: 2vw;
 	}
 
@@ -413,16 +413,10 @@ body {
 
 /*------------------------------INDIVIDUAL PROJECT----------------------------*/
 
-	.project-view {
-		padding: 2vw;
-		width: calc(100vw / 6);
-		height: calc(100vw / 6);
-	}
-
 	.close {
+		width: 2.5vw;
 		top: 5vw;
 		right: 5vw;
-		width: 2.5vw;
 	}
 
 }
@@ -561,11 +555,11 @@ body {
 		grid-template-columns: repeat(4, 1fr);
 	}
 
-	.project-cell {
+	.project-cell, .project-view {
 		height: calc(100vw / 4);
 	}
 
-	.project-info {
+	.project-info, .project-view {
 		padding: 3vw;
 	}
 
@@ -583,15 +577,9 @@ body {
 
 /*------------------------------INDIVIDUAL PROJECT----------------------------*/
 
-	.project-view {
-		padding: 5vw;
-		width: calc(100vw / 4);
-		height: calc(100vw / 4);
-	}
-
 	.close {
-		width: 4.5vw;
-		top: 10vw;
+		width: 5vw;
+		top: 5vw;
 		right: 5vw;
 	}
 
@@ -704,11 +692,11 @@ body {
 		grid-template-columns: repeat(2, 1fr);
 	}
 
-	.project-cell {
+	.project-cell, .project-view {
 		height: calc(100vw / 2);
 	}
 
-	.project-info {
+	.project-info, .project-view {
 		padding: 5vw;
 	}
 
@@ -730,15 +718,9 @@ body {
 
 /*------------------------------INDIVIDUAL PROJECT----------------------------*/
 
-	.project-view {
-		padding: 5vw;
-		width: calc(100vw / 2);
-		height: calc(100vw / 2);
-	}
-
 	.close {
-		width: 8vw;
-		top: 10vw;
+		width: 7vw;
+		top: 5vw;
 		right: 5vw;
 	}
 
