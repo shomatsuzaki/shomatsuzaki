@@ -16,6 +16,7 @@ let grid = document.getElementById("grid-logo"); // lives within homepage div
 let homepageInfo = document.getElementById("homepage-info"); // lives within homepage div
 let projectFeed = document.getElementById("project-feed");
 let projectRows = document.querySelectorAll(".project-row");
+let projectCloses = document.querySelectorAll(".close");
 
 // get viewport width and height
 let vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
@@ -131,6 +132,12 @@ window.onresize = function() {
 		}
 	}
 	if (inFeedView) {
+		projectRows.forEach((row, index) => {
+			// dynamically set text width of project view
+			var projectText = row.querySelector(".project-text");
+			var projectTextRepeat = row.querySelector(".project-text-repeat");
+			projectTextRepeat.style.width = (getComputedStyle(projectText).width) + "px";
+		});
 		if (vw > 900) {
 			// desktop
 			grid.style.height = (3.5*vw*38/6) + "px";
@@ -481,6 +488,69 @@ function scrollAnimation() {
 //                                 PROJECT FEED                               //
 ////////////////////////////////////////////////////////////////////////////////
 
+
+// variables for storing the top and left values of any clicked project info cell
+var infoTop = 0,
+	infoLeft = 0;
+
+function openProject(row, index) {
+	// 1. calculate "left" of square relative to viewport (project-cell index * square width)
+	var hiddenNum = 0; // need to account for hidden cells that are counted in the row index
+	for (var i = 0; i < row.children.length; i++) {
+		if (row.children[i].classList.contains("hidden")) {
+			hiddenNum++;
+		}
+		else if (row.children[i].classList.contains("project-info")) {
+			if (vw > 900) {
+				infoLeft = (i - hiddenNum)*vw/6;
+				break;
+			} else if (vw > 600) {
+				infoLeft = (i - hiddenNum)*vw/4;
+				break;
+			} else {
+				infoLeft = (i - hiddenNum)*vw/2;
+				break;
+			}
+		}
+	}
+	// 2. calculate "top" of square relative to viewport (row index * square width - feed scrollTop)
+	if (vw > 900) {
+		infoTop = index*vw/6 - projectFeed.scrollTop;
+	} else if (vw > 600) {
+		infoTop = index*vw/4 - projectFeed.scrollTop;
+	} else {
+		infoTop = index*vw/2 - projectFeed.scrollTop;
+	}
+	// 3. move project view (with duplicate project info) at the correct top and left
+	var projectView = row.querySelector(".project-view");
+	projectView.style.top = infoTop + "px";
+	projectView.style.left = infoLeft + "px";
+	// 4. make project view appear, in line with project-info cell already there
+	projectView.style.opacity = "1";
+	projectView.classList.remove("hidden");
+	// 5. prevent user from scrolling while in project view
+	projectFeed.style.overflow = "hidden";
+	document.body.style.overflow = "hidden";		
+	setTimeout(function() {
+		// 6. expand project view to fill screen
+		projectView.style.width = vw + "px";
+		projectView.style.height = vh + "px";
+		projectView.style.top = "0px";
+		projectView.style.left = "0px";
+		if (vw > 900) {
+			projectView.style.padding = .1*vw + "px";
+		} else {
+			projectView.style.paddingTop = .2*vw + "px";
+		}
+		inProjectView = true;
+		// 7. after another 500ms, animate in project view elements
+		projectView.querySelector(".close").classList.remove("hidden");
+		setTimeout(function() {
+			projectView.querySelector(".close").style.opacity = "1";
+		}, 500);
+	}, 100);
+}
+
 projectRows.forEach((row, index) => {
 	// dynamically add project numbers to each row
 	if (index < 9) {
@@ -488,9 +558,20 @@ projectRows.forEach((row, index) => {
 	} else {
 		row.querySelector(".project-number").innerHTML = "" + (index + 1);
 	}
-	// dynamically add project info to hidden project-view
-	row.querySelector(".project-text-repeat").innerHTML = row.querySelector(".project-text").innerHTML;
-
+	// for desktop and tablet, dynamically set transition delay for all cells except project view
+	if (vw > 600) {
+		var allCells = row.querySelectorAll(".project-cell");
+		allCells.forEach((cell, index) => {
+			cell.style.transitionDelay = (index*50) + "ms";
+		});
+	}
+	// dynamically add project info to hidden project view
+	var projectText = row.querySelector(".project-text");
+	var projectTextRepeat = row.querySelector(".project-text-repeat");
+	projectTextRepeat.innerHTML = projectText.innerHTML;
+	// dynamically set text width of project view
+	// var projectInfo = row.querySelector(".project-info");
+	projectTextRepeat.style.width = (getComputedStyle(projectText).width) + "px";
 	// add event listener for mousing over a row
 	row.addEventListener("mouseover", function() {
 		// rollover animation for each row
@@ -502,15 +583,9 @@ projectRows.forEach((row, index) => {
 			// animate in all images
 			var images = row.querySelectorAll("img");
 			images.forEach((image, index) => {
-				if (index < 5) { // exclude close button
-					image.style.transitionDelay = (index*50) + "ms";
-				}
-			});
-			images.forEach((image, index) => {
-				if (index < 5) { // exclude close button
+				if (index < 5 && images.length > 1) { // exclude close button
 					image.style.opacity = "1";
 				}
-				
 			});
 		}
 	});
@@ -526,7 +601,7 @@ projectRows.forEach((row, index) => {
 			// animate out all images
 			var images = row.querySelectorAll("img");
 			images.forEach((image, index) => {
-				if (index < 5) { // exclude close button
+				if (index < 5 && images.length > 1) { // exclude close button
 					image.style.opacity = "0";
 				}
 			});
@@ -535,63 +610,53 @@ projectRows.forEach((row, index) => {
 
 	// add event listener for clicking on row
 	row.addEventListener("click", function() {
-		// keeping hidden project-view cells aligned with project-info cells
-		// 1. calculate "left" of square relative to viewport (project-cell index * square width)
-		var infoLeft;
-		var hiddenNum = 0; // need to account for hidden cells that are counted in the row index
-		for (var i = 0; i < row.children.length; i++) {
-			if (row.children[i].classList.contains("hidden")) {
-				hiddenNum++;
-			}
-			else if (row.children[i].classList.contains("project-info")) {
-				if (vw > 900) {
-					infoLeft = (i - hiddenNum)*vw/6;
-					break;
-				} else if (vw > 600) {
-					infoLeft = (i - hiddenNum)*vw/4;
-					break;
-				} else {
-					infoLeft = (i - hiddenNum)*vw/2;
-					break;
-				}
-			}
-		}
-		// 2. calculate "top" of square relative to viewport (row index * square width - feed scrollTop)
-		var infoTop;
-		if (vw > 900) {
-			infoTop = index*vw/6 - projectFeed.scrollTop;
-		} else if (vw > 600) {
-			infoTop = index*vw/4 - projectFeed.scrollTop;
-		} else {
-			infoTop = index*vw/2 - projectFeed.scrollTop;
-		}
-		// 3. move project view (with duplicate project info) at the correct top and left
-		var projectView = row.querySelector(".project-view");
-		projectView.style.top = infoTop + "px";
-		projectView.style.left = infoLeft + "px";
-		// 4. make project-view appear, in line with project-info cell already there
-		projectView.classList.remove("hidden");
-		setTimeout(function() {
-			projectView.style.width = vw + "px";
-			projectView.style.height = vh + "px";
-			projectView.style.top = "0px";
-			projectView.style.left = "0px";
-			if (vw > 900) {
-				projectView.style.padding = .1*vw + "px";
-			} else if (vw > 600) {
-				projectView.style.paddingTop = .2*vw + "px";
-			} else {
-				projectView.style.paddingTop = .2*vw + "px";
-			}
-			inProjectView = true;
-		}, 100);
-		projectFeed.style.overflow = "hidden";
-		document.body.style.overflow = "hidden";
-		projectView.querySelector(".close").classList.remove("hidden");
-		setTimeout(function() {
-			projectView.querySelector(".close").style.opacity = "1";
-		}, 100);
-	});
+		openProject(row, index);
+	}, {once: true}); // don't let user click repeatedly
 });
 
+////////////////////////////////////////////////////////////////////////////////
+//                              INDIVIDUAL PROJECT                            //
+////////////////////////////////////////////////////////////////////////////////
 
+projectCloses.forEach((close, index) => {
+	close.addEventListener("click", function() {
+		var projectView = close.parentNode;
+		// 1. hide all project view elements except project info
+		close.style.opacity = "0";
+		setTimeout(function() {
+			close.classList.add("hidden");
+			// 2. shrink project view and re-align to project info cell
+			projectView.style.top = infoTop + "px";
+			projectView.style.left = infoLeft + "px";
+			if (vw > 900) {
+				projectView.style.width = vw/6 + "px";
+				projectView.style.height = vw/6 + "px";
+				projectView.style.padding = .02*vw + "px";
+			} else if (vw > 600) {
+				projectView.style.width = vw/4 + "px";
+				projectView.style.height = vw/4 + "px";
+				projectView.style.paddingTop = .03*vw + "px";
+			} else {
+				projectView.style.width = vw/2 + "px";
+				projectView.style.height = vw/2 + "px";
+				projectView.style.paddingTop = .05*vw + "px";
+			}
+			inProjectView = false;
+			// 3. allow user to scroll again
+			projectFeed.style.overflow = "scroll";
+			document.body.style.overflow = "auto";
+			setTimeout(function() {
+				// 4. fade out of black project view cell
+				projectView.style.opacity = "0";
+				setTimeout(function() {
+					// 5. hide project view cell
+					projectView.classList.add("hidden");
+					// 6. re-activate click event listener for row
+					projectView.parentNode.addEventListener("click", function() {
+						openProject(projectView.parentNode, index);
+					}, {once: true});
+				}, 500);
+			}, 500);
+		}, 800);
+	});
+});

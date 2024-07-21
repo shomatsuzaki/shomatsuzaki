@@ -181,9 +181,9 @@ body {
 	cursor: pointer;
 }
 
-.project-info {
+/*.project-info {
 	display: flex;
-}
+}*/
 
 .project-cell {
 	border: 0.5px var(--dark-grid) solid;
@@ -218,15 +218,18 @@ body {
 
 .project-view {
 	position: fixed;
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
 	border: 1px var(--dark-grid) solid;
 	background-color: var(--dark-color);
 	color: var(--light-color);
+	opacity: 0;
 	z-index: 10;
 	overflow: hidden;
-	transition: all 500ms cubic-bezier(0.79,0.14,0.15,0.86);
+	transition: top 500ms cubic-bezier(0.79,0.14,0.15,0.86),
+				left 500ms cubic-bezier(0.79,0.14,0.15,0.86),
+				width 500ms cubic-bezier(0.79,0.14,0.15,0.86),
+				height 500ms cubic-bezier(0.79,0.14,0.15,0.86),
+				padding 500ms cubic-bezier(0.79,0.14,0.15,0.86),
+				opacity 500ms;
 }
 
 .project-view:hover {
@@ -242,8 +245,9 @@ body {
 }
 
 .close {
+	position: absolute;
 	opacity: 0;
-	transition: transform 500ms cubic-bezier(0.79,0.14,0.15,0.86), opacity 1s 1s;
+	transition: transform 500ms cubic-bezier(0.79,0.14,0.15,0.86), opacity 1000ms;
 }
 
 .close:hover {
@@ -416,6 +420,8 @@ body {
 	}
 
 	.close {
+		top: 5vw;
+		right: 5vw;
 		width: 2.5vw;
 	}
 
@@ -585,6 +591,8 @@ body {
 
 	.close {
 		width: 4.5vw;
+		top: 10vw;
+		right: 5vw;
 	}
 
 }
@@ -730,6 +738,8 @@ body {
 
 	.close {
 		width: 8vw;
+		top: 10vw;
+		right: 5vw;
 	}
 
 }
