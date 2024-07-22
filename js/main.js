@@ -133,6 +133,25 @@ window.onresize = function() {
 	}
 	if (inFeedView) {
 		projectRows.forEach((row, index) => {
+			var infoCell = row.querySelector(".project-info");
+			var projectView = row.querySelector(".project-view");
+			var allImages = row.querySelectorAll(".project-cell img"); // excludes close button
+			// rearrange project-info cell based on device
+			row.appendChild(infoCell);
+			row.appendChild(projectView);
+			if (vw > 900) {
+				row.insertBefore(infoCell, row.children[index % 6]);
+			} else if (vw > 600) {
+				row.insertBefore(infoCell, row.children[index % 4]);
+			} else if (index % 2 == 0) { // for mobile, only matters if project num is even or odd
+				row.insertBefore(infoCell, row.children[0]);
+			}
+			// for desktop and tablet, dynamically set transition delay for all cells except project view
+			if (vw > 600) {
+				allImages.forEach((image, index) => {
+					image.style.transitionDelay = (index*50) + "ms";
+				});
+			}
 			// dynamically set text width of project view
 			var projectText = row.querySelector(".project-text");
 			var projectTextRepeat = row.querySelector(".project-text-repeat");
@@ -500,17 +519,30 @@ var infoTop = 0,
 	infoLeft = 0;
 
 projectRows.forEach((row, index) => {
+	var infoCell = row.querySelector(".project-info");
+	var allCells = row.querySelectorAll(".project-cell");
+	var allImages = row.querySelectorAll(".project-cell img"); // excludes close button
+	var projectView = row.querySelector(".project-view");
 	// dynamically add project numbers to each row
 	if (index < 9) {
 		row.querySelector(".project-number").innerHTML = "0" + (index + 1);
 	} else {
 		row.querySelector(".project-number").innerHTML = "" + (index + 1);
 	}
+	// rearrange project-info cell based on device
+	row.appendChild(infoCell);
+	row.appendChild(projectView);
+	if (vw > 900) {
+		row.insertBefore(infoCell, row.children[index % 6]);
+	} else if (vw > 600) {
+		row.insertBefore(infoCell, row.children[index % 4]);
+	} else if (index % 2 == 0) { // for mobile, only matters if project num is even or odd
+		row.insertBefore(infoCell, row.children[0]);
+	}
 	// for desktop and tablet, dynamically set transition delay for all cells except project view
 	if (vw > 600) {
-		var allCells = row.querySelectorAll(".project-cell img");
-		allCells.forEach((cell, index) => {
-			cell.style.transitionDelay = (index*50) + "ms";
+		allImages.forEach((image, index) => {
+			image.style.transitionDelay = (index*50) + "ms";
 		});
 	}
 	// dynamically add project info to hidden project view
@@ -531,12 +563,10 @@ projectRows.forEach((row, index) => {
 		// rollover animation for each row
 		if (vw > 600) {
 			// set background to black and text to white
-			var infoCell = row.querySelector(".project-info");
 			infoCell.style.backgroundColor = darkColor + "";
 			infoCell.style.color = lightColor + "";
 			// animate in all images
-			var images = row.querySelectorAll(".project-cell img");
-			images.forEach((image, index) => {
+			allImages.forEach((image, index) => {
 				image.style.opacity = "1";
 			});
 		}
@@ -547,12 +577,10 @@ projectRows.forEach((row, index) => {
 		// reverting rollover animation for each row
 		if (vw > 600) {
 			// set background to black and text to white
-			var infoCell = row.querySelector(".project-info");
 			infoCell.style.backgroundColor = offWhite + "";
 			infoCell.style.color = darkColor + "";
 			// animate out all images
-			var images = row.querySelectorAll(".project-cell img");
-			images.forEach((image, index) => {
+			allImages.forEach((image, index) => {
 				image.style.opacity = "0";
 			});
 		}
