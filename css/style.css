@@ -29,6 +29,7 @@
 	--mob-font-L: 9vw;
 	--mob-font-M: 4.6vw;
 	--mob-font-S: 3.2vw;
+	--mob-font-XS: 2.6vw;
 }
 
 html {
@@ -145,8 +146,10 @@ body {
 }
 
 #scroll {
+	text-shadow: 0 0 16px var(--off-white);
 	animation: float 3800ms ease-in-out infinite;
 	transition: opacity 700ms 500ms ease-out, filter 700ms 500ms ease-out;
+
 }
 
 @keyframes float {
@@ -200,7 +203,11 @@ body {
 	transition: opacity 500ms ease-out, filter 500ms ease-out;
 }
 
-.project-text span {
+.project-text-repeat {
+	font-weight: 300;
+}
+
+.project-text span, .project-text-repeat span {
 	font-weight: 500;
 }
 
@@ -232,12 +239,16 @@ body {
 	cursor: auto;
 }
 
-.project-text-repeat {
-	font-weight: 300;
+.flex-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: stretch;
+	height: 100%;
 }
 
-.project-text-repeat span {
-	font-weight: 500;
+.text-column {
+	display: flex;
+	flex-direction: column;
 }
 
 .close {
@@ -249,6 +260,23 @@ body {
 .close:hover {
 	transform: rotate(180deg);
 	cursor: pointer;
+}
+
+.project-desc {
+	opacity: 0;
+	transition: opacity 1000ms;
+}
+
+.video {
+	height: 100%;
+	opacity: 0;
+	overflow-y: scroll;
+	mask-image: linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 18%);
+	transition: opacity 1000ms;
+}
+
+.video iframe {
+	width: 100%;
 }
 
 /*----------------------------------------------------------------------------*/
@@ -412,8 +440,27 @@ body {
 
 	.close {
 		width: 2.5vw;
-		top: 5vw;
-		right: 5vw;
+		top: 4vw;
+		right: 4vw;
+	}
+
+	.flex-container {
+		flex-direction: row;
+	}
+
+	.project-desc {
+		margin-top: 1.4vw;
+		font-size: var(--desk-font-S);
+	}
+
+	.video {
+		width: 64vw;
+		padding-bottom: 4vw;
+	}
+
+	.video iframe {
+		height: 36vw;
+		margin-bottom: 1.4vw;
 	}
 
 }
@@ -581,6 +628,25 @@ body {
 		right: 5vw;
 	}
 
+	.flex-container {
+		flex-direction: column;
+	}
+
+	.project-desc {
+		margin: 2.2vw 0;
+		font-size: var(--tab-font-S);
+	}
+
+	.video {
+		width: 100%;
+		padding-bottom: 10vw;
+	}
+
+	.video iframe {
+		height: 54vw;
+		margin-bottom: 1.4vw;
+	}
+
 }
 
 /*----------------------------------------------------------------------------*/
@@ -721,6 +787,25 @@ body {
 		width: 7vw;
 		top: 5vw;
 		right: 5vw;
+	}
+
+	.flex-container {
+		flex-direction: column;
+	}
+
+	.project-desc {
+		margin: 4vw 0;
+		font-size: var(--mob-font-XS);
+	}
+
+	.video {
+		width: 100%;
+		padding-bottom: 14vw;
+	}
+
+	.video iframe {
+		height: 54vw;
+		margin-bottom: 2vw;
 	}
 
 }

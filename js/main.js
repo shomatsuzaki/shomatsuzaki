@@ -136,7 +136,13 @@ window.onresize = function() {
 			// dynamically set text width of project view
 			var projectText = row.querySelector(".project-text");
 			var projectTextRepeat = row.querySelector(".project-text-repeat");
+			var projectDesc = row.querySelector(".project-desc");
 			projectTextRepeat.style.width = getComputedStyle(projectText).width;
+			if (vw > 900) {
+				projectDesc.style.width = getComputedStyle(projectText).width;
+			} else {
+				projectDesc.style.width = "50%";
+			}
 		});
 		if (vw > 900) {
 			// desktop
@@ -167,8 +173,10 @@ window.onresize = function() {
 			projectView.style.left = "0px";				
 			if (vw > 900) {
 				projectView.style.padding = .1*vw + "px";
+				projectView.style.paddingBottom = "0px";
 			} else {
 				projectView.style.padding = .2*vw + "px " + .05*vw + "px";
+				projectView.style.paddingBottom = "0px";
 			}
 		});
 	}
@@ -508,9 +516,16 @@ projectRows.forEach((row, index) => {
 	// dynamically add project info to hidden project view
 	var projectText = row.querySelector(".project-text");
 	var projectTextRepeat = row.querySelector(".project-text-repeat");
-	projectTextRepeat.innerHTML = projectText.innerHTML;
+	var projectDesc = row.querySelector(".project-desc");
+	projectText.innerHTML = projectTextRepeat.innerHTML;
 	// dynamically set text width of project view
 	projectTextRepeat.style.width = getComputedStyle(projectText).width;
+	// dynamically set width of project description
+	if (vw > 900) {
+		projectDesc.style.width = getComputedStyle(projectText).width;
+	} else {
+		projectDesc.style.width = "50%";
+	}
 	// add event listener for mousing over a row
 	row.addEventListener("mouseover", function() {
 		// rollover animation for each row
@@ -595,14 +610,20 @@ function openProject(row, index) {
 		projectView.style.left = "0px";
 		if (vw > 900) {
 			projectView.style.padding = .1*vw + "px";
+			projectView.style.paddingBottom = "0px";
 		} else {
-			projectView.style.padding = .2*vw + "px " + .05*vw + "px";
+			projectView.style.padding = .12*vw + "px " + .05*vw + "px";
+			projectView.style.paddingBottom = "0px";
 		}
 		inProjectView = true;
 		// 7. after another 500ms, animate in project view elements
 		projectView.querySelector(".close").classList.remove("hidden");
+		projectView.querySelector(".project-desc").classList.remove("hidden");
+		projectView.querySelector(".video").classList.remove("hidden");
 		setTimeout(function() {
 			projectView.querySelector(".close").style.opacity = "1";
+			projectView.querySelector(".project-desc").style.opacity = "1";
+			projectView.querySelector(".video").style.opacity = "1";
 		}, 500);
 	}, 100);
 }
@@ -616,8 +637,12 @@ projectCloses.forEach((close, index) => {
 		var projectView = close.parentNode;
 		// 1. hide all project view elements except project info
 		close.style.opacity = "0";
+		projectView.querySelector(".project-desc").style.opacity = "0";
+		projectView.querySelector(".video").style.opacity = "0";
 		setTimeout(function() {
 			close.classList.add("hidden");
+			projectView.querySelector(".project-desc").classList.add("hidden");
+			projectView.querySelector(".video").classList.add("hidden");
 			// 2. shrink project view and re-align to project info cell
 			projectView.style.top = infoTop + "px";
 			projectView.style.left = infoLeft + "px";
