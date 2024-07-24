@@ -346,25 +346,71 @@ body {
 	#about {
 		grid-column: 5 / 6;
 		grid-row: 2 / 3;
-		align-self: end;
-		justify-self: start;
+		display: flex;
+		align-items: flex-end;
+		width: 100%;
+		height: 100%;
 		font-size: var(--desk-font-S);
+		cursor: pointer;
+		z-index: 4;
+		transition: color 300ms, filter 500ms;
+	}
+
+	#about-rollover {
+		grid-column: 5 / 6;
+		grid-row: 2 / 3;
+		overflow: hidden;
 	}
 
 	#contact {
 		grid-column: 5 / 6;
 		grid-row: 4 / 5;
-		align-self: start;
-		justify-self: start;
+		display: flex;
+		align-items: flex-start;
+		width: 100%;
+		height: 100%;
 		font-size: var(--desk-font-S);
+		cursor: pointer;
+		text-decoration: none;
+		color: inherit;
+		z-index: 4;
+		transition: color 300ms, filter 500ms;
+	}
+
+	#contact-rollover {
+		grid-column: 5 / 6;
+		grid-row: 4 / 5;
+		overflow: hidden;
 	}
 
 	#linkedin {
 		grid-column: 7 / 8;
 		grid-row: 3 / 4;
-		align-self: start;
-		justify-self: start;
+		display: flex;
+		align-items: flex-start;
+		width: 100%;
+		height: 100%;
 		font-size: var(--desk-font-S);
+		cursor: pointer;
+		text-decoration: none;
+		color: inherit;
+		z-index: 4;
+		transition: color 300ms, filter 500ms;
+	}
+
+	#linkedin-rollover {
+		grid-column: 7 / 8;
+		grid-row: 3 / 4;
+		overflow: hidden;
+	}
+
+	.black-square {
+		width: calc(100% + 1.2vw);
+		height: calc(100% + 0.8vw);
+		margin: -0.4vw -0.6vw;
+		background-color: var(--dark-color);
+		transform: translateX(-100%);
+		transition: transform 300ms cubic-bezier(0.79,0.14,0.15,0.86);
 	}
 
 	#scroll {

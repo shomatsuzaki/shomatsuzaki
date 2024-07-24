@@ -17,6 +17,9 @@ let homepageInfo = document.getElementById("homepage-info"); // lives within hom
 let projectFeed = document.getElementById("project-feed");
 let projectRows = document.querySelectorAll(".project-row");
 let projectCloses = document.querySelectorAll(".close");
+let aboutMe = document.getElementById("about");
+let contactMe = document.getElementById("contact");
+let linkedIn = document.getElementById("linkedin");
 
 // get viewport width and height
 let vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
@@ -46,7 +49,6 @@ function easeInOutCubic(x) {
 function hideElements() {
 	var dateTime = document.getElementById("date-time");
 	var developer = document.getElementById("developer");
-	var linkedIn = document.getElementById("linkedin");
 	if (vw > 900) {
 		linkedIn.classList.remove("hidden");
 		dateTime.classList.remove("hidden");
@@ -315,7 +317,7 @@ function animateGrid() {
 	var handler = setInterval(function() {
 		if (frame > totalFrames) {
 			//make homepage info children visible
-			var homeChildren = homepageInfo.querySelectorAll("div");
+			var homeChildren = homepageInfo.querySelectorAll("div, a");
 			for (var i = 0; i < homeChildren.length; i++) {
 				homeChildren[i].style.opacity = "1";
 				homeChildren[i].style.filter = "blur(0px)";
@@ -361,6 +363,52 @@ function displayTime() {
 		document.getElementById("date-time").innerHTML = dateOnly + ", " + timeOnly;
 	}, 1000);
 }
+
+aboutMe.addEventListener("click", function() {
+	console.log("clicked about!");
+});
+
+aboutMe.addEventListener("mouseover", function() {
+	var blackSquare = aboutMe.nextElementSibling.querySelector(".black-square");
+	blackSquare.style.transform = "translateX(0)";
+	aboutMe.style.color = offWhite;
+	aboutMe.querySelector(".side-arrow").style.filter = "invert(1)";
+});
+
+aboutMe.addEventListener("mouseout", function() {
+	var blackSquare = aboutMe.nextElementSibling.querySelector(".black-square");
+	blackSquare.style.transform = "translateX(-100%)";
+	aboutMe.style.color = darkColor;
+	aboutMe.querySelector(".side-arrow").style.filter = "invert(0)";
+});
+
+contactMe.addEventListener("mouseover", function() {
+	var blackSquare = contactMe.nextElementSibling.querySelector(".black-square");
+	blackSquare.style.transform = "translateX(0)";
+	contactMe.style.color = offWhite;
+	contactMe.querySelector(".side-arrow").style.filter = "invert(1)";
+});
+
+contactMe.addEventListener("mouseout", function() {
+	var blackSquare = contactMe.nextElementSibling.querySelector(".black-square");
+	blackSquare.style.transform = "translateX(-100%)";
+	contactMe.style.color = darkColor;
+	contactMe.querySelector(".side-arrow").style.filter = "invert(0)";
+});
+
+linkedIn.addEventListener("mouseover", function() {
+	var blackSquare = linkedIn.nextElementSibling.querySelector(".black-square");
+	blackSquare.style.transform = "translateX(0)";
+	linkedIn.style.color = offWhite;
+	linkedIn.querySelector(".side-arrow").style.filter = "invert(1)";
+});
+
+linkedIn.addEventListener("mouseout", function() {
+	var blackSquare = linkedIn.nextElementSibling.querySelector(".black-square");
+	blackSquare.style.transform = "translateX(-100%)";
+	linkedIn.style.color = darkColor;
+	linkedIn.querySelector(".side-arrow").style.filter = "invert(0)";
+});
 
 ////////////////////////////////////////////////////////////////////////////////
 //                              SCROLL TO PROJECTS                            //
