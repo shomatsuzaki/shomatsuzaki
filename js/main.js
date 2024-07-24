@@ -369,31 +369,39 @@ aboutMe.addEventListener("click", function() {
 });
 
 aboutMe.addEventListener("mouseover", function() {
-	var blackSquare = aboutMe.nextElementSibling.querySelector(".black-square");
-	blackSquare.style.transform = "translateX(0)";
-	aboutMe.style.color = offWhite;
-	aboutMe.querySelector(".side-arrow").style.filter = "invert(1)";
+	if (vw > 900) {
+		var blackSquare = aboutMe.nextElementSibling.querySelector(".black-square");
+		blackSquare.style.transform = "translateX(0)";
+		aboutMe.style.color = offWhite;
+		aboutMe.querySelector(".side-arrow").style.filter = "invert(1)";
+	}
 });
 
 aboutMe.addEventListener("mouseout", function() {
-	var blackSquare = aboutMe.nextElementSibling.querySelector(".black-square");
-	blackSquare.style.transform = "translateX(-100%)";
-	aboutMe.style.color = darkColor;
-	aboutMe.querySelector(".side-arrow").style.filter = "invert(0)";
+	if (vw > 900) {
+		var blackSquare = aboutMe.nextElementSibling.querySelector(".black-square");
+		blackSquare.style.transform = "translateX(-100%)";
+		aboutMe.style.color = darkColor;
+		aboutMe.querySelector(".side-arrow").style.filter = "invert(0)";
+	}
 });
 
 contactMe.addEventListener("mouseover", function() {
-	var blackSquare = contactMe.nextElementSibling.querySelector(".black-square");
-	blackSquare.style.transform = "translateX(0)";
-	contactMe.style.color = offWhite;
-	contactMe.querySelector(".side-arrow").style.filter = "invert(1)";
+	if (vw > 900) {
+		var blackSquare = contactMe.nextElementSibling.querySelector(".black-square");
+		blackSquare.style.transform = "translateX(0)";
+		contactMe.style.color = offWhite;
+		contactMe.querySelector(".side-arrow").style.filter = "invert(1)";
+	}
 });
 
 contactMe.addEventListener("mouseout", function() {
-	var blackSquare = contactMe.nextElementSibling.querySelector(".black-square");
-	blackSquare.style.transform = "translateX(-100%)";
-	contactMe.style.color = darkColor;
-	contactMe.querySelector(".side-arrow").style.filter = "invert(0)";
+	if (vw > 900) {
+		var blackSquare = contactMe.nextElementSibling.querySelector(".black-square");
+		blackSquare.style.transform = "translateX(-100%)";
+		contactMe.style.color = darkColor;
+		contactMe.querySelector(".side-arrow").style.filter = "invert(0)";
+	}
 });
 
 linkedIn.addEventListener("mouseover", function() {
