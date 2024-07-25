@@ -416,7 +416,7 @@ aboutMe.addEventListener("click", function() {
 					homepageInfo.querySelector("#name").style.marginTop = "-44vw";
 				}
 				// 3. transform window to fill screen
-				aboutWindow.style.transform = "scale(6,50)";
+				aboutWindow.style.transform = "scale(6,60)";
 				setTimeout(function() {
 					// 4. fade in all about me info
 					aboutInfo.style.opacity = "1";

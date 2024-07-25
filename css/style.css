@@ -844,7 +844,7 @@ body {
 
 	#homepage-info {
 		grid-template-columns: repeat(32, 1fr);
-		grid-template-rows: repeat(53, calc(100vw / 32));
+		grid-template-rows: repeat(70, calc(100vw / 32));
 		top: 0;
 		left: 50%;
 		transform: translateX(-50%);
