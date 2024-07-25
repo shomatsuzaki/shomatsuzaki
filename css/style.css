@@ -20,7 +20,7 @@
 	--desk-font-M: min(1.2vw, 28px);
 	--desk-font-S: min(1.0vw, 24px);
 	--desk-font-XS: min(0.75vw, 14px);
-	--tab-font-XL: 11vw;
+	--tab-font-XL: 13vw;
 	--tab-font-L: 5vw;
 	--tab-font-M: 3.4vw;
 	--tab-font-S: 2vw;
@@ -376,6 +376,16 @@ body {
 		overflow: hidden;
 	}
 
+	.black-square {
+		width: calc(100% + 1.2vw);
+		height: calc(100% + 0.8vw);
+		margin: -0.4vw -0.6vw;
+		background-color: var(--dark-color);
+		transform: translateX(-101%);
+		transition: transform 300ms cubic-bezier(0.79,0.14,0.15,0.86);
+		z-index: 3;
+	}
+
 	#contact {
 		grid-column: 5 / 6;
 		grid-row: 4 / 5;
@@ -416,16 +426,6 @@ body {
 		grid-column: 7 / 8;
 		grid-row: 3 / 4;
 		overflow: hidden;
-	}
-
-	.black-square {
-		width: calc(100% + 1.2vw);
-		height: calc(100% + 0.8vw);
-		margin: -0.4vw -0.6vw;
-		background-color: var(--dark-color);
-		transform: translateX(-100%);
-		transition: transform 300ms cubic-bezier(0.79,0.14,0.15,0.86);
-		z-index: 3;
 	}
 
 	#scroll {
@@ -597,21 +597,21 @@ body {
 
 	#homepage-info {
 		grid-template-columns: repeat(32, 1fr);
-		grid-template-rows: repeat(36, calc(100vw / 32));
+		grid-template-rows: repeat(45, calc(100vw / 32));
 		top: 0;
 		left: 50%;
 		transform: translateX(-50%);
 	}
 
 	#name {
-		grid-column: 5 / 29;
+		grid-column: 5 / 24;
 		grid-row: 9 / 16;
 		align-self: center;
 		justify-self: start;
 		font-size: var(--tab-font-XL);
 		line-height: 11.5vw;
 		z-index: 6;
-		transition: color 500ms;
+		transition: color 500ms, margin 700ms;
 	}
 
 	#title {
@@ -640,6 +640,22 @@ body {
 		justify-self: start;
 		font-size: var(--tab-font-S);
 		padding-left: 4px;
+		cursor: pointer;
+	}
+
+	#about-rollover {
+		grid-column: 14 / 20;
+		grid-row: 2 / 5;
+		overflow: hidden;
+	}
+
+	.black-square {
+		width: 100%;
+		height: 100%;
+		background-color: var(--dark-color);
+		transform: translateX(-101%);
+		transition: transform 300ms cubic-bezier(0.79,0.14,0.15,0.86);
+		z-index: 3;
 	}
 
 	#contact {
@@ -699,6 +715,48 @@ body {
 		padding-top: 0.6vw;
 		padding-left: 0.6vw;
 		width: 100%;
+	}
+
+/*-----------------------------------ABOUT ME---------------------------------*/
+
+	#about-window {
+		grid-column: 14 / 20;
+		grid-row: 2 / 5;
+		width: 100%;
+		height: 100%;
+		background-color: var(--dark-color);
+		transition: transform 800ms cubic-bezier(0.79,0.14,0.15,0.86),
+					grid-column 800ms cubic-bezier(0.79,0.14,0.15,0.86),
+					grid-row 800ms cubic-bezier(0.79,0.14,0.15,0.86);
+		z-index: 5;
+	}
+
+	#about-info {
+		grid-column: 5 / 24;
+		grid-row: 13 / 19;
+		place-self: start;
+		font-size: var(--tab-font-S);
+		color: var(--off-white);
+		z-index: 6;
+	}
+
+	#about-pic {
+		grid-column: 5 / 24;
+		grid-row: 20 / 39;
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		z-index: 6;
+	}
+
+	#about-close {
+		grid-column: 28 / 31;
+		grid-row: 3 / 6;
+		justify-self: end;
+		align-self: start;
+		width: 5vw;
+		padding: 0;
+		z-index: 6;
 	}
 
 /*---------------------------------PROJECT FEED-------------------------------*/
@@ -800,7 +858,7 @@ body {
 		font-size: var(--mob-font-XL);
 		line-height: 16vw;
 		z-index: 6;
-		transition: color 500ms;
+		transition: color 500ms, margin 700ms;
 	}
 
 	#title {
@@ -829,6 +887,22 @@ body {
 		justify-self: start;
 		font-size: var(--mob-font-S);
 		padding-left: 4px;
+		cursor: pointer;
+	}
+
+	#about-rollover {
+		grid-column: 14 / 20;
+		grid-row: 2 / 5;
+		overflow: hidden;
+	}
+
+	.black-square {
+		width: 100%;
+		height: 100%;
+		background-color: var(--dark-color);
+		transform: translateX(-101%);
+		transition: transform 300ms cubic-bezier(0.79,0.14,0.15,0.86);
+		z-index: 3;
 	}
 
 	#contact {
@@ -860,6 +934,48 @@ body {
 		transform: rotate(135deg);
 		margin-left: 0.5px;
 		margin-top: 6px;
+	}
+
+/*-----------------------------------ABOUT ME---------------------------------*/
+
+	#about-window {
+		grid-column: 14 / 20;
+		grid-row: 2 / 5;
+		width: 100%;
+		height: 100%;
+		background-color: var(--dark-color);
+		transition: transform 800ms cubic-bezier(0.79,0.14,0.15,0.86),
+					grid-column 800ms cubic-bezier(0.79,0.14,0.15,0.86),
+					grid-row 800ms cubic-bezier(0.79,0.14,0.15,0.86);
+		z-index: 5;
+	}
+
+	#about-info {
+		grid-column: 5 / 29;
+		grid-row: 16 / 23;
+		place-self: start;
+		font-size: var(--mob-font-XS);
+		color: var(--off-white);
+		z-index: 6;
+	}
+
+	#about-pic {
+		grid-column: 5 / 29;
+		grid-row: 25 / 49;
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		z-index: 6;
+	}
+
+	#about-close {
+		grid-column: 28 / 31;
+		grid-row: 3 / 6;
+		justify-self: end;
+		align-self: start;
+		width: 5vw;
+		padding: 0;
+		z-index: 6;
 	}
 
 /*---------------------------------PROJECT FEED-------------------------------*/

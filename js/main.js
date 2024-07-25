@@ -52,6 +52,7 @@ function hideElements() {
 	var developer = document.getElementById("developer");
 	if (vw > 900) {
 		linkedIn.classList.remove("hidden");
+		linkedIn.nextElementSibling.classList.remove("hidden");
 		dateTime.classList.remove("hidden");
 		developer.classList.remove("hidden");
 		projectRows.forEach((row) => {
@@ -63,6 +64,7 @@ function hideElements() {
 		});
 	} else if (vw > 600) {
 		linkedIn.classList.add("hidden");
+		linkedIn.nextElementSibling.classList.add("hidden");
 		dateTime.classList.remove("hidden");
 		developer.classList.remove("hidden");
 		projectRows.forEach((row) => {
@@ -78,6 +80,7 @@ function hideElements() {
 		});
 	} else {
 		linkedIn.classList.add("hidden");
+		linkedIn.nextElementSibling.classList.add("hidden");
 		dateTime.classList.add("hidden");
 		developer.classList.add("hidden");
 		projectRows.forEach((row) => {
@@ -370,12 +373,13 @@ aboutMe.addEventListener("click", function() {
 	var aboutInfo = homepageInfo.querySelector("#about-info");
 	var aboutPic = homepageInfo.querySelector("#about-pic");
 	var scrollIcon = homepageInfo.querySelector("#scroll");
+	// remove hidden class from hidden elements (still invisible except window)
+	aboutInfo.classList.remove("hidden");
+	aboutPic.classList.remove("hidden");
+	aboutClose.classList.remove("hidden");
 	if (vw > 900) {
-		// 1. remove hidden class from hidden elements (still invisible except window)
+		// 1. remove hidden class from about window, making it visible
 		aboutWindow.classList.remove("hidden");
-		aboutInfo.classList.remove("hidden");
-		aboutPic.classList.remove("hidden");
-		aboutClose.classList.remove("hidden");
 		setTimeout(function() {
 			// 2. set name to white
 			homepageInfo.querySelector("#name").style.color = offWhite;
@@ -390,12 +394,44 @@ aboutMe.addEventListener("click", function() {
 				aboutPic.style.filter = "blur(0px)";
 				aboutClose.style.opacity = "1";
 				aboutClose.style.filter = "blur(0px)";
-				// 5. prevent scrill
+				// 5. prevent scroll
 				scrollIcon.style.opacity = "0";
 				projectFeed.style.overflow = "hidden";
 				document.body.style.overflow = "hidden";
 			}, 500);
 		}, 100);
+	} else { // for tablet and mobile only
+		// 1. animate black square across sho logo
+		var blackSquare = aboutMe.nextElementSibling.querySelector(".black-square");
+		blackSquare.style.transform = "translateX(0)";
+		setTimeout(function() {
+			// 2. remove hidden class from about window, making it visible
+			aboutWindow.classList.remove("hidden");
+			setTimeout(function() {
+				// 2. set name to white and shift up
+				homepageInfo.querySelector("#name").style.color = offWhite;
+				if (vw > 600) {
+					homepageInfo.querySelector("#name").style.marginTop = "-28vw";
+				} else {
+					homepageInfo.querySelector("#name").style.marginTop = "-44vw";
+				}
+				// 3. transform window to fill screen
+				aboutWindow.style.transform = "scale(6,50)";
+				setTimeout(function() {
+					// 4. fade in all about me info
+					aboutInfo.style.opacity = "1";
+					aboutInfo.style.filter = "blur(0px)";
+					aboutPic.style.opacity = "1";
+					aboutPic.style.filter = "blur(0px)";
+					aboutClose.style.opacity = "1";
+					aboutClose.style.filter = "blur(0px)";
+					// 5. prevent scroll
+					scrollIcon.style.opacity = "0";
+					projectFeed.style.overflow = "hidden";
+					document.body.style.overflow = "hidden";
+				}, 500);
+			}, 100);
+		}, 300);
 	}
 });
 
@@ -404,18 +440,18 @@ aboutClose.addEventListener("click", function() {
 	var aboutInfo = homepageInfo.querySelector("#about-info");
 	var aboutPic = homepageInfo.querySelector("#about-pic");
 	var scrollIcon = homepageInfo.querySelector("#scroll");
+	// 1. allow scroll
+	scrollIcon.style.opacity = "1";
+	projectFeed.style.overflow = "scroll";
+	document.body.style.overflow = "auto";
+	// 2. fade out all about me info
+	aboutInfo.style.opacity = "0";
+	aboutInfo.style.filter = "blur(4px)";
+	aboutPic.style.opacity = "0";
+	aboutPic.style.filter = "blur(4px)";
+	aboutClose.style.opacity = "0";
+	aboutClose.style.filter = "blur(4px)";
 	if (vw > 900) {
-		// 1. allow scroll
-		scrollIcon.style.opacity = "1";
-		projectFeed.style.overflow = "scroll";
-		document.body.style.overflow = "auto";
-		// 2. fade out all about me info
-		aboutInfo.style.opacity = "0";
-		aboutInfo.style.filter = "blur(4px)";
-		aboutPic.style.opacity = "0";
-		aboutPic.style.filter = "blur(4px)";
-		aboutClose.style.opacity = "0";
-		aboutClose.style.filter = "blur(4px)";
 		setTimeout(function() {
 			// 3. transform window back to single square
 			aboutWindow.style.transform = "translate(0,0) scale(1,1)";
@@ -434,9 +470,30 @@ aboutClose.addEventListener("click", function() {
 				aboutPic.classList.add("hidden");
 				aboutClose.classList.add("hidden");
 				// 7. reset about square to mouseout position
-				blackSquare.style.transform = "translateX(-100%)";
+				blackSquare.style.transform = "translateX(-101%)";
 				aboutMe.style.color = darkColor;
 				aboutMe.querySelector(".side-arrow").style.filter = "invert(0)";
+			}, 700);
+		}, 500);
+	} else { // for tablet and mobile only
+		setTimeout(function() {
+			// 3. transform window back to single square
+			aboutWindow.style.transform = "scale(1,1)";
+			aboutWindow.style.margin = "0";
+			// 4. set name back to black and shift down
+			homepageInfo.querySelector("#name").style.color = darkColor;
+			homepageInfo.querySelector("#name").style.marginTop = "0";
+			// 5. reset about square to mouseover position
+			var blackSquare = aboutMe.nextElementSibling.querySelector(".black-square");
+			blackSquare.style.transform = "translateX(0)";
+			setTimeout(function() {
+				// 6. add hidden class back to hidden elements
+				aboutWindow.classList.add("hidden");
+				aboutInfo.classList.add("hidden");
+				aboutPic.classList.add("hidden");
+				aboutClose.classList.add("hidden");
+				// 7. reset about square to mouseout position
+				blackSquare.style.transform = "translateX(-101%)";
 			}, 700);
 		}, 500);
 	}
@@ -454,7 +511,7 @@ aboutMe.addEventListener("mouseover", function() {
 aboutMe.addEventListener("mouseout", function() {
 	if (vw > 900) {
 		var blackSquare = aboutMe.nextElementSibling.querySelector(".black-square");
-		blackSquare.style.transform = "translateX(-100%)";
+		blackSquare.style.transform = "translateX(-101%)";
 		aboutMe.style.color = darkColor;
 		aboutMe.querySelector(".side-arrow").style.filter = "invert(0)";
 	}
@@ -472,7 +529,7 @@ contactMe.addEventListener("mouseover", function() {
 contactMe.addEventListener("mouseout", function() {
 	if (vw > 900) {
 		var blackSquare = contactMe.nextElementSibling.querySelector(".black-square");
-		blackSquare.style.transform = "translateX(-100%)";
+		blackSquare.style.transform = "translateX(-101%)";
 		contactMe.style.color = darkColor;
 		contactMe.querySelector(".side-arrow").style.filter = "invert(0)";
 	}
@@ -487,7 +544,7 @@ linkedIn.addEventListener("mouseover", function() {
 
 linkedIn.addEventListener("mouseout", function() {
 	var blackSquare = linkedIn.nextElementSibling.querySelector(".black-square");
-	blackSquare.style.transform = "translateX(-100%)";
+	blackSquare.style.transform = "translateX(-101%)";
 	linkedIn.style.color = darkColor;
 	linkedIn.querySelector(".side-arrow").style.filter = "invert(0)";
 });
