@@ -4,6 +4,27 @@
 
 /*----------------------------------ALL PAGES---------------------------------*/
 
+@font-face {
+	font-family: "ABCDiatypeSemiMono";
+	src: url("../fonts/ABCDiatypeSemi-Mono-Medium.ttf") format("truetype");
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "ABCDiatypeSemiMono";
+	src: url("../fonts/ABCDiatypeSemi-Mono-Regular.ttf") format("truetype");
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "ABCDiatypeSemiMono";
+	src: url("../fonts/ABCDiatypeSemi-Mono-Light.ttf") format("truetype");
+	font-weight: 200;
+	font-style: normal;
+}
+
 *, *::before, *::after {
 	box-sizing: border-box;
 }
@@ -15,21 +36,21 @@
 	--dark-grid: #9F9581;
 	--light-color: #ffffff;
 	--dark-color: #000000;
-	--desk-font-XL: min(4.7vw, 90px);
+	--desk-font-XL: min(4.3vw, 90px);
 	--desk-font-L: min(2.8vw, 54px);
-	--desk-font-M: min(1.2vw, 28px);
-	--desk-font-S: min(1.0vw, 24px);
-	--desk-font-XS: min(0.75vw, 14px);
-	--tab-font-XL: 13vw;
+	--desk-font-M: min(1.1vw, 28px);
+	--desk-font-S: min(0.95vw, 24px);
+	--desk-font-XS: min(0.65vw, 14px);
+	--tab-font-XL: 12.1vw;
 	--tab-font-L: 5vw;
 	--tab-font-M: 3.4vw;
-	--tab-font-S: 2vw;
+	--tab-font-S: 1.85vw;
 	--tab-font-XS: 1.4vw;
-	--mob-font-XL: 16.6vw;
+	--mob-font-XL: 15.1vw;
 	--mob-font-L: 9vw;
 	--mob-font-M: 4.6vw;
 	--mob-font-S: 3.2vw;
-	--mob-font-XS: 2.6vw;
+	--mob-font-XS: 2.4vw;
 }
 
 html {
@@ -39,8 +60,7 @@ html {
 
 body {
 	background-color: var(--off-white);
-	/*font-family: "Inter", sans-serif;*/
-	font-family: "Figtree", sans-serif;
+	font-family: "ABCDiatypeSemiMono", sans-serif;
 	font-weight: 300;
 	font-optical-sizing: auto;
 	margin: 0;
@@ -86,6 +106,7 @@ body {
 	width: 100%;
 	height: 100vh;
 	height: 100dvh;
+	font-weight: 200;
 	z-index: 1;
 	overflow: hidden;
 	transition: opacity 500ms ease-out, filter 500ms ease-out;
@@ -135,14 +156,13 @@ body {
 
 #homepage-info > * {
 	margin: 0;
-	font-weight: 500;
 	opacity: 0;
 	filter: blur(4px);
 	transition: opacity 500ms ease-out, filter 500ms ease-out, color 500ms ease-out;
 }
 
-#skills, #date-time,#developer, #about-info {
-	font-weight: 300;
+#date-time, #developer, #about-info {
+	font-weight: 200;
 }
 
 #scroll {
@@ -212,12 +232,12 @@ body {
 .project-text {
 	opacity: 0;
 	filter: blur(4px);
-	font-weight: 300;
+	font-weight: 200;
 	transition: opacity 500ms ease-out, filter 500ms ease-out;
 }
 
 .project-text-repeat {
-	font-weight: 300;
+	font-weight: 200;
 }
 
 .project-text span, .project-text-repeat span {
@@ -336,7 +356,7 @@ body {
 		place-self: start;
 		padding: 1.7vw;
 		font-size: var(--desk-font-XL);
-		line-height: 4.6vw;
+		line-height: 4.4vw;
 		z-index: 6;
 	}
 
@@ -440,7 +460,6 @@ body {
 
 	.side-arrow {
 		width: 0.6vw;
-		margin-left: 4px;
 	}
 
 	.down-arrow {
@@ -486,7 +505,7 @@ body {
 		grid-column: 2 / 4;
 		grid-row: 3 / 4;
 		place-self: start;
-		font-size: var(--desk-font-XS);
+		font-size: 0.8vw;
 		color: var(--off-white);
 		padding: 1.7vw;
 		z-index: 6;
@@ -609,7 +628,7 @@ body {
 		align-self: center;
 		justify-self: start;
 		font-size: var(--tab-font-XL);
-		line-height: 11.5vw;
+		line-height: 11vw;
 		z-index: 6;
 		transition: color 500ms, margin 700ms;
 	}
