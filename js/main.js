@@ -208,7 +208,6 @@ window.onresize = function() {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-	screen.orientation.lock("natural"); // prevent landscape orientation
 	hideElements(); // hides any elements that need to be hidden
 	percentLoad(); // runs preloader percent animation
 	animateLogo(); // runs SHO logo animation during preloader
