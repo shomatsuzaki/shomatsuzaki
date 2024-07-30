@@ -207,6 +207,29 @@ window.onresize = function() {
 	}
 };
 
+// adjust for change from portrait to landscape
+if (screen.orientation) {
+    screen.orientation.addEventListener("change", function() {
+        if (screen.orientation.type.includes("portrait")) {
+            if (!inFeedView) {
+            	window.scrollTo(0,0);
+            	projectFeed.style.overflow = "scroll";
+				document.body.style.overflow = "auto";
+            } else if (!inProjectView) {
+            	window.scrollTo(0, document.body.scrollHeight);
+            	projectFeed.style.overflow = "scroll";
+				document.body.style.overflow = "auto";
+            } else {
+            	window.scrollTo(0, document.body.scrollHeight);
+            	projectFeed.style.overflow = "hidden";
+				document.body.style.overflow = "hidden";
+            }
+        }
+    });
+} else {
+    console.log("Screen Orientation API is not supported on this device.");
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 	hideElements(); // hides any elements that need to be hidden
 	percentLoad(); // runs preloader percent animation
