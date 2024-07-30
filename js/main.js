@@ -211,18 +211,29 @@ window.onresize = function() {
 if (screen.orientation) {
     screen.orientation.addEventListener("change", function() {
         if (screen.orientation.type.includes("portrait")) {
-            if (!inFeedView) {
-            	window.scrollTo(0,0);
+        	if (!isLoaded) {
+        		window.scrollTo(0,0);
             	projectFeed.style.overflow = "scroll";
 				document.body.style.overflow = "auto";
-            } else if (!inProjectView) {
+				console.log("Returned to portrait from load screen");
+        	}
+        	if (isLoaded && !inFeedView) {
+        		window.scrollTo(0,0);
+            	projectFeed.style.overflow = "scroll";
+				document.body.style.overflow = "auto";
+				console.log("Returned to portrait from homepage");
+        	}
+            if (inFeedView) {
             	window.scrollTo(0, document.body.scrollHeight);
             	projectFeed.style.overflow = "scroll";
 				document.body.style.overflow = "auto";
-            } else {
+				console.log("Returned to portrait from project feed");
+            }
+            if (inProjectView) {
             	window.scrollTo(0, document.body.scrollHeight);
             	projectFeed.style.overflow = "hidden";
 				document.body.style.overflow = "hidden";
+				console.log("Returned to portrait from individual project view");
             }
         }
     });
