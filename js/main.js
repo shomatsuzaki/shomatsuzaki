@@ -208,8 +208,8 @@ window.onresize = function() {
 };
 
 // prevent landscape orientation
-var myScreenOrientation = window.screen.orientation;
-myScreenOrientation.lock("portrait");
+let myScreenOrientation = window.screen.orientation;
+myScreenOrientation.lock("natural");
 
 document.addEventListener("DOMContentLoaded", () => {
 	hideElements(); // hides any elements that need to be hidden
