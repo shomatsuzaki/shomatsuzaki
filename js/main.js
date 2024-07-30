@@ -208,38 +208,44 @@ window.onresize = function() {
 };
 
 // adjust for change from portrait to landscape
-if (screen.orientation) {
-    screen.orientation.addEventListener("change", function() {
-        if (screen.orientation.type.includes("portrait")) {
-        	if (!isLoaded) {
-        		window.scrollTo(0,0);
-            	projectFeed.style.overflow = "scroll";
-				document.body.style.overflow = "auto";
-				console.log("Returned to portrait from load screen");
-        	}
-        	if (isLoaded && !inFeedView) {
-        		window.scrollTo(0,0);
-            	projectFeed.style.overflow = "scroll";
-				document.body.style.overflow = "auto";
-				console.log("Returned to portrait from homepage");
-        	}
-            if (inFeedView) {
-            	window.scrollTo(0, document.body.scrollHeight);
-            	projectFeed.style.overflow = "scroll";
-				document.body.style.overflow = "auto";
-				console.log("Returned to portrait from project feed");
-            }
-            if (inProjectView) {
-            	window.scrollTo(0, document.body.scrollHeight);
-            	projectFeed.style.overflow = "hidden";
-				document.body.style.overflow = "hidden";
-				console.log("Returned to portrait from individual project view");
-            }
-        }
-    });
-} else {
-    console.log("Screen Orientation API is not supported on this device.");
-}
+screen.orientation.addEventListener("change", function() {
+	var noLandscape = document.getElementById("no-landscape");
+	if (screen.orientation.type.includes("landscape")) {
+		if (!inProjectView) {
+			noLandscape.classList.remove("hidden");
+			document.body.style.overflow = "hidden";
+		}
+	}
+	else if (screen.orientation.type.includes("portrait")) {
+		noLandscape.classList.add("hidden");
+		document.body.style.overflow = "hidden";
+		if (!isLoaded) {
+			window.scrollTo(0,0);
+	    	projectFeed.style.overflow = "scroll";
+			document.body.style.overflow = "auto";
+			console.log("Returned to portrait from load screen");
+		}
+		if (isLoaded && !inFeedView) {
+			window.scrollTo(0,0);
+	    	projectFeed.style.overflow = "scroll";
+			document.body.style.overflow = "auto";
+			console.log("Returned to portrait from homepage");
+		}
+	    if (inFeedView) {
+	    	window.scrollTo(0, document.body.scrollHeight);
+	    	projectFeed.scrollTo(0, 0);
+	    	projectFeed.style.overflow = "scroll";
+			document.body.style.overflow = "auto";
+			console.log("Returned to portrait from project feed");
+	    }
+	    if (inProjectView) {
+	    	window.scrollTo(0, document.body.scrollHeight);
+	    	projectFeed.style.overflow = "hidden";
+			document.body.style.overflow = "hidden";
+			console.log("Returned to portrait from individual project view");
+	    }
+    }
+});
 
 document.addEventListener("DOMContentLoaded", () => {
 	hideElements(); // hides any elements that need to be hidden

@@ -77,9 +77,10 @@ body {
 #no-landscape {
 	position: fixed;
 	inset: 0;
-	display: none;
-	visibility: hidden;
-	opacity: 0;
+	display: flex;
+/*	display: none;*/
+/*	visibility: hidden;*/
+/*	opacity: 0;*/
 	justify-content: center;
     align-items: center;
     height: 100vh;
@@ -1077,7 +1078,7 @@ body {
 /*--------------------CHECK FOR MOBILE/TABLET LANDSCAPE-----------------------*/
 /*----------------------------------------------------------------------------*/
 
-@media screen and (pointer: coarse) and (orientation: landscape) {
+/*@media screen and (pointer: coarse) and (orientation: landscape) {
 
 	#no-landscape {
 		display: flex;
@@ -1089,7 +1090,7 @@ body {
 		overflow: hidden;
 	}
 
-}
+}*/
 
 /*----------------------------------------------------------------------------*/
 /*-----------------------------------END--------------------------------------*/
