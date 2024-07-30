@@ -65,12 +65,28 @@ body {
 	font-optical-sizing: auto;
 	margin: 0;
 	padding: 0;
+	color: var(--dark-color);
 }
 
 .hidden {
 	display: none;
 	visibility: hidden;
 	opacity: 0;
+}
+
+#no-landscape {
+	position: fixed;
+	inset: 0;
+	display: none;
+	visibility: hidden;
+	opacity: 0;
+	justify-content: center;
+    align-items: center;
+    height: 100vh;
+    height: 100dvh;
+    text-align: center;
+    background-color: var(--off-white);
+    z-index: 999;
 }
 
 /*-----------------------------GRID+LOGO+PRELOADER----------------------------*/
@@ -1058,9 +1074,22 @@ body {
 }
 
 /*----------------------------------------------------------------------------*/
-/*---------------------NEED CHECK FOR MOBILE LANDSCAPE------------------------*/
+/*--------------------CHECK FOR MOBILE/TABLET LANDSCAPE-----------------------*/
 /*----------------------------------------------------------------------------*/
 
+@media screen and (pointer: coarse) and (orientation: landscape) {
+
+	#no-landscape {
+		display: flex;
+		visibility: visible;
+		opacity: 1;
+	}
+
+	body {
+		overflow: hidden;
+	}
+
+}
 
 /*----------------------------------------------------------------------------*/
 /*-----------------------------------END--------------------------------------*/
