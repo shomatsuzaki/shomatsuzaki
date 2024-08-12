@@ -248,7 +248,7 @@ screen.orientation.addEventListener("change", function() {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-	hideElements(); // hides any elements that need to be hidden
+	hideElements(); // hides any elements that need to be hidden for responsiveness
 	percentLoad(); // runs preloader percent animation
 	animateLogo(); // runs SHO logo animation during preloader
 	displayTime(); // runs current time display in homepage info
@@ -360,14 +360,17 @@ function animateGrid() {
 		mobEndTop = mobHeight/-2 + 2.5*1/32*vw; // each square is 1/32 vw, need to move grid up half vh then down 2.5 squares
 	var handler = setInterval(function() {
 		if (frame > totalFrames) {
-			//make homepage info children visible
-			var homeChildren = homepageInfo.querySelectorAll("div:not(#about-info), a");
-			for (var i = 0; i < homeChildren.length; i++) {
-				homeChildren[i].style.opacity = "1";
-				homeChildren[i].style.filter = "blur(0px)";
-			}
-			//stop animation
-			clearInterval(handler);
+			homepageInfo.classList.remove("hidden");
+			setTimeout(function() {
+				//make homepage info children visible
+				var homeChildren = homepageInfo.querySelectorAll("div:not(#about-info), a");
+				for (var i = 0; i < homeChildren.length; i++) {
+					homeChildren[i].style.opacity = "1";
+					homeChildren[i].style.filter = "blur(0px)";
+				}
+				//stop animation
+				clearInterval(handler);
+			}, 100);
 		} else if (frame >= 0) {
 			// desktop animation
 			if (vw > 900) {
@@ -417,6 +420,7 @@ aboutMe.addEventListener("click", function() {
 	aboutInfo.classList.remove("hidden");
 	aboutPic.classList.remove("hidden");
 	aboutClose.classList.remove("hidden");
+	document.body.style.cursor = "url('./images/red-dot.svg') 10 10, auto";
 	if (vw > 900) {
 		// 1. remove hidden class from about window, making it visible
 		aboutWindow.classList.remove("hidden");
@@ -491,6 +495,7 @@ aboutClose.addEventListener("click", function() {
 	aboutPic.style.filter = "blur(4px)";
 	aboutClose.style.opacity = "0";
 	aboutClose.style.filter = "blur(4px)";
+	document.body.style.cursor = "url('./images/blue-dot.svg') 10 10, auto";
 	if (vw > 900) {
 		setTimeout(function() {
 			// 3. transform window back to single square
@@ -716,6 +721,7 @@ function scrollAnimation() {
 				projChildren[i].style.opacity = "0";
 				projChildren[i].style.filter = "blur(4px)";
 			}
+			document.body.style.cursor = "url('./images/blue-dot.svg') 10 10, auto";
 		} else {
 			projectFeed.style.overflow = "scroll";
 			inFeedView = true;
@@ -724,6 +730,7 @@ function scrollAnimation() {
 				projChildren[i].style.opacity = "1";
 				projChildren[i].style.filter = "blur(0px)";
 			}
+			document.body.style.cursor = "url('./images/yellow-dot.svg') 10 10, auto";
 		}
 		
 		// change grid stroke color to fully dark

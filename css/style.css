@@ -59,6 +59,7 @@ html {
 }
 
 body {
+	cursor: url("../images/blue-dot.svg") 10 10, auto;
 	background-color: var(--off-white);
 	font-family: "ABCDiatypeSemiMono", sans-serif;
 	font-weight: 300;
@@ -204,7 +205,6 @@ body {
 
 #about-close:hover {
 	transform: rotate(180deg);
-	cursor: pointer;
 }
 
 #about-info {
@@ -229,10 +229,10 @@ body {
 .project-row {
 	display: contents;
 }
-
+/*
 .project-row:hover > * {
-	cursor: pointer;
-}
+	cursor: url("../images/yellow-dot.svg") 10 10, auto;
+}*/
 
 .project-cell {
 	border: 0.5px var(--dark-grid) solid;
@@ -285,9 +285,9 @@ body {
 				opacity 500ms;
 }
 
-.project-view:hover {
-	cursor: auto;
-}
+/*.project-view:hover {
+	cursor: url("../images/yellow-dot.svg") 10 10, auto;
+}*/
 
 .flex-container {
 	display: flex;
@@ -309,7 +309,6 @@ body {
 
 .project-close:hover {
 	transform: rotate(180deg);
-	cursor: pointer;
 }
 
 .project-desc {
@@ -402,7 +401,7 @@ body {
 		width: 100%;
 		height: 100%;
 		font-size: var(--desk-font-S);
-		cursor: pointer;
+		cursor: url("../images/red-dot.svg") 10 10, auto;
 		z-index: 4;
 		transition: color 300ms, filter 500ms;
 	}
@@ -431,7 +430,7 @@ body {
 		width: 100%;
 		height: 100%;
 		font-size: var(--desk-font-S);
-		cursor: pointer;
+		cursor: url("../images/red-dot.svg") 10 10, auto;
 		text-decoration: none;
 		color: inherit;
 		z-index: 4;
@@ -452,7 +451,7 @@ body {
 		width: 100%;
 		height: 100%;
 		font-size: var(--desk-font-S);
-		cursor: pointer;
+		cursor: url("../images/red-dot.svg") 10 10, auto;
 		text-decoration: none;
 		color: inherit;
 		z-index: 4;
@@ -676,7 +675,6 @@ body {
 		justify-self: start;
 		font-size: var(--tab-font-S);
 		padding-left: 4px;
-		cursor: pointer;
 	}
 
 	#about-rollover {
@@ -923,7 +921,6 @@ body {
 		justify-self: start;
 		font-size: var(--mob-font-S);
 		padding-left: 4px;
-		cursor: pointer;
 	}
 
 	#about-rollover {
