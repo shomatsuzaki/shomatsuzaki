@@ -361,6 +361,7 @@ function animateGrid() {
 	var handler = setInterval(function() {
 		if (frame > totalFrames) {
 			homepageInfo.classList.remove("hidden");
+			document.body.style.overflow = "auto";
 			setTimeout(function() {
 				//make homepage info children visible
 				var homeChildren = homepageInfo.querySelectorAll("div:not(#about-info), a");
@@ -666,23 +667,18 @@ function scrollAnimation() {
 		}
 
 		// control homepage info appear and disappearing
-		// if user started to scroll down
-		if (scrollVal > 0 && scrollDirection) {
-			// make homepage info children disappear
-			var homeChildren = homepageInfo.querySelectorAll("div");
-			for (var i = 0; i < homeChildren.length; i++) {
-				homeChildren[i].style.opacity = "0";
-				homeChildren[i].style.filter = "blur(4px)";
-			}
-		}
-		// if user is about to scroll back up to the very top
-		else if (scrollVal < 0.2 && !scrollDirection) {
-			// bring homepage info back
-			var homeChildren = homepageInfo.querySelectorAll("div");
-			for (var i = 0; i < homeChildren.length; i++) {
-				homeChildren[i].style.opacity = "1";
-				homeChildren[i].style.filter = "blur(0px)";
-			}
+		// when scrollVal = 0, blur = 0; when scrollVal = 0.2, blur = 4
+		var blurAmount = Math.min(4, scrollVal * 20);
+		homepageInfo.style.filter = "blur(" + blurAmount + "px)";
+		// when scrollVal = 0, opacity = 1; when scrollVal = 0.2, opacity = 0
+		var opacityAmount = Math.max(0, (1 - scrollVal*5));
+		homepageInfo.style.opacity = opacityAmount + "";
+
+		//control homepage info being hidden or not
+		if (scrollVal >= 0.2 && !homepageInfo.classList.contains("hidden")) {
+			homepageInfo.classList.add("hidden");
+		} else if (scrollVal <= 0.2 && homepageInfo.classList.contains("hidden")) {
+			homepageInfo.classList.remove("hidden");
 		}
 
 		// control grid zooming in/out between 0% and 90% scroll
