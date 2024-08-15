@@ -421,7 +421,7 @@ aboutMe.addEventListener("click", function() {
 	aboutInfo.classList.remove("hidden");
 	aboutPic.classList.remove("hidden");
 	aboutClose.classList.remove("hidden");
-	document.body.style.cursor = "url('./images/red-dot.svg') 10 10, auto";
+	document.body.style.cursor = "url('./icons/red-dot.svg') 10 10, auto";
 	if (vw > 900) {
 		// 1. remove hidden class from about window, making it visible
 		aboutWindow.classList.remove("hidden");
@@ -496,7 +496,7 @@ aboutClose.addEventListener("click", function() {
 	aboutPic.style.filter = "blur(4px)";
 	aboutClose.style.opacity = "0";
 	aboutClose.style.filter = "blur(4px)";
-	document.body.style.cursor = "url('./images/blue-dot.svg') 10 10, auto";
+	document.body.style.cursor = "url('./icons/blue-dot.svg') 10 10, auto";
 	if (vw > 900) {
 		setTimeout(function() {
 			// 3. transform window back to single square
@@ -717,7 +717,7 @@ function scrollAnimation() {
 				projChildren[i].style.opacity = "0";
 				projChildren[i].style.filter = "blur(4px)";
 			}
-			document.body.style.cursor = "url('./images/blue-dot.svg') 10 10, auto";
+			document.body.style.cursor = "url('./icons/blue-dot.svg') 10 10, auto";
 		} else {
 			projectFeed.style.overflow = "scroll";
 			inFeedView = true;
@@ -726,7 +726,7 @@ function scrollAnimation() {
 				projChildren[i].style.opacity = "1";
 				projChildren[i].style.filter = "blur(0px)";
 			}
-			document.body.style.cursor = "url('./images/yellow-dot.svg') 10 10, auto";
+			document.body.style.cursor = "url('./icons/yellow-dot.svg') 10 10, auto";
 		}
 		
 		// change grid stroke color to fully dark
