@@ -62,7 +62,7 @@ body {
 	cursor: url("../icons/blue-dot.svg") 10 10, auto;
 	background-color: var(--off-white);
 	font-family: "ABCDiatypeSemiMono", sans-serif;
-	font-weight: 300;
+	font-weight: 200;
 	font-optical-sizing: auto;
 	margin: 0;
 	padding: 0;
@@ -180,15 +180,21 @@ body {
 	transition: opacity 500ms ease-out, filter 500ms ease-out, color 500ms ease-out;
 }
 
-#date-time, #developer, #about-info {
-	font-weight: 200;
+#name {
+	font-weight: 300;
+}
+
+#title, #about, #contact, #linkedin {
+	text-decoration: none;
+	color: inherit;
+	font-weight: 500;
 }
 
 #scroll {
 	text-shadow: 0 0 16px var(--off-white);
 	animation: float 3800ms ease-in-out infinite;
 	transition: opacity 700ms 500ms ease-out, filter 700ms 500ms ease-out;
-
+	font-weight: 500;
 }
 
 @keyframes float {
@@ -210,11 +216,6 @@ body {
 
 #about-info {
 	text-align: justify;
-}
-
-#contact, #linkedin {
-	text-decoration: none;
-	color: inherit;
 }
 
 /*---------------------------------PROJECT FEED-------------------------------*/
@@ -251,12 +252,7 @@ body {
 .project-text {
 	opacity: 0;
 	filter: blur(4px);
-	font-weight: 200;
 	transition: opacity 500ms ease-out, filter 500ms ease-out;
-}
-
-.project-text-repeat {
-	font-weight: 200;
 }
 
 .project-text span, .project-text-repeat span {
@@ -312,7 +308,6 @@ body {
 .project-desc {
 	opacity: 0;
 	transition: opacity 1000ms;
-	font-weight: 200;
 }
 
 .project-link {
@@ -396,8 +391,8 @@ body {
 		justify-self: end;
 		text-align: right;
 		font-size: var(--desk-font-S);
-		font-weight: 200;
 		line-height: 1.4vw;
+		color: var(--dark-grid);
 	}
 
 	#about {
@@ -495,6 +490,7 @@ body {
 		writing-mode: vertical-rl;
 		border-top: 1px var(--dark-grid) solid;
 		margin-bottom: -1px;
+		color: var(--dark-grid);
 	}
 
 	#developer {
@@ -506,6 +502,7 @@ body {
 		transform: rotate(180deg);
 		border-top: 1px var(--dark-grid) solid;
 		margin-bottom: -1px;
+		color: var(--dark-grid);
 	}
 
 /*-----------------------------------ABOUT ME---------------------------------*/
