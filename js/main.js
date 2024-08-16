@@ -877,11 +877,11 @@ function openProject(row, index) {
 		// 7. after another 500ms, animate in project view elements
 		projectView.querySelector(".project-close").classList.remove("hidden");
 		projectView.querySelector(".project-desc").classList.remove("hidden");
-		projectView.querySelector(".video").classList.remove("hidden");
+		projectView.querySelector(".content").classList.remove("hidden");
 		setTimeout(function() {
 			projectView.querySelector(".project-close").style.opacity = "1";
 			projectView.querySelector(".project-desc").style.opacity = "1";
-			projectView.querySelector(".video").style.opacity = "1";
+			projectView.querySelector(".content").style.opacity = "1";
 		}, 500);
 	}, 100);
 }
@@ -890,18 +890,33 @@ function openProject(row, index) {
 //                              INDIVIDUAL PROJECT                            //
 ////////////////////////////////////////////////////////////////////////////////
 
+// function for pausing embedded video
+function stopVideo(element) {
+	var iframe = element.querySelector("iframe");
+	var video = element.querySelector("video");
+	if (iframe) {
+		var iframeSrc = iframe.src;
+		iframe.src = iframeSrc;
+	}
+	if (video) {
+		video.pause();
+	}
+}
+
 projectCloses.forEach((close, index) => {
 	close.addEventListener("click", function() {
 		var projectView = close.parentNode;
-		// 1. hide all project view elements except project info
+		// 1. pause any video playing
+		stopVideo(projectView);
+		// 2. hide all project view elements except project info
 		close.style.opacity = "0";
 		projectView.querySelector(".project-desc").style.opacity = "0";
-		projectView.querySelector(".video").style.opacity = "0";
+		projectView.querySelector(".content").style.opacity = "0";
 		setTimeout(function() {
 			close.classList.add("hidden");
 			projectView.querySelector(".project-desc").classList.add("hidden");
-			projectView.querySelector(".video").classList.add("hidden");
-			// 2. shrink project view and re-align to project info cell
+			projectView.querySelector(".content").classList.add("hidden");
+			// 3. shrink project view and re-align to project info cell
 			projectView.style.top = infoTop + "px";
 			projectView.style.left = infoLeft + "px";
 			if (vw > 900) {
@@ -918,16 +933,16 @@ projectCloses.forEach((close, index) => {
 				projectView.style.paddingTop = .05*vw + "px";
 			}
 			inProjectView = false;
-			// 3. allow user to scroll again
+			// 4. allow user to scroll again
 			projectFeed.style.overflow = "scroll";
 			document.body.style.overflow = "auto";
 			setTimeout(function() {
-				// 4. fade out of black project view cell
+				// 5. fade out of black project view cell
 				projectView.style.opacity = "0";
 				setTimeout(function() {
-					// 5. hide project view cell
+					// 6. hide project view cell
 					projectView.classList.add("hidden");
-					// 6. re-activate click event listener for row
+					// 7. re-activate click event listener for row
 					projectView.parentNode.addEventListener("click", function() {
 						openProject(projectView.parentNode, index);
 					}, {once: true});
