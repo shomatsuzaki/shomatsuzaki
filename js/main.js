@@ -19,21 +19,20 @@ let projectRows = document.querySelectorAll(".project-row");
 let projectCloses = document.querySelectorAll(".project-close");
 let aboutMe = document.getElementById("about");
 let contactMe = document.getElementById("contact");
-let linkedIn = document.getElementById("linkedin");
-let aboutClose = homepageInfo.querySelector("#about-close");
+let projects = document.getElementById("projects");
+let homepageClose = document.getElementById("homepage-close");
+let homepageWindow = document.getElementById("homepage-window");
 
 // get viewport width and height
 let vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 let vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
-// boolean for whether or not load animation is done
-let isLoaded = false;
-
-// boolean for whether or not we are in feed view and scroll animation is done
-let inFeedView = false;
-
-// boolean for whether or not we are seeing an individual project
-let inProjectView = false;
+// booleans for where user is in journey
+let isLoaded = false; // whether or not load animation is done
+let inFeedView = false; // whether or not we are in project feed
+let inProjectView = false; // whether or not we are seeing individual project
+let inAbout = false; // whether or not we are in about me view
+let inContact = false; // whether or not we are in contact me view
 
 // cubic functions for easing, take in and output a value from 0 to 1
 function easeInCubic(x) {
@@ -50,9 +49,11 @@ function easeInOutCubic(x) {
 function hideElements() {
 	var dateTime = document.getElementById("date-time");
 	var developer = document.getElementById("developer");
+	var scroll = document.getElementById("scroll");
 	if (vw > 900) {
-		linkedIn.classList.remove("hidden");
-		linkedIn.nextElementSibling.classList.remove("hidden");
+		scroll.classList.add("hidden");
+		projects.classList.remove("hidden");
+		projects.nextElementSibling.classList.remove("hidden");
 		dateTime.classList.remove("hidden");
 		developer.classList.remove("hidden");
 		projectRows.forEach((row) => {
@@ -63,8 +64,9 @@ function hideElements() {
 			}
 		});
 	} else if (vw > 600) {
-		linkedIn.classList.add("hidden");
-		linkedIn.nextElementSibling.classList.add("hidden");
+		projects.classList.add("hidden");
+		projects.nextElementSibling.classList.add("hidden");
+		scroll.classList.remove("hidden");
 		dateTime.classList.remove("hidden");
 		developer.classList.remove("hidden");
 		projectRows.forEach((row) => {
@@ -79,10 +81,11 @@ function hideElements() {
 			}
 		});
 	} else {
-		linkedIn.classList.add("hidden");
-		linkedIn.nextElementSibling.classList.add("hidden");
+		projects.classList.add("hidden");
+		projects.nextElementSibling.classList.add("hidden");
 		dateTime.classList.add("hidden");
 		developer.classList.add("hidden");
+		scroll.classList.remove("hidden");
 		projectRows.forEach((row) => {
 			var projectCells = row.children;
 			for (var i = 0; i < projectCells.length-1; i++) {
@@ -413,33 +416,35 @@ function displayTime() {
 }
 
 aboutMe.addEventListener("click", function() {
-	var aboutWindow = aboutMe.previousElementSibling;
 	var aboutInfo = homepageInfo.querySelector("#about-info");
 	var aboutPic = homepageInfo.querySelector("#about-pic");
 	var scrollIcon = homepageInfo.querySelector("#scroll");
 	// remove hidden class from hidden elements (still invisible except window)
 	aboutInfo.classList.remove("hidden");
 	aboutPic.classList.remove("hidden");
-	aboutClose.classList.remove("hidden");
-	document.body.style.cursor = "url('./icons/red-dot.svg') 10 10, auto";
+	homepageClose.classList.remove("hidden");
+	document.body.style.cursor = "url('./icons/yellow-dot.svg') 10 10, auto";
+	inAbout = true;
 	if (vw > 900) {
-		// 1. remove hidden class from about window, making it visible
-		aboutWindow.classList.remove("hidden");
+		// 1. move homepage window to contact square
+		homepageWindow.style.gridRow = "2 / 3";
+		// 2. remove hidden class from homepage window, making it visible
+		homepageWindow.classList.remove("hidden");
 		setTimeout(function() {
-			// 2. set name to white
+			// 3. set name to white
 			homepageInfo.querySelector("#name").style.color = offWhite;
-			// 3. transform window to fill sho logo
-			aboutWindow.style.transform = "translate(-50%,100%) scale(6,3)";
-			aboutWindow.style.margin = "0.5px 0 0 0.5px";
+			// 4. transform window to fill sho logo
+			homepageWindow.style.transform = "translate(-50%,100%) scale(6,3)";
+			homepageWindow.style.margin = "0.5px 0 0 0.5px";
 			setTimeout(function() {
-				// 4. fade in all about me info
+				// 5. fade in all about me info
 				aboutInfo.style.opacity = "1";
 				aboutInfo.style.filter = "blur(0px)";
 				aboutPic.style.opacity = "1";
 				aboutPic.style.filter = "blur(0px)";
-				aboutClose.style.opacity = "1";
-				aboutClose.style.filter = "blur(0px)";
-				// 5. prevent scroll
+				homepageClose.style.opacity = "1";
+				homepageClose.style.filter = "blur(0px)";
+				// 6. prevent scroll
 				scrollIcon.style.opacity = "0";
 				projectFeed.style.overflow = "hidden";
 				document.body.style.overflow = "hidden";
@@ -450,26 +455,26 @@ aboutMe.addEventListener("click", function() {
 		var blackSquare = aboutMe.nextElementSibling.querySelector(".black-square");
 		blackSquare.style.transform = "translateX(0)";
 		setTimeout(function() {
-			// 2. remove hidden class from about window, making it visible
-			aboutWindow.classList.remove("hidden");
+			// 2. remove hidden class from homepage window, making it visible
+			homepageWindow.classList.remove("hidden");
 			setTimeout(function() {
 				// 2. set name to white and shift up
 				homepageInfo.querySelector("#name").style.color = offWhite;
 				if (vw > 600) {
 					homepageInfo.querySelector("#name").style.marginTop = "-28vw";
 				} else {
-					homepageInfo.querySelector("#name").style.marginTop = "-44vw";
+					homepageInfo.querySelector("#name").style.marginTop = "-18vw";
 				}
 				// 3. transform window to fill screen
-				aboutWindow.style.transform = "scale(6,60)";
+				homepageWindow.style.transform = "scale(6,60)";
 				setTimeout(function() {
 					// 4. fade in all about me info
 					aboutInfo.style.opacity = "1";
 					aboutInfo.style.filter = "blur(0px)";
 					aboutPic.style.opacity = "1";
 					aboutPic.style.filter = "blur(0px)";
-					aboutClose.style.opacity = "1";
-					aboutClose.style.filter = "blur(0px)";
+					homepageClose.style.opacity = "1";
+					homepageClose.style.filter = "blur(0px)";
 					// 5. prevent scroll
 					scrollIcon.style.opacity = "0";
 					projectFeed.style.overflow = "hidden";
@@ -480,68 +485,186 @@ aboutMe.addEventListener("click", function() {
 	}
 });
 
-aboutClose.addEventListener("click", function() {
-	var aboutWindow = aboutMe.previousElementSibling;
-	var aboutInfo = homepageInfo.querySelector("#about-info");
-	var aboutPic = homepageInfo.querySelector("#about-pic");
+contactMe.addEventListener("click", function() {
+	var contactInfo = homepageInfo.querySelector("#contact-info");
 	var scrollIcon = homepageInfo.querySelector("#scroll");
+	// remove hidden class from hidden elements (still invisible except window)
+	contactInfo.classList.remove("hidden");
+	homepageClose.classList.remove("hidden");
+	document.body.style.cursor = "url('./icons/green-dot.svg') 10 10, auto";
+	inContact = true;
+	if (vw > 900) {
+		// 1. move homepage window to contact square
+		homepageWindow.style.gridRow = "4 / 5";
+		// 2. remove hidden class from homepage window, making it visible
+		homepageWindow.classList.remove("hidden");
+		setTimeout(function() {
+			// 3. set name to white
+			homepageInfo.querySelector("#name").style.color = offWhite;
+			// 4. transform window to fill sho logo
+			homepageWindow.style.transform = "translate(-50%,-100%) scale(6,3)";
+			homepageWindow.style.margin = "0.5px 0 0 0.5px";
+			setTimeout(function() {
+				// 5. fade in all about me info
+				contactInfo.style.opacity = "1";
+				contactInfo.style.filter = "blur(0px)";
+				homepageClose.style.opacity = "1";
+				homepageClose.style.filter = "blur(0px)";
+				// 6. prevent scroll
+				scrollIcon.style.opacity = "0";
+				projectFeed.style.overflow = "hidden";
+				document.body.style.overflow = "hidden";
+			}, 500);
+		}, 100);
+	} else { // for tablet and mobile only
+		// 1. animate black square across sho logo
+		var blackSquare = contactMe.nextElementSibling.querySelector(".black-square");
+		blackSquare.style.transform = "translateX(0)";
+		setTimeout(function() {
+			// 2. remove hidden class from homepage window, making it visible
+			homepageWindow.classList.remove("hidden");
+			setTimeout(function() {
+				// 2. set name to white but do NOT shift up
+				homepageInfo.querySelector("#name").style.color = offWhite;
+				// 3. transform window to fill screen
+				homepageWindow.style.transform = "scale(6,60)";
+				setTimeout(function() {
+					// 4. fade in all about me info
+					contactInfo.style.opacity = "1";
+					contactInfo.style.filter = "blur(0px)";
+					homepageClose.style.opacity = "1";
+					homepageClose.style.filter = "blur(0px)";
+					// 5. prevent scroll
+					scrollIcon.style.opacity = "0";
+					projectFeed.style.overflow = "hidden";
+					document.body.style.overflow = "hidden";
+				}, 500);
+			}, 100);
+		}, 300);
+	}
+});
+
+homepageClose.addEventListener("click", function() {
 	// 1. allow scroll
+	var scrollIcon = homepageInfo.querySelector("#scroll");
 	scrollIcon.style.opacity = "1";
 	projectFeed.style.overflow = "scroll";
 	document.body.style.overflow = "auto";
-	// 2. fade out all about me info
-	aboutInfo.style.opacity = "0";
-	aboutInfo.style.filter = "blur(4px)";
-	aboutPic.style.opacity = "0";
-	aboutPic.style.filter = "blur(4px)";
-	aboutClose.style.opacity = "0";
-	aboutClose.style.filter = "blur(4px)";
-	document.body.style.cursor = "url('./icons/blue-dot.svg') 10 10, auto";
-	if (vw > 900) {
-		setTimeout(function() {
-			// 3. transform window back to single square
-			aboutWindow.style.transform = "translate(0,0) scale(1,1)";
-			aboutWindow.style.margin = "0";
-			// 4. set name back to black
-			homepageInfo.querySelector("#name").style.color = darkColor;
-			// 5. reset about square to mouseover position
-			var blackSquare = aboutMe.nextElementSibling.querySelector(".black-square");
-			blackSquare.style.transform = "translateX(0)";
-			aboutMe.style.color = offWhite;
-			aboutMe.querySelector(".side-arrow").style.filter = "invert(1)";
+	// 2. check which view is open, about or contact
+	if (inAbout) {
+		var aboutInfo = homepageInfo.querySelector("#about-info");
+		var aboutPic = homepageInfo.querySelector("#about-pic");
+		// 3. fade out all about me info
+		aboutInfo.style.opacity = "0";
+		aboutInfo.style.filter = "blur(4px)";
+		aboutPic.style.opacity = "0";
+		aboutPic.style.filter = "blur(4px)";
+		homepageClose.style.opacity = "0";
+		homepageClose.style.filter = "blur(4px)";
+		document.body.style.cursor = "url('./icons/blue-dot.svg') 10 10, auto";
+		if (vw > 900) {
 			setTimeout(function() {
-				// 6. add hidden class back to hidden elements
-				aboutWindow.classList.add("hidden");
-				aboutInfo.classList.add("hidden");
-				aboutPic.classList.add("hidden");
-				aboutClose.classList.add("hidden");
-				// 7. reset about square to mouseout position
-				blackSquare.style.transform = "translateX(-101%)";
-				aboutMe.style.color = darkColor;
-				aboutMe.querySelector(".side-arrow").style.filter = "invert(0)";
-			}, 700);
-		}, 500);
-	} else { // for tablet and mobile only
-		setTimeout(function() {
-			// 3. transform window back to single square
-			aboutWindow.style.transform = "scale(1,1)";
-			aboutWindow.style.margin = "0";
-			// 4. set name back to black and shift down
-			homepageInfo.querySelector("#name").style.color = darkColor;
-			homepageInfo.querySelector("#name").style.marginTop = "0";
-			// 5. reset about square to mouseover position
-			var blackSquare = aboutMe.nextElementSibling.querySelector(".black-square");
-			blackSquare.style.transform = "translateX(0)";
+				// 4. transform window back to single square
+				homepageWindow.style.transform = "translate(0,0) scale(1,1)";
+				homepageWindow.style.margin = "0";
+				// 5. set name back to black
+				homepageInfo.querySelector("#name").style.color = darkColor;
+				// 6. reset about square to mouseover position
+				var blackSquare = aboutMe.nextElementSibling.querySelector(".black-square");
+				blackSquare.style.transform = "translateX(0)";
+				aboutMe.style.color = offWhite;
+				aboutMe.querySelector(".side-arrow").style.filter = "invert(1)";
+				setTimeout(function() {
+					// 7. add hidden class back to hidden elements
+					homepageWindow.classList.add("hidden");
+					aboutInfo.classList.add("hidden");
+					aboutPic.classList.add("hidden");
+					homepageClose.classList.add("hidden");
+					// 8. reset about square to mouseout position
+					blackSquare.style.transform = "translateX(-101%)";
+					aboutMe.style.color = darkColor;
+					aboutMe.querySelector(".side-arrow").style.filter = "invert(0)";
+				}, 700);
+			}, 500);
+		} else { // for tablet and mobile only
 			setTimeout(function() {
-				// 6. add hidden class back to hidden elements
-				aboutWindow.classList.add("hidden");
-				aboutInfo.classList.add("hidden");
-				aboutPic.classList.add("hidden");
-				aboutClose.classList.add("hidden");
-				// 7. reset about square to mouseout position
-				blackSquare.style.transform = "translateX(-101%)";
-			}, 700);
-		}, 500);
+				// 4. transform window back to single square
+				homepageWindow.style.transform = "scale(1,1)";
+				homepageWindow.style.margin = "0";
+				// 5. set name back to black and shift down
+				homepageInfo.querySelector("#name").style.color = darkColor;
+				if (vw > 600) {
+					homepageInfo.querySelector("#name").style.marginTop = "0";
+				} else {
+					homepageInfo.querySelector("#name").style.marginTop = "1.4vw";
+				}
+				// 6. reset about square to mouseover position
+				var blackSquare = aboutMe.nextElementSibling.querySelector(".black-square");
+				blackSquare.style.transform = "translateX(0)";
+				setTimeout(function() {
+					// 7. add hidden class back to hidden elements
+					homepageWindow.classList.add("hidden");
+					aboutInfo.classList.add("hidden");
+					aboutPic.classList.add("hidden");
+					homepageClose.classList.add("hidden");
+					// 8. reset about square to mouseout position
+					blackSquare.style.transform = "translateX(-101%)";
+				}, 800);
+			}, 500);
+		}
+		inAbout = false;
+	} else if (inContact) {
+		var contactInfo = homepageInfo.querySelector("#contact-info");
+		// 3. fade out all contact info
+		contactInfo.style.opacity = "0";
+		contactInfo.style.filter = "blur(4px)";
+		homepageClose.style.opacity = "0";
+		homepageClose.style.filter = "blur(4px)";
+		document.body.style.cursor = "url('./icons/blue-dot.svg') 10 10, auto";
+		if (vw > 900) {
+			setTimeout(function() {
+				// 4. transform window back to single square
+				homepageWindow.style.transform = "translate(0,0) scale(1,1)";
+				homepageWindow.style.margin = "0";
+				// 5. set name back to black
+				homepageInfo.querySelector("#name").style.color = darkColor;
+				// 6. reset about square to mouseover position
+				var blackSquare = contactMe.nextElementSibling.querySelector(".black-square");
+				blackSquare.style.transform = "translateX(0)";
+				contactMe.style.color = offWhite;
+				contactMe.querySelector(".side-arrow").style.filter = "invert(1)";
+				setTimeout(function() {
+					// 7. add hidden class back to hidden elements
+					homepageWindow.classList.add("hidden");
+					contactInfo.classList.add("hidden");
+					homepageClose.classList.add("hidden");
+					// 8. reset about square to mouseout position
+					blackSquare.style.transform = "translateX(-101%)";
+					contactMe.style.color = darkColor;
+					contactMe.querySelector(".side-arrow").style.filter = "invert(0)";
+				}, 700);
+			}, 500);
+		} else { // for tablet and mobile only
+			setTimeout(function() {
+				// 4. transform window back to single square
+				homepageWindow.style.transform = "scale(1,1)";
+				homepageWindow.style.margin = "0";
+				// 5. set name back to black but do NOT shift down
+				homepageInfo.querySelector("#name").style.color = darkColor;
+				// 6. reset about square to mouseover position
+				var blackSquare = contactMe.nextElementSibling.querySelector(".black-square");
+				blackSquare.style.transform = "translateX(0)";
+				setTimeout(function() {
+					// 7. add hidden class back to hidden elements
+					homepageWindow.classList.add("hidden");
+					contactInfo.classList.add("hidden");
+					homepageClose.classList.add("hidden");
+					// 8. reset about square to mouseout position
+					blackSquare.style.transform = "translateX(-101%)";
+				}, 800);
+			}, 500);
+		}
+		inContact = false;
 	}
 });
 
@@ -581,18 +704,18 @@ contactMe.addEventListener("mouseout", function() {
 	}
 });
 
-linkedIn.addEventListener("mouseover", function() {
-	var blackSquare = linkedIn.nextElementSibling.querySelector(".black-square");
+projects.addEventListener("mouseover", function() {
+	var blackSquare = projects.nextElementSibling.querySelector(".black-square");
 	blackSquare.style.transform = "translateX(0)";
-	linkedIn.style.color = offWhite;
-	linkedIn.querySelector(".side-arrow").style.filter = "invert(1)";
+	projects.style.color = offWhite;
+	projects.querySelector(".side-arrow").style.filter = "invert(1)";
 });
 
-linkedIn.addEventListener("mouseout", function() {
-	var blackSquare = linkedIn.nextElementSibling.querySelector(".black-square");
+projects.addEventListener("mouseout", function() {
+	var blackSquare = projects.nextElementSibling.querySelector(".black-square");
 	blackSquare.style.transform = "translateX(-101%)";
-	linkedIn.style.color = darkColor;
-	linkedIn.querySelector(".side-arrow").style.filter = "invert(0)";
+	projects.style.color = darkColor;
+	projects.querySelector(".side-arrow").style.filter = "invert(0)";
 });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -726,7 +849,7 @@ function scrollAnimation() {
 				projChildren[i].style.opacity = "1";
 				projChildren[i].style.filter = "blur(0px)";
 			}
-			document.body.style.cursor = "url('./icons/yellow-dot.svg') 10 10, auto";
+			document.body.style.cursor = "url('./icons/red-dot.svg') 10 10, auto";
 		}
 		
 		// change grid stroke color to fully dark

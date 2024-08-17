@@ -56,6 +56,7 @@
 html {
 	/*unclear if this helps*/
 	overscroll-behavior: contain;
+	scroll-behavior: smooth;
 }
 
 body {
@@ -184,17 +185,17 @@ body {
 	font-weight: 300;
 }
 
-#title, #about, #contact, #linkedin {
-	text-decoration: none;
-	color: inherit;
+#title, #about, #contact, #projects, #scroll {
 	font-weight: 500;
 }
 
+#about-rollover, #contact-rollover, #projects-rollover {
+	overflow: hidden;
+}
+
 #scroll {
-	text-shadow: 0 0 16px var(--off-white);
 	animation: float 3800ms ease-in-out infinite;
-	transition: opacity 700ms 500ms ease-out, filter 700ms 500ms ease-out;
-	font-weight: 500;
+/*	transition: opacity 700ms 500ms ease-out, filter 700ms 500ms ease-out;*/
 }
 
 @keyframes float {
@@ -206,16 +207,12 @@ body {
 	}
 }
 
-#about-close {
+#homepage-close {
 	transition: transform 500ms cubic-bezier(0.79,0.14,0.15,0.86);
 }
 
-#about-close:hover {
+#homepage-close:hover {
 	transform: rotate(180deg);
-}
-
-#about-info {
-	text-align: justify;
 }
 
 /*---------------------------------PROJECT FEED-------------------------------*/
@@ -310,11 +307,11 @@ body {
 	transition: opacity 1000ms;
 }
 
-.project-link {
+.project-link, .contact-link {
 	text-decoration: underline;
 	color: inherit;
 	font-weight: 500;
-	cursor: url("../icons/red-dot.svg") 10 10, auto;
+	cursor: url("../icons/blue-dot.svg") 10 10, auto;
 }
 
 .content {
@@ -392,7 +389,6 @@ body {
 		text-align: right;
 		font-size: var(--desk-font-S);
 		line-height: 1.4vw;
-		color: var(--dark-grid);
 	}
 
 	#about {
@@ -403,7 +399,7 @@ body {
 		width: 100%;
 		height: 100%;
 		font-size: var(--desk-font-S);
-		cursor: url("../icons/red-dot.svg") 10 10, auto;
+		cursor: url("../icons/yellow-dot.svg") 10 10, auto;
 		z-index: 4;
 		transition: color 300ms, filter 500ms;
 	}
@@ -411,7 +407,6 @@ body {
 	#about-rollover {
 		grid-column: 5 / 6;
 		grid-row: 2 / 3;
-		overflow: hidden;
 	}
 
 	.black-square {
@@ -432,7 +427,7 @@ body {
 		width: 100%;
 		height: 100%;
 		font-size: var(--desk-font-S);
-		cursor: url("../icons/red-dot.svg") 10 10, auto;
+		cursor: url("../icons/green-dot.svg") 10 10, auto;
 		z-index: 4;
 		transition: color 300ms, filter 500ms;
 	}
@@ -440,10 +435,9 @@ body {
 	#contact-rollover {
 		grid-column: 5 / 6;
 		grid-row: 4 / 5;
-		overflow: hidden;
 	}
 
-	#linkedin {
+	#projects {
 		grid-column: 7 / 8;
 		grid-row: 3 / 4;
 		display: flex;
@@ -456,10 +450,9 @@ body {
 		transition: color 300ms, filter 500ms;
 	}
 
-	#linkedin-rollover {
+	#projects-rollover {
 		grid-column: 7 / 8;
 		grid-row: 3 / 4;
-		overflow: hidden;
 	}
 
 	#scroll {
@@ -490,7 +483,6 @@ body {
 		writing-mode: vertical-rl;
 		border-top: 1px var(--dark-grid) solid;
 		margin-bottom: -1px;
-		color: var(--dark-grid);
 	}
 
 	#developer {
@@ -502,12 +494,11 @@ body {
 		transform: rotate(180deg);
 		border-top: 1px var(--dark-grid) solid;
 		margin-bottom: -1px;
-		color: var(--dark-grid);
 	}
 
-/*-----------------------------------ABOUT ME---------------------------------*/
+/*-------------------------------ABOUT ME/CONTACT-----------------------------*/
 
-	#about-window {
+	#homepage-window {
 		grid-column: 5 / 6;
 		grid-row: 2 / 3;
 		width: 100%;
@@ -518,12 +509,22 @@ body {
 	}
 
 	#about-info {
+		text-align: justify;
 		grid-column: 2 / 4;
 		grid-row: 3 / 4;
 		place-self: start;
 		font-size: 0.8vw;
 		color: var(--off-white);
 		padding: 1.7vw;
+		z-index: 6;
+	}
+
+	#contact-info {
+		grid-column: 2 / 8;
+		grid-row: 3 / 4;
+		place-self: center;
+		font-size: var(--desk-font-M);
+		color: var(--off-white);
 		z-index: 6;
 	}
 
@@ -537,7 +538,7 @@ body {
 		z-index: 6;
 	}
 
-	#about-close {
+	#homepage-close {
 		grid-column: 7 / 8;
 		grid-row: 2 / 3;
 		justify-self: end;
@@ -654,7 +655,7 @@ body {
 	}
 
 	#title {
-		grid-column: 5 / 29;
+		grid-column: 5 / 24;
 		grid-row: 17 / 18;
 		align-self: center;
 		justify-self: start;
@@ -663,10 +664,9 @@ body {
 	}
 
 	#skills {
-		grid-column: 5 / 29;
-		grid-row: 22 / 28;
-		align-self: center;
-		justify-self: start;
+		grid-column: 5 / 24;
+		grid-row: 19 / 25;
+		place-self: start;
 		font-size: var(--tab-font-S);
 		line-height: 3.1vw;
 		padding-left: 4px;
@@ -681,10 +681,9 @@ body {
 		padding-left: 4px;
 	}
 
-	#about-rollover {
+	#about-rollover, #contact-rollover {
 		grid-column: 14 / 20;
 		grid-row: 2 / 5;
-		overflow: hidden;
 	}
 
 	.black-square {
@@ -727,7 +726,7 @@ body {
 
 	#date-time {
 		grid-column: 1 / 2;
-		grid-row: 11 / 20;
+		grid-row: 9 / 18;
 		align-self: start;
 		justify-self: center;
 		font-size: var(--tab-font-XS);
@@ -741,7 +740,7 @@ body {
 
 	#developer {
 		grid-column: 32 / 33;
-		grid-row: 19 / 28;
+		grid-row: 18 / 25;
 		align-self: end;
 		font-size: var(--tab-font-XS);
 		writing-mode: vertical-lr;
@@ -753,9 +752,9 @@ body {
 		width: 100%;
 	}
 
-/*-----------------------------------ABOUT ME---------------------------------*/
+/*-------------------------------ABOUT ME/CONTACT-----------------------------*/
 
-	#about-window {
+	#homepage-window {
 		grid-column: 14 / 20;
 		grid-row: 2 / 5;
 		width: 100%;
@@ -776,16 +775,26 @@ body {
 		z-index: 6;
 	}
 
+	#contact-info {
+		text-align: justify;
+		grid-column: 5 / 24;
+		grid-row: 18 / 22;
+		place-self: start;
+		font-size: var(--tab-font-M);
+		color: var(--off-white);
+		z-index: 6;
+	}
+
 	#about-pic {
 		grid-column: 5 / 24;
-		grid-row: 20 / 39;
+		grid-row: 21 / 40;
 		width: 100%;
 		height: 100%;
 		padding: 0;
 		z-index: 6;
 	}
 
-	#about-close {
+	#homepage-close {
 		grid-column: 28 / 31;
 		grid-row: 3 / 6;
 		justify-self: end;
@@ -892,11 +901,11 @@ body {
 
 	#name {
 		grid-column: 5 / 29;
-		grid-row: 12 / 22;
-		align-self: center;
-		justify-self: start;
+		grid-row: 11 / 21;
+		place-self: start;
 		font-size: var(--mob-font-XL);
 		line-height: 16vw;
+		margin-top: 1.4vw;
 		z-index: 6;
 		transition: color 500ms, margin 700ms;
 	}
@@ -912,9 +921,8 @@ body {
 
 	#skills {
 		grid-column: 5 / 29;
-		grid-row: 30 / 38;
-		align-self: center;
-		justify-self: start;
+		grid-row: 27 / 35;
+		place-self: start;
 		font-size: var(--mob-font-S);
 		line-height: 4.0vw;
 		padding-left: 4px;
@@ -929,10 +937,9 @@ body {
 		padding-left: 4px;
 	}
 
-	#about-rollover {
+	#about-rollover, #contact-rollover {
 		grid-column: 14 / 20;
 		grid-row: 2 / 5;
-		overflow: hidden;
 	}
 
 	.black-square {
@@ -954,7 +961,7 @@ body {
 	}
 
 	#scroll {
-		grid-column: 13 / 21;
+		grid-column: 12 / 22;
 		grid-row: 44 / 47;
 		place-self: center;
 		text-align: center;
@@ -973,9 +980,9 @@ body {
 		margin-top: 6px;
 	}
 
-/*-----------------------------------ABOUT ME---------------------------------*/
+/*-------------------------------ABOUT ME/CONTACT-----------------------------*/
 
-	#about-window {
+	#homepage-window {
 		grid-column: 14 / 20;
 		grid-row: 2 / 5;
 		width: 100%;
@@ -989,23 +996,33 @@ body {
 
 	#about-info {
 		grid-column: 5 / 29;
-		grid-row: 16 / 23;
+		grid-row: 17 / 25;
 		place-self: start;
 		font-size: var(--mob-font-XS);
 		color: var(--off-white);
 		z-index: 6;
 	}
 
+	#contact-info {
+		text-align: justify;
+		grid-column: 5 / 29;
+		grid-row: 24 / 30;
+		place-self: start;
+		font-size: var(--tab-font-M);
+		color: var(--off-white);
+		z-index: 6;
+	}
+
 	#about-pic {
 		grid-column: 5 / 29;
-		grid-row: 25 / 49;
+		grid-row: 27 / 51;
 		width: 100%;
 		height: 100%;
 		padding: 0;
 		z-index: 6;
 	}
 
-	#about-close {
+	#homepage-close {
 		grid-column: 28 / 31;
 		grid-row: 3 / 6;
 		justify-self: end;
