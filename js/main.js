@@ -308,7 +308,6 @@ function percentLoad() {
 			var preloader = document.getElementById("preloader");
 			preloader.style.opacity = "0";
 			preloader.style.filter = "blur(4px)";
-			isLoaded = true;
 			clearInterval(handler);
 		}
 	}, duration*10);
@@ -351,6 +350,7 @@ function animateLogo() {
 			hzMask5.style.transform = "translateX(-8px)";
 			// 4. initiate grid zoom
 			setTimeout(function() {
+				isLoaded = true;
 				animateGrid();
 			}, 1800);
 		}, 600);
@@ -363,48 +363,46 @@ function animateGrid() {
 		deskEndLeft = (vw*38/8)/-2 + vw/2, // for grid to be centered, left must be negative half of grid width (38/8x of width) + half of view
 		mobHeight = 3.5*vw*38/32 // zoomed so 32 of 38 columns in view
 		mobEndTop = mobHeight/-2 + 2.5*1/32*vw; // each square is 1/32 vw, need to move grid up half vh then down 2.5 squares
-	// 1. zoom in grid if fully loaded
-	if (isLoaded) {
-		if (vw > 900) { // for desktop
-			grid.style.strokeWidth = "2";
-			grid.style.height = deskEndHeight + "px";
-			grid.style.top = deskEndTop + "px";
-			grid.style.left = deskEndLeft + "px";
-		} else { // for tablet and mobile
-			grid.style.top = mobEndTop + "px";
-		}
-		// 2. make homepage info visible
+	// 1. animate grid
+	if (vw > 900) { // for desktop
+		grid.style.strokeWidth = "2";
+		grid.style.height = deskEndHeight + "px";
+		grid.style.top = deskEndTop + "px";
+		grid.style.left = deskEndLeft + "px";
+	} else { // for tablet and mobile
+		grid.style.top = mobEndTop + "px";
+	}
+	// 2. make homepage info visible
+	setTimeout(function() {
+		homepageInfo.classList.remove("hidden");
 		setTimeout(function() {
-			homepageInfo.classList.remove("hidden");
-			setTimeout(function() {
-				homepageInfo.style.opacity = "1";
-				homepageInfo.style.filter = "blur(0px)";
-				// 3. trigger hover events on desktop
-				if (vw > 900) {
-					var mouseoverEvent = new Event("mouseover");
-					var mouseoutEvent = new Event("mouseout");
+			homepageInfo.style.opacity = "1";
+			homepageInfo.style.filter = "blur(0px)";
+			// 3. trigger hover events on desktop
+			if (vw > 900) {
+				var mouseoverEvent = new Event("mouseover");
+				var mouseoutEvent = new Event("mouseout");
+				setTimeout(function() {
+					aboutMe.dispatchEvent(mouseoverEvent);
 					setTimeout(function() {
-						aboutMe.dispatchEvent(mouseoverEvent);
+						aboutMe.dispatchEvent(mouseoutEvent);
 						setTimeout(function() {
-							aboutMe.dispatchEvent(mouseoutEvent);
+							contactMe.dispatchEvent(mouseoverEvent);
 							setTimeout(function() {
-								contactMe.dispatchEvent(mouseoverEvent);
+								contactMe.dispatchEvent(mouseoutEvent);
 								setTimeout(function() {
-									contactMe.dispatchEvent(mouseoutEvent);
-									setTimeout(function() {
-										projectBtn.dispatchEvent(mouseoverEvent);
-											setTimeout(function() {
-												projectBtn.dispatchEvent(mouseoutEvent);
-											}, 500);
-									}, 500);
+									projectBtn.dispatchEvent(mouseoverEvent);
+										setTimeout(function() {
+											projectBtn.dispatchEvent(mouseoutEvent);
+										}, 500);
 								}, 500);
 							}, 500);
 						}, 500);
 					}, 500);
-				}
-			}, 100);
-		}, 1500);
-	}
+				}, 500);
+			}
+		}, 100);
+	}, 1500);
 }
 
 function displayTime() {
