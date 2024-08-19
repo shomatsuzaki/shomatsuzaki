@@ -379,6 +379,29 @@ function animateGrid() {
 			setTimeout(function() {
 				homepageInfo.style.opacity = "1";
 				homepageInfo.style.filter = "blur(0px)";
+				// 3. trigger hover events on desktop
+				if (vw > 900) {
+					var mouseoverEvent = new Event("mouseover");
+					var mouseoutEvent = new Event("mouseout");
+					setTimeout(function() {
+						aboutMe.dispatchEvent(mouseoverEvent);
+						setTimeout(function() {
+							aboutMe.dispatchEvent(mouseoutEvent);
+							setTimeout(function() {
+								contactMe.dispatchEvent(mouseoverEvent);
+								setTimeout(function() {
+									contactMe.dispatchEvent(mouseoutEvent);
+									setTimeout(function() {
+										projectBtn.dispatchEvent(mouseoverEvent);
+											setTimeout(function() {
+												projectBtn.dispatchEvent(mouseoutEvent);
+											}, 500);
+									}, 500);
+								}, 500);
+							}, 500);
+						}, 500);
+					}, 500);
+				}
 			}, 100);
 		}, 1500);
 	}
