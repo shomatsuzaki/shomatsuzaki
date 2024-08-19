@@ -202,13 +202,15 @@ rect {
 	color: var(--light-color);
 	text-align: center;
 	background: url("../icons/blue-dot.svg") no-repeat;
-	background-size: 100% 100%;
+	background-size: 95% 95%;
+/*	background-position: center;*/
 	animation: float 3800ms ease-in-out infinite;
 }
 
 #tap-projects:hover {
 	background: url("../icons/red-dot.svg") no-repeat;
-	background-size: 100% 100%;
+	background-size: 95% 95%;
+/*	background-position: center;*/
 }
 
 @keyframes float {
