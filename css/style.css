@@ -57,17 +57,19 @@ html {
 	/*unclear if this helps*/
 	overscroll-behavior: contain;
 	scroll-behavior: smooth;
+	font-family: "ABCDiatypeSemiMono", sans-serif;
+	font-weight: 200;
+	font-optical-sizing: auto;
 }
 
 body {
 	cursor: url("../icons/blue-dot.svg") 10 10, auto;
 	background-color: var(--off-white);
-	font-family: "ABCDiatypeSemiMono", sans-serif;
-	font-weight: 200;
-	font-optical-sizing: auto;
+	color: var(--dark-color);
 	margin: 0;
 	padding: 0;
-	color: var(--dark-color);
+	height: 100vh;
+	height: 100dvh;
 	overflow: hidden;
 }
 
@@ -81,9 +83,6 @@ body {
 	position: fixed;
 	inset: 0;
 	display: flex;
-/*	display: none;*/
-/*	visibility: hidden;*/
-/*	opacity: 0;*/
 	justify-content: center;
     align-items: center;
     height: 100vh;
@@ -95,18 +94,19 @@ body {
 
 /*-----------------------------GRID+LOGO+PRELOADER----------------------------*/
 
-#homepage {
+#grid-logo {
 	position: fixed;
-	height: 100vh;
-	height: 100dvh;
-	overflow: hidden;
-	z-index: 1;
+	stroke-width: 1;
+	z-index: 0;
+	transition: height 1500ms cubic-bezier(0.7,0,0.3,1),
+				top 1500ms cubic-bezier(0.7,0,0.3,1),
+				left 1500ms cubic-bezier(0.7,0,0.3,1),
+				stroke-width 1500ms cubic-bezier(0.7,0,0.3,1),
+				opacity 500ms linear;
 }
 
-#grid-logo {
-	stroke-width: 1;
-	position: fixed;
-	z-index: 0;
+rect {
+	transition: transform 2000ms linear;
 }
 
 .logo-line {
@@ -119,6 +119,7 @@ body {
 	stroke: var(--light-grid);
 	stroke-linecap: square;
 	vector-effect: non-scaling-stroke;
+	transition: stroke 1500ms cubic-bezier(0.7,0,0.3,1);
 }
 
 #preloader {
@@ -126,10 +127,9 @@ body {
 	width: 100%;
 	height: 100vh;
 	height: 100dvh;
-	font-weight: 200;
-	z-index: 1;
 	overflow: hidden;
 	transition: opacity 500ms ease-out, filter 500ms ease-out;
+	z-index: 1;
 }
 
 .percentage {
@@ -172,30 +172,56 @@ body {
 	position: fixed;
 	width: 100%;
 	z-index: 2;
-}
-
-#homepage-info > * {
-	margin: 0;
 	opacity: 0;
 	filter: blur(4px);
 	transition: opacity 500ms ease-out, filter 500ms ease-out, color 500ms ease-out;
 }
 
+#homepage-info > * {
+	margin: 0;
+	transition: opacity 500ms ease-out, filter 500ms ease-out, color 500ms ease-out;
+}
+
 #name {
+	place-self: start;
 	font-weight: 300;
+	z-index: 4;
 }
 
-#title, #about, #contact, #projects, #scroll {
+#title, #about-btn, #contact-btn, #project-btn, #tap-projects {
 	font-weight: 500;
+	z-index: 2;
 }
 
-#about-rollover, #contact-rollover, #projects-rollover {
+#skills {
+	z-index: 2;
+}
+
+.black-square {
+	background-color: var(--dark-color);
+	transform: translateX(-101%);
+	transition: transform 300ms cubic-bezier(0.79,0.14,0.15,0.86);
+	z-index: 1;
+}
+
+#about-rollover, #contact-rollover, #project-rollover {
 	overflow: hidden;
 }
 
-#scroll {
+#tap-projects {
+	width: 100%;
+	height: 100%;
+	place-content: center;
+	color: var(--light-color);
+	text-align: center;
+	background: url("../icons/blue-dot.svg") no-repeat;
+	background-size: 100% 100%;
 	animation: float 3800ms ease-in-out infinite;
-/*	transition: opacity 700ms 500ms ease-out, filter 700ms 500ms ease-out;*/
+}
+
+#tap-projects:hover {
+	background: url("../icons/red-dot.svg") no-repeat;
+	background-size: 100% 100%;
 }
 
 @keyframes float {
@@ -207,27 +233,77 @@ body {
 	}
 }
 
+#date-time {
+	writing-mode: vertical-rl;
+	place-self: start;
+	z-index: 0;
+}
+
+#developer {
+	writing-mode: vertical-lr;
+	transform: rotate(180deg);
+	place-self: end;
+	z-index: 0;
+}
+
+/*-------------------------------ABOUT ME/CONTACT-----------------------------*/
+
+#about-info {
+	color: var(--off-white);
+	place-self: start;
+	opacity: 0;
+	filter: blur(4px);
+	z-index: 4;
+}
+
+#contact-info {
+	color: var(--off-white);
+	opacity: 0;
+	filter: blur(4px);
+	z-index: 4;
+}
+
+#about-pic {
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	filter: blur(4px);
+	z-index: 4;
+}
+
 #homepage-close {
+	justify-self: end;
+	align-self: start;
+	padding: 0;
+	opacity: 0;
+	filter: blur(4px);
 	transition: transform 500ms cubic-bezier(0.79,0.14,0.15,0.86);
+	z-index: 4;
 }
 
 #homepage-close:hover {
 	transform: rotate(180deg);
 }
 
+#homepage-window {
+	width: 100%;
+	height: 100%;
+	background-color: var(--dark-color);
+	z-index: 3;
+}
+
 /*---------------------------------PROJECT FEED-------------------------------*/
 
 #project-feed {
 	display: grid;
-	opacity: 0;
-	overflow: hidden;
+	overflow: scroll;
 	position: fixed;
 	inset: 0;
 	margin: auto;
 	place-items: start;
 	align-content: start;
 	width: 100%;
-	z-index: 0;
+	z-index: 3;
 }
 
 .project-row {
@@ -249,7 +325,7 @@ body {
 .project-text {
 	opacity: 0;
 	filter: blur(4px);
-	transition: opacity 500ms ease-out, filter 500ms ease-out;
+	transition: opacity 800ms ease-out, filter 800ms ease-out;
 }
 
 .project-text span, .project-text-repeat span {
@@ -260,6 +336,21 @@ body {
 	font-weight: 500;
 	border-bottom: 1px solid var(--dark-grid);
 	width: fit-content;
+}
+
+#return-home {
+	position: fixed;
+	padding: 0;
+	opacity: 0;
+	filter: blur(4px);
+	transition: opacity 800ms ease-out,
+				filter 800ms ease-out,
+				transform 500ms cubic-bezier(0.79,0.14,0.15,0.86);
+	z-index: 4;
+}
+
+#return-home:hover {
+	transform: rotate(360deg);
 }
 
 /*------------------------------INDIVIDUAL PROJECT----------------------------*/
@@ -332,10 +423,6 @@ body {
 
 @media screen and (min-width: 901px) {
 
-	body {
-		height: 400vh;
-	}
-
 /*-----------------------------GRID+LOGO+PRELOADER----------------------------*/
 
 	#grid-logo {
@@ -367,11 +454,9 @@ body {
 	#name {
 		grid-column: 2 / 4;
 		grid-row: 2 / 3;
-		place-self: start;
 		padding: 1.7vw;
 		font-size: var(--desk-font-XL);
 		line-height: 4.4vw;
-		z-index: 6;
 	}
 
 	#title {
@@ -391,7 +476,7 @@ body {
 		line-height: 1.4vw;
 	}
 
-	#about {
+	#about-btn {
 		grid-column: 5 / 6;
 		grid-row: 2 / 3;
 		display: flex;
@@ -400,7 +485,6 @@ body {
 		height: 100%;
 		font-size: var(--desk-font-S);
 		cursor: url("../icons/yellow-dot.svg") 10 10, auto;
-		z-index: 4;
 		transition: color 300ms, filter 500ms;
 	}
 
@@ -413,13 +497,9 @@ body {
 		width: calc(100% + 1.2vw);
 		height: calc(100% + 0.8vw);
 		margin: -0.4vw -0.6vw;
-		background-color: var(--dark-color);
-		transform: translateX(-101%);
-		transition: transform 300ms cubic-bezier(0.79,0.14,0.15,0.86);
-		z-index: 3;
 	}
 
-	#contact {
+	#contact-btn {
 		grid-column: 5 / 6;
 		grid-row: 4 / 5;
 		display: flex;
@@ -428,7 +508,6 @@ body {
 		height: 100%;
 		font-size: var(--desk-font-S);
 		cursor: url("../icons/green-dot.svg") 10 10, auto;
-		z-index: 4;
 		transition: color 300ms, filter 500ms;
 	}
 
@@ -437,7 +516,7 @@ body {
 		grid-row: 4 / 5;
 	}
 
-	#projects {
+	#project-btn {
 		grid-column: 7 / 8;
 		grid-row: 3 / 4;
 		display: flex;
@@ -446,23 +525,12 @@ body {
 		height: 100%;
 		font-size: var(--desk-font-S);
 		cursor: url("../icons/red-dot.svg") 10 10, auto;
-		z-index: 4;
 		transition: color 300ms, filter 500ms;
 	}
 
-	#projects-rollover {
+	#project-rollover {
 		grid-column: 7 / 8;
 		grid-row: 3 / 4;
-	}
-
-	#scroll {
-		margin-top: 2vh;
-		grid-column: 4 / 6;
-		grid-row: 5 / 6;
-		align-self: start;
-		justify-self: center;
-		text-align: center;
-		font-size: var(--desk-font-S);
 	}
 
 	.side-arrow {
@@ -478,9 +546,7 @@ body {
 	#date-time {
 		grid-column: 1 / 2;
 		grid-row: 2 / 3;
-		place-self: start;
 		font-size: var(--desk-font-XS);
-		writing-mode: vertical-rl;
 		border-top: 1px var(--dark-grid) solid;
 		margin-bottom: -1px;
 	}
@@ -488,10 +554,7 @@ body {
 	#developer {
 		grid-column: 8 / 9;
 		grid-row: 4 / 5;
-		place-self: end;
 		font-size: var(--desk-font-XS);
-		writing-mode: vertical-lr;
-		transform: rotate(180deg);
 		border-top: 1px var(--dark-grid) solid;
 		margin-bottom: -1px;
 	}
@@ -501,22 +564,15 @@ body {
 	#homepage-window {
 		grid-column: 5 / 6;
 		grid-row: 2 / 3;
-		width: 100%;
-		height: 100%;
-		background-color: var(--dark-color);
 		transition: transform 800ms cubic-bezier(0.79,0.14,0.15,0.86);
-		z-index: 5;
 	}
 
 	#about-info {
 		text-align: justify;
 		grid-column: 2 / 4;
 		grid-row: 3 / 4;
-		place-self: start;
 		font-size: 0.8vw;
-		color: var(--off-white);
 		padding: 1.7vw;
-		z-index: 6;
 	}
 
 	#contact-info {
@@ -524,29 +580,20 @@ body {
 		grid-row: 3 / 4;
 		place-self: center;
 		font-size: var(--desk-font-M);
-		color: var(--off-white);
-		z-index: 6;
 	}
 
 	#about-pic {
 		grid-column: 4 / 7;
 		grid-row: 2 / 5;
 		align-self: center;
-		width: 100%;
-		height: 100%;
 		padding: 4.2vw;
-		z-index: 6;
 	}
 
 	#homepage-close {
 		grid-column: 7 / 8;
 		grid-row: 2 / 3;
-		justify-self: end;
-		align-self: start;
-		width: 2.5vw;
+		width: 3.2vw;
 		margin: 1.7vw;
-		padding: 0;
-		z-index: 6;
 	}
 
 /*---------------------------------PROJECT FEED-------------------------------*/
@@ -574,6 +621,12 @@ body {
 		line-height: 2.1vw;
 		padding-bottom: 1.4vw;
 		margin-bottom: 1.4vw;
+	}
+
+	#return-home {
+		width: 5.5%;
+		top: 3vw;
+		right: 3vw;
 	}
 
 /*------------------------------INDIVIDUAL PROJECT----------------------------*/
@@ -615,10 +668,6 @@ body {
 
 @media screen and (max-width: 900px) {
 
-	body {
-		height: 300vh;
-	}
-
 /*-----------------------------GRID+LOGO+PRELOADER----------------------------*/
 
 	#grid-logo {
@@ -646,11 +695,8 @@ body {
 	#name {
 		grid-column: 5 / 24;
 		grid-row: 9 / 16;
-		align-self: center;
-		justify-self: start;
 		font-size: var(--tab-font-XL);
 		line-height: 11vw;
-		z-index: 6;
 		transition: color 500ms, margin 700ms;
 	}
 
@@ -672,7 +718,7 @@ body {
 		padding-left: 4px;
 	}
 
-	#about {
+	#about-btn {
 		grid-column: 5 / 9;
 		grid-row: 3 / 4;
 		align-self: center;
@@ -689,13 +735,9 @@ body {
 	.black-square {
 		width: 100%;
 		height: 100%;
-		background-color: var(--dark-color);
-		transform: translateX(-101%);
-		transition: transform 300ms cubic-bezier(0.79,0.14,0.15,0.86);
-		z-index: 3;
 	}
 
-	#contact {
+	#contact-btn {
 		grid-column: 25 / 29;
 		grid-row: 3 / 4;
 		align-self: center;
@@ -704,11 +746,9 @@ body {
 		padding-right: 4px;
 	}
 
-	#scroll {
-		grid-column: 14 / 20;
-		grid-row: 32 / 34;
-		place-self: center;
-		text-align: center;
+	#tap-projects {
+		grid-column: 15 / 19;
+		grid-row: 31 / 35;
 		font-size: var(--tab-font-S);
 	}
 
@@ -727,10 +767,7 @@ body {
 	#date-time {
 		grid-column: 1 / 2;
 		grid-row: 9 / 18;
-		align-self: start;
-		justify-self: center;
 		font-size: var(--tab-font-XS);
-		writing-mode: vertical-rl;
 		border-top: 0.5px var(--dark-grid) solid;
 		margin-left: 1px;
 		padding-top: 0.6vw;
@@ -741,10 +778,7 @@ body {
 	#developer {
 		grid-column: 32 / 33;
 		grid-row: 18 / 25;
-		align-self: end;
 		font-size: var(--tab-font-XS);
-		writing-mode: vertical-lr;
-		transform: rotate(180deg);
 		border-top: 0.5px var(--dark-grid) solid;
 		margin-bottom: -1px;
 		padding-top: 0.6vw;
@@ -757,22 +791,15 @@ body {
 	#homepage-window {
 		grid-column: 14 / 20;
 		grid-row: 2 / 5;
-		width: 100%;
-		height: 100%;
-		background-color: var(--dark-color);
 		transition: transform 800ms cubic-bezier(0.79,0.14,0.15,0.86),
 					grid-column 800ms cubic-bezier(0.79,0.14,0.15,0.86),
 					grid-row 800ms cubic-bezier(0.79,0.14,0.15,0.86);
-		z-index: 5;
 	}
 
 	#about-info {
 		grid-column: 5 / 24;
-		grid-row: 13 / 19;
-		place-self: start;
+		grid-row: 11 / 17;
 		font-size: var(--tab-font-S);
-		color: var(--off-white);
-		z-index: 6;
 	}
 
 	#contact-info {
@@ -781,27 +808,18 @@ body {
 		grid-row: 18 / 22;
 		place-self: start;
 		font-size: var(--tab-font-M);
-		color: var(--off-white);
-		z-index: 6;
 	}
 
 	#about-pic {
 		grid-column: 5 / 24;
-		grid-row: 21 / 40;
-		width: 100%;
-		height: 100%;
+		grid-row: 18 / 37;
 		padding: 0;
-		z-index: 6;
 	}
 
 	#homepage-close {
 		grid-column: 28 / 31;
 		grid-row: 3 / 6;
-		justify-self: end;
-		align-self: start;
 		width: 5vw;
-		padding: 0;
-		z-index: 6;
 	}
 
 /*---------------------------------PROJECT FEED-------------------------------*/
@@ -829,6 +847,12 @@ body {
 		line-height: 4.5vw;
 		padding-bottom: 2vw;
 		margin-bottom: 2vw;
+	}
+
+	#return-home {
+		width: 9%;
+		top: 4vw;
+		right: 4vw;
 	}
 
 /*------------------------------INDIVIDUAL PROJECT----------------------------*/
@@ -870,10 +894,6 @@ body {
 
 @media screen and (max-width: 600px) {
 
-	body {
-		height: 300vh;
-	}
-
 /*-----------------------------GRID+LOGO+PRELOADER----------------------------*/
 
 	#grid-logo {
@@ -902,11 +922,9 @@ body {
 	#name {
 		grid-column: 5 / 29;
 		grid-row: 11 / 21;
-		place-self: start;
 		font-size: var(--mob-font-XL);
 		line-height: 16vw;
 		margin-top: 1.4vw;
-		z-index: 6;
 		transition: color 500ms, margin 700ms;
 	}
 
@@ -928,7 +946,7 @@ body {
 		padding-left: 4px;
 	}
 
-	#about {
+	#about-btn {
 		grid-column: 5 / 10;
 		grid-row: 3 / 4;
 		align-self: center;
@@ -945,13 +963,9 @@ body {
 	.black-square {
 		width: 100%;
 		height: 100%;
-		background-color: var(--dark-color);
-		transform: translateX(-101%);
-		transition: transform 300ms cubic-bezier(0.79,0.14,0.15,0.86);
-		z-index: 3;
 	}
 
-	#contact {
+	#contact-btn {
 		grid-column: 23 / 29;
 		grid-row: 3 / 4;
 		align-self: center;
@@ -960,11 +974,9 @@ body {
 		padding-right: 4px;
 	}
 
-	#scroll {
-		grid-column: 12 / 22;
-		grid-row: 44 / 47;
-		place-self: center;
-		text-align: center;
+	#tap-projects {
+		grid-column: 14 / 20;
+		grid-row: 42 / 48;
 		font-size: var(--mob-font-S);
 	}
 
@@ -985,22 +997,15 @@ body {
 	#homepage-window {
 		grid-column: 14 / 20;
 		grid-row: 2 / 5;
-		width: 100%;
-		height: 100%;
-		background-color: var(--dark-color);
 		transition: transform 800ms cubic-bezier(0.79,0.14,0.15,0.86),
 					grid-column 800ms cubic-bezier(0.79,0.14,0.15,0.86),
 					grid-row 800ms cubic-bezier(0.79,0.14,0.15,0.86);
-		z-index: 5;
 	}
 
 	#about-info {
 		grid-column: 5 / 29;
 		grid-row: 17 / 25;
-		place-self: start;
 		font-size: var(--mob-font-XS);
-		color: var(--off-white);
-		z-index: 6;
 	}
 
 	#contact-info {
@@ -1009,27 +1014,18 @@ body {
 		grid-row: 24 / 30;
 		place-self: start;
 		font-size: var(--tab-font-M);
-		color: var(--off-white);
-		z-index: 6;
 	}
 
 	#about-pic {
 		grid-column: 5 / 29;
 		grid-row: 27 / 51;
-		width: 100%;
-		height: 100%;
 		padding: 0;
-		z-index: 6;
 	}
 
 	#homepage-close {
 		grid-column: 28 / 31;
 		grid-row: 3 / 6;
-		justify-self: end;
-		align-self: start;
 		width: 5vw;
-		padding: 0;
-		z-index: 6;
 	}
 
 /*---------------------------------PROJECT FEED-------------------------------*/
@@ -1060,7 +1056,13 @@ body {
 	}
 
 	.project-cell img {
-		opacity: 1 !important;
+		transition: opacity 500ms ease-out;
+	}
+
+	#return-home {
+		width: 12%;
+		top: 4vw;
+		right: 4vw;
 	}
 
 /*------------------------------INDIVIDUAL PROJECT----------------------------*/

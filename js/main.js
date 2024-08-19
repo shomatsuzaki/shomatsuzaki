@@ -12,16 +12,18 @@ const lightColor = getComputedStyle(root).getPropertyValue("--light-color").trim
 const darkColor = getComputedStyle(root).getPropertyValue("--dark-color").trim();
 
 // get elements that need to be targeted repeatedly
-let grid = document.getElementById("grid-logo"); // lives within homepage div
-let homepageInfo = document.getElementById("homepage-info"); // lives within homepage div
+let grid = document.getElementById("grid-logo");
+let homepageInfo = document.getElementById("homepage-info");
 let projectFeed = document.getElementById("project-feed");
 let projectRows = document.querySelectorAll(".project-row");
 let projectCloses = document.querySelectorAll(".project-close");
-let aboutMe = document.getElementById("about");
-let contactMe = document.getElementById("contact");
-let projects = document.getElementById("projects");
+let aboutMe = document.getElementById("about-btn");
+let contactMe = document.getElementById("contact-btn");
+let projectBtn = document.getElementById("project-btn");
+let tapProjects = document.getElementById("tap-projects");
 let homepageClose = document.getElementById("homepage-close");
 let homepageWindow = document.getElementById("homepage-window");
+let returnHome = document.getElementById("return-home");
 
 // get viewport width and height
 let vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
@@ -49,13 +51,13 @@ function easeInOutCubic(x) {
 function hideElements() {
 	var dateTime = document.getElementById("date-time");
 	var developer = document.getElementById("developer");
-	var scroll = document.getElementById("scroll");
-	if (vw > 900) {
-		scroll.classList.add("hidden");
-		projects.classList.remove("hidden");
-		projects.nextElementSibling.classList.remove("hidden");
+	if (vw > 900) { // for desktop
+		tapProjects.classList.add("hidden");
+		projectBtn.classList.remove("hidden");
+		projectBtn.nextElementSibling.classList.remove("hidden");
 		dateTime.classList.remove("hidden");
 		developer.classList.remove("hidden");
+		// don't hide any project thumbnails
 		projectRows.forEach((row) => {
 			var projectCells = row.children;
 			for (var i = 0; i < projectCells.length-1; i++) {
@@ -63,12 +65,13 @@ function hideElements() {
 				projectCells[i].classList.remove("hidden");
 			}
 		});
-	} else if (vw > 600) {
-		projects.classList.add("hidden");
-		projects.nextElementSibling.classList.add("hidden");
-		scroll.classList.remove("hidden");
+	} else if (vw > 600) { // for tablet
+		projectBtn.classList.add("hidden");
+		projectBtn.nextElementSibling.classList.add("hidden");
+		tapProjects.classList.remove("hidden");
 		dateTime.classList.remove("hidden");
 		developer.classList.remove("hidden");
+		// remove the last two project thumbnails
 		projectRows.forEach((row) => {
 			var projectCells = row.children;
 			for (var i = 0; i < projectCells.length-1; i++) {
@@ -80,12 +83,13 @@ function hideElements() {
 				}
 			}
 		});
-	} else {
-		projects.classList.add("hidden");
-		projects.nextElementSibling.classList.add("hidden");
+	} else { // for mobile
+		projectBtn.classList.add("hidden");
+		projectBtn.nextElementSibling.classList.add("hidden");
 		dateTime.classList.add("hidden");
 		developer.classList.add("hidden");
-		scroll.classList.remove("hidden");
+		tapProjects.classList.remove("hidden");
+		// remove all thumbnails except hero image and project info
 		projectRows.forEach((row) => {
 			var projectCells = row.children;
 			for (var i = 0; i < projectCells.length-1; i++) {
@@ -109,6 +113,33 @@ window.onresize = function() {
 	// re-hide/show elements
 	hideElements();
 
+	// re-arrange order of project thumbnails
+	projectRows.forEach((row, index) => {
+		var infoCell = row.querySelector(".project-info");
+		var projectView = row.querySelector(".project-view");
+		var allImages = row.querySelectorAll(".project-cell img"); // excludes close button
+		// rearrange project-info cell based on device
+		row.appendChild(infoCell);
+		row.appendChild(projectView);
+		if (vw > 900) {
+			row.insertBefore(infoCell, row.children[index % 6]);
+		} else if (vw > 600) {
+			row.insertBefore(infoCell, row.children[index % 4]);
+		} else if (index % 2 == 0) { // for mobile, only matters if project num is even or odd
+			row.insertBefore(infoCell, row.children[0]);
+		}
+		// dynamically set text width of project view
+		var projectText = row.querySelector(".project-text");
+		var projectTextRepeat = row.querySelector(".project-text-repeat");
+		var projectDesc = row.querySelector(".project-desc");
+		projectTextRepeat.style.width = getComputedStyle(projectText).width;
+		if (vw > 900) {
+			projectDesc.style.width = getComputedStyle(projectText).width;
+		} else {
+			projectDesc.style.width = "50%";
+		}
+	});
+
 	// resize grid based on where we are in user flow, since SVG grid will not scale dynamically
 	if (!isLoaded) {
 		if (vw > 900) {
@@ -125,7 +156,7 @@ window.onresize = function() {
 			grid.style.strokeWidth = "1px";
 		}
 	}
-	if (isLoaded && !inFeedView) {
+	else if (isLoaded && !inFeedView) {
 		if (vw > 900) {
 			// desktop
 			grid.style.height = (3.5*vw*38/8) + "px";
@@ -139,39 +170,41 @@ window.onresize = function() {
 			grid.style.left = ((vw*38/32)/-2 + vw/2) + "px";
 			grid.style.strokeWidth = "1px";
 		}
-	}
-	if (inFeedView) {
-		projectRows.forEach((row, index) => {
-			var infoCell = row.querySelector(".project-info");
-			var projectView = row.querySelector(".project-view");
-			var allImages = row.querySelectorAll(".project-cell img"); // excludes close button
-			// rearrange project-info cell based on device
-			row.appendChild(infoCell);
-			row.appendChild(projectView);
+		if (inAbout) {
 			if (vw > 900) {
-				row.insertBefore(infoCell, row.children[index % 6]);
+				homepageInfo.querySelector("#name").style.marginTop = "0";
+				homepageWindow.style.transform = "translate(-50%,100%) scale(6,3)";
+				homepageWindow.style.margin = "0.5px 0 0 0.5px";
+				homepageWindow.style.gridRow = "2 / 3";
 			} else if (vw > 600) {
-				row.insertBefore(infoCell, row.children[index % 4]);
-			} else if (index % 2 == 0) { // for mobile, only matters if project num is even or odd
-				row.insertBefore(infoCell, row.children[0]);
-			}
-			// for desktop and tablet, dynamically set transition delay for all cells except project view
-			if (vw > 600) {
-				allImages.forEach((image, index) => {
-					image.style.transitionDelay = (index*50) + "ms";
-				});
-			}
-			// dynamically set text width of project view
-			var projectText = row.querySelector(".project-text");
-			var projectTextRepeat = row.querySelector(".project-text-repeat");
-			var projectDesc = row.querySelector(".project-desc");
-			projectTextRepeat.style.width = getComputedStyle(projectText).width;
-			if (vw > 900) {
-				projectDesc.style.width = getComputedStyle(projectText).width;
+				homepageInfo.querySelector("#name").style.marginTop = "-19.5vw";
+				homepageWindow.style.transform = "translate(0%,0%) scale(6,60)";
+				homepageWindow.style.margin = "0";
+				homepageWindow.style.gridRow = "2 / 5";
 			} else {
-				projectDesc.style.width = "50%";
+				homepageInfo.querySelector("#name").style.marginTop = "-18vw";
+				homepageWindow.style.transform = "translate(0%,0%) scale(6,60)";
+				homepageWindow.style.margin = "0";
+				homepageWindow.style.gridRow = "2 / 5";
 			}
-		});
+		}
+		if (inContact) {
+			if (vw > 900) {
+				homepageWindow.style.transform = "translate(-50%,-100%) scale(6,3)";
+				homepageWindow.style.margin = "0.5px 0 0 0.5px";
+				homepageWindow.style.gridRow = "4 / 5";
+			} else if (vw > 600) {
+				homepageWindow.style.transform = "translate(0%,0%) scale(6,60)";
+				homepageWindow.style.margin = "0";
+				homepageWindow.style.gridRow = "2 / 5";
+			} else {
+				homepageWindow.style.transform = "translate(0%,0%) scale(6,60)";
+				homepageWindow.style.margin = "0";
+				homepageWindow.style.gridRow = "2 / 5";
+			}
+		}
+	}
+	else if (isLoaded && inFeedView) {
 		if (vw > 900) {
 			// desktop
 			grid.style.height = (3.5*vw*38/6) + "px";
@@ -192,7 +225,7 @@ window.onresize = function() {
 			grid.style.strokeWidth = "2px";
 		}
 	}
-	if (inProjectView) {
+	else if (isLoaded && inProjectView) {
 		projectRows.forEach((row, index) => {
 			var projectView = row.querySelector(".project-view");
 			projectView.style.width = vw + "px";
@@ -250,14 +283,6 @@ screen.orientation.addEventListener("change", function() {
     }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-	hideElements(); // hides any elements that need to be hidden for responsiveness
-	percentLoad(); // runs preloader percent animation
-	animateLogo(); // runs SHO logo animation during preloader
-	displayTime(); // runs current time display in homepage info
-	window.scrollTo(0,0); // moves scroll position to top for smooth initial scroll animation
-});
-
 ////////////////////////////////////////////////////////////////////////////////
 //                              OPENING ANIMATION                             //
 ////////////////////////////////////////////////////////////////////////////////
@@ -265,10 +290,10 @@ document.addEventListener("DOMContentLoaded", () => {
 function percentLoad() {
 	// get all the percentage HTML elements
 	var percentages = document.getElementsByClassName("percentage"),
-		fps = 60;
+		count = 0,
 		endCount = 100,
-		count = 0;
-
+		duration = 3; // in seconds
+	// count up every 30ms for a total of 3s
 	var handler = setInterval(function() {
 		for (var i = 0; i < percentages.length; i++) {
 			var percentage = percentages[i];
@@ -286,7 +311,7 @@ function percentLoad() {
 			isLoaded = true;
 			clearInterval(handler);
 		}
-	}, 1800/fps); // runs every 30ms for total of 3s animation
+	}, duration*10);
 }
 
 function animateLogo() {
@@ -302,99 +327,62 @@ function animateLogo() {
 		hzMask3 = document.getElementById("hz-mask3"),
 		hzMask4 = document.getElementById("hz-mask4"),
 		hzMask5 = document.getElementById("hz-mask5"),
-		hzMask6 = document.getElementById("hz-mask6"),
-		fps = 60,
-		frame1 = 0,
-		frame2 = 0,
-		frame3 = 0,
-		duration = 2, // seconds
-		totalFrames = duration * fps,
-		endTranslate = 8; // pixels
-	var handler = setInterval(function() {
-		// stop animating once 3rd set of lines has finished animating
-		if (frame3 > totalFrames) {
-			animateGrid();
-			clearInterval(handler);
-		}
-		// first set of lines animates in by masks moving
-		if (frame1 <= totalFrames) {
-			vtMask1.style.transform = "translateY(" + (endTranslate * frame1 / totalFrames) + "px)";
-			vtMask3.style.transform = "translateY(" + (endTranslate * frame1 / totalFrames) + "px)";
+		hzMask6 = document.getElementById("hz-mask6");
+	// 1. animate first set of lines
+	vtMask1.style.transform = "translateY(8px)";
+	vtMask3.style.transform = "translateY(8px)";
+	//reverse direction for some lines
+	vtMask2.style.transform = "translateY(-8px)";
+	vtMask4.style.transform = "translateY(-8px)";
+	// 2. animate second set of lines
+	setTimeout(function() {
+		hzMask3.style.transform = "translateX(8px)";
+		hzMask4.style.transform = "translateX(8px)";
+		//reverse direction for some lines
+		hzMask1.style.transform = "translateX(-8px)";
+		hzMask2.style.transform = "translateX(-8px)";
+		// 3. animate third set of lines
+		setTimeout(function() {
+			vtMask5.style.transform = "translateY(8px)";
+			vtMask7.style.transform = "translateY(8px)";
+			hzMask6.style.transform = "translateX(8px)";
 			//reverse direction for some lines
-			vtMask2.style.transform = "translateY(" + (endTranslate * frame1 / totalFrames * -1) + "px)";
-			vtMask4.style.transform = "translateY(" + (endTranslate * frame1 / totalFrames * -1) + "px)";
-			frame1++;
-		}
-		// second set of lines animates in by masks moving
-		if (frame2 <= totalFrames && frame1 > (duration * 0.75) * fps) {
-			hzMask3.style.transform = "translateX(" + (endTranslate * frame2 / totalFrames) + "px)";
-			hzMask4.style.transform = "translateX(" + (endTranslate * frame2 / totalFrames) + "px)";
-			//reverse direction for some lines
-			hzMask1.style.transform = "translateX(" + (endTranslate * frame2 / totalFrames * -1) + "px)";
-			hzMask2.style.transform = "translateX(" + (endTranslate * frame2 / totalFrames * -1) + "px)";
-			frame2++;
-		}
-		// third set of lines animates in by masks moving
-		if (frame3 <= totalFrames && frame2 > (duration * 0.3) * fps) {
-			vtMask5.style.transform = "translateY(" + (endTranslate * frame3 / totalFrames) + "px)";
-			vtMask7.style.transform = "translateY(" + (endTranslate * frame3 / totalFrames) + "px)";
-			hzMask6.style.transform = "translateX(" + (endTranslate * frame3 / totalFrames) + "px)";
-			//reverse direction for some lines
-			vtMask6.style.transform = "translateY(" + (endTranslate * frame3 / totalFrames * -1) + "px)";
-			hzMask5.style.transform = "translateX(" + (endTranslate * frame3 / totalFrames * -1) + "px)";
-			frame3++;
-		}
-	}, 1000/fps);
+			vtMask6.style.transform = "translateY(-8px)";
+			hzMask5.style.transform = "translateX(-8px)";
+			// 4. initiate grid zoom
+			setTimeout(function() {
+				animateGrid();
+			}, 1800);
+		}, 600);
+	}, 1500);
 }
 
 function animateGrid() {
-	var fps = 60,
-		duration = 2, // seconds
-		frame = 0,
-		totalFrames = duration*fps,
-		deskStartHeight = 3.5*vw, // grid has 38 columns and is 3.5x longer than it is wide, start with all 38 columns in view
-		deskEndHeight = 3.5*vw*38/8, // zoomed so only 8 columns are in vew
-		deskStartTop = deskStartHeight/-2 + vh/2, // for grid to be centered, top must be negative half of grid height (3.5x of width) + half of view
+	var deskEndHeight = 3.5*vw*38/8, // zoomed so only 8 columns are in vew
 		deskEndTop = deskEndHeight/-2 + vh/2,
-		deskStartLeft = 0,
 		deskEndLeft = (vw*38/8)/-2 + vw/2, // for grid to be centered, left must be negative half of grid width (38/8x of width) + half of view
 		mobHeight = 3.5*vw*38/32 // zoomed so 32 of 38 columns in view
-		mobStartTop = mobHeight/-2 + vh/2,
 		mobEndTop = mobHeight/-2 + 2.5*1/32*vw; // each square is 1/32 vw, need to move grid up half vh then down 2.5 squares
-	var handler = setInterval(function() {
-		if (frame > totalFrames) {
-			homepageInfo.classList.remove("hidden");
-			document.body.style.overflow = "auto";
-			setTimeout(function() {
-				//make homepage info children visible
-				var homeChildren = homepageInfo.querySelectorAll("div:not(#about-info), a");
-				for (var i = 0; i < homeChildren.length; i++) {
-					homeChildren[i].style.opacity = "1";
-					homeChildren[i].style.filter = "blur(0px)";
-				}
-				//stop animation
-				clearInterval(handler);
-			}, 100);
-		} else if (frame >= 0) {
-			// desktop animation
-			if (vw > 900) {
-				grid.style.strokeWidth = "" + (1 + frame / totalFrames);
-				grid.style.height = (deskStartHeight + ((deskEndHeight - deskStartHeight) * easeInOutCubic(frame / totalFrames))) + "px";
-				grid.style.top = (deskStartTop + ((deskEndTop - deskStartTop) * easeInOutCubic(frame / totalFrames))) + "px";
-				grid.style.left = (deskStartLeft + ((deskEndLeft - deskStartLeft) * easeInOutCubic(frame / totalFrames))) + "px";
-			}
-			// tablet and mobile animation
-			else {
-				grid.style.top = (mobStartTop + ((mobEndTop - mobStartTop) * easeInOutCubic(frame / totalFrames))) + "px";
-			}
+	// 1. zoom in grid if fully loaded
+	if (isLoaded) {
+		if (vw > 900) { // for desktop
+			grid.style.strokeWidth = "2";
+			grid.style.height = deskEndHeight + "px";
+			grid.style.top = deskEndTop + "px";
+			grid.style.left = deskEndLeft + "px";
+		} else { // for tablet and mobile
+			grid.style.top = mobEndTop + "px";
 		}
-		frame++
-	}, 1000/fps);
+		// 2. make homepage info visible
+		setTimeout(function() {
+			homepageInfo.classList.remove("hidden");
+			setTimeout(function() {
+				homepageInfo.style.opacity = "1";
+				homepageInfo.style.filter = "blur(0px)";
+			}, 100);
+		}, 1500);
+	}
 }
-
-////////////////////////////////////////////////////////////////////////////////
-//                                HOMEPAGE INFO                               //
-////////////////////////////////////////////////////////////////////////////////
 
 function displayTime() {
 	var now, dateOnly, timeOnly;
@@ -415,10 +403,21 @@ function displayTime() {
 	}, 1000);
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+	hideElements(); // hides any elements that need to be hidden for responsiveness
+	percentLoad(); // runs preloader percent animation
+	animateLogo(); // runs SHO logo animation during preloader
+	displayTime(); // runs current time display in homepage info
+	window.scrollTo(0,0); // moves scroll position to top for smooth initial scroll animation
+});
+
+////////////////////////////////////////////////////////////////////////////////
+//                                HOMEPAGE INFO                               //
+////////////////////////////////////////////////////////////////////////////////
+
 aboutMe.addEventListener("click", function() {
 	var aboutInfo = homepageInfo.querySelector("#about-info");
 	var aboutPic = homepageInfo.querySelector("#about-pic");
-	var scrollIcon = homepageInfo.querySelector("#scroll");
 	// remove hidden class from hidden elements (still invisible except window)
 	aboutInfo.classList.remove("hidden");
 	aboutPic.classList.remove("hidden");
@@ -445,7 +444,6 @@ aboutMe.addEventListener("click", function() {
 				homepageClose.style.opacity = "1";
 				homepageClose.style.filter = "blur(0px)";
 				// 6. prevent scroll
-				scrollIcon.style.opacity = "0";
 				projectFeed.style.overflow = "hidden";
 				document.body.style.overflow = "hidden";
 			}, 500);
@@ -461,7 +459,7 @@ aboutMe.addEventListener("click", function() {
 				// 2. set name to white and shift up
 				homepageInfo.querySelector("#name").style.color = offWhite;
 				if (vw > 600) {
-					homepageInfo.querySelector("#name").style.marginTop = "-28vw";
+					homepageInfo.querySelector("#name").style.marginTop = "-19.5vw";
 				} else {
 					homepageInfo.querySelector("#name").style.marginTop = "-18vw";
 				}
@@ -476,7 +474,6 @@ aboutMe.addEventListener("click", function() {
 					homepageClose.style.opacity = "1";
 					homepageClose.style.filter = "blur(0px)";
 					// 5. prevent scroll
-					scrollIcon.style.opacity = "0";
 					projectFeed.style.overflow = "hidden";
 					document.body.style.overflow = "hidden";
 				}, 500);
@@ -487,7 +484,6 @@ aboutMe.addEventListener("click", function() {
 
 contactMe.addEventListener("click", function() {
 	var contactInfo = homepageInfo.querySelector("#contact-info");
-	var scrollIcon = homepageInfo.querySelector("#scroll");
 	// remove hidden class from hidden elements (still invisible except window)
 	contactInfo.classList.remove("hidden");
 	homepageClose.classList.remove("hidden");
@@ -511,7 +507,6 @@ contactMe.addEventListener("click", function() {
 				homepageClose.style.opacity = "1";
 				homepageClose.style.filter = "blur(0px)";
 				// 6. prevent scroll
-				scrollIcon.style.opacity = "0";
 				projectFeed.style.overflow = "hidden";
 				document.body.style.overflow = "hidden";
 			}, 500);
@@ -535,7 +530,6 @@ contactMe.addEventListener("click", function() {
 					homepageClose.style.opacity = "1";
 					homepageClose.style.filter = "blur(0px)";
 					// 5. prevent scroll
-					scrollIcon.style.opacity = "0";
 					projectFeed.style.overflow = "hidden";
 					document.body.style.overflow = "hidden";
 				}, 500);
@@ -546,8 +540,6 @@ contactMe.addEventListener("click", function() {
 
 homepageClose.addEventListener("click", function() {
 	// 1. allow scroll
-	var scrollIcon = homepageInfo.querySelector("#scroll");
-	scrollIcon.style.opacity = "1";
 	projectFeed.style.overflow = "scroll";
 	document.body.style.overflow = "auto";
 	// 2. check which view is open, about or contact
@@ -668,6 +660,16 @@ homepageClose.addEventListener("click", function() {
 	}
 });
 
+// projects button for desktop
+projectBtn.addEventListener("click", function() {
+	zoomToProjects();
+});
+
+// projects button for tablet and mobile
+tapProjects.addEventListener("click", function() {
+	zoomToProjects();
+});
+
 aboutMe.addEventListener("mouseover", function() {
 	if (vw > 900) {
 		var blackSquare = aboutMe.nextElementSibling.querySelector(".black-square");
@@ -704,163 +706,150 @@ contactMe.addEventListener("mouseout", function() {
 	}
 });
 
-projects.addEventListener("mouseover", function() {
-	var blackSquare = projects.nextElementSibling.querySelector(".black-square");
+projectBtn.addEventListener("mouseover", function() {
+	var blackSquare = projectBtn.nextElementSibling.querySelector(".black-square");
 	blackSquare.style.transform = "translateX(0)";
-	projects.style.color = offWhite;
-	projects.querySelector(".side-arrow").style.filter = "invert(1)";
+	projectBtn.style.color = offWhite;
+	projectBtn.querySelector(".side-arrow").style.filter = "invert(1)";
 });
 
-projects.addEventListener("mouseout", function() {
-	var blackSquare = projects.nextElementSibling.querySelector(".black-square");
+projectBtn.addEventListener("mouseout", function() {
+	var blackSquare = projectBtn.nextElementSibling.querySelector(".black-square");
 	blackSquare.style.transform = "translateX(-101%)";
-	projects.style.color = darkColor;
-	projects.querySelector(".side-arrow").style.filter = "invert(0)";
+	projectBtn.style.color = darkColor;
+	projectBtn.querySelector(".side-arrow").style.filter = "invert(0)";
 });
 
 ////////////////////////////////////////////////////////////////////////////////
-//                              SCROLL TO PROJECTS                            //
+//                            TRANSITION TO PROJECTS                          //
 ////////////////////////////////////////////////////////////////////////////////
 
-window.addEventListener("scroll", () => {
-	scrollAnimation();
-});
-
-// boolean for whether or not scroll animation has happened before
-let firstTime = true;
-
-// boolean for which direction user is scrolling, true is down
-let scrollDirection = true;
-
-// value for storing last scroll val, for scrollDirection to work
-let lastScrollVal = 0;
-
-// function to blend two hex code colors by an amount from 0 to 1
-// used to gradually darken grid
-function blendColors(colorA, colorB, amount) {
-	const [rA, gA, bA] = colorA.match(/\w\w/g).map((c) => parseInt(c, 16));
-	const [rB, gB, bB] = colorB.match(/\w\w/g).map((c) => parseInt(c, 16));
-	const r = Math.round(rA + (rB - rA) * amount).toString(16).padStart(2, "0");
-	const g = Math.round(gA + (gB - gA) * amount).toString(16).padStart(2, "0");
-	const b = Math.round(bA + (bB - bA) * amount).toString(16).padStart(2, "0");
-	return "#" + r + g + b;
-}
-
-function scrollAnimation() {
-	// pageYOffset goes from 0 to full document height minus viewport height
-	// sets the scroll value to a decimal between 0 and 1, with 1 being full scroll
-	var scrollVal = window.pageYOffset / (document.body.offsetHeight - vh);
-
-	// store scroll direction
-	if (scrollVal >= lastScrollVal) {
-		scrollDirection = true; // scrolling down
-	} else {
-		scrollDirection = false; // scrolling up
-	}
-	lastScrollVal = scrollVal <= 0 ? 0 : scrollVal;
-
-	// only run if preloader animation is done
-	if (isLoaded) {
-		var gridLines = document.getElementsByClassName("grid-line"),
-			logoLines = document.getElementsByClassName("logo-line"),
-			deskStartHeight = 3.5*vw*38/8, // zoomed so 8 of 38 columns in view
-			deskEndHeight = 3.5*vw*38/6, // zoomed so 6 of 38 columns in view
-			tabStartHeight = 3.5*vw*38/32, // zoomed so 32 of 38 columns in view
-			tabEndHeight = 3.5*vw*38/4, // zoomed so 4 of 38 columns in view
-			mobStartHeight = tabStartHeight,
-			mobEndHeight = 3.5*vw*38/2, // zoomed so 2 of 38 columns in view
-			deskStartTop = deskStartHeight/-2 + vh/2, // center grid
-			deskEndTop = deskEndHeight/-2 + 1.5*1/6*vw, // center grid to top of view, then down 1.5 squares
-			tabStartTop = tabStartHeight/-2 + 2.5*1/32*vw, //center grid to top of view, then down 2.5 squares (for one grid padding at top)
-			tabEndTop = tabEndHeight/-2 + 1.5*1/4*vw, // center grid to top of view, then down 1.5 squares
-			mobStartTop = tabStartTop,
-			mobEndTop = mobEndHeight/-2 + 1.5*1/2*vw, // center grid to top of view, then down 1.5 squares
-			deskStartLeft = (vw*38/8)/-2 + vw/2, // center grid
-			deskEndLeft = (vw*38/6)/-2 + vw/2,
-			tabStartLeft = (vw*38/32)/-2 + vw/2,
-			tabEndLeft = (vw*38/4)/-2 + vw/2,
-			mobStartLeft = tabStartLeft,
-			mobEndLeft = (vw*38/2)/-2 + vw/2;
-		
-		// set scroll position to 0 so initial animation is smooth
-		if (firstTime) {
-			// move scroll to the very top while doc is not fully loaded
-			window.scrollTo(0,0);
-			firstTime = false;
+function zoomToProjects() {
+	var gridLines = document.getElementsByClassName("grid-line"),
+		deskEndHeight = 3.5*vw*38/6, // zoomed so 6 of 38 columns in view
+		tabEndHeight = 3.5*vw*38/4, // zoomed so 4 of 38 columns in view
+		mobEndHeight = 3.5*vw*38/2, // zoomed so 2 of 38 columns in view
+		deskEndTop = deskEndHeight/-2 + 1.5*1/6*vw, // center grid to top of view, then down 1.5 squares
+		tabEndTop = tabEndHeight/-2 + 1.5*1/4*vw, // center grid to top of view, then down 1.5 squares
+		mobEndTop = mobEndHeight/-2 + 1.5*1/2*vw, // center grid to top of view, then down 1.5 squares
+		deskEndLeft = (vw*38/6)/-2 + vw/2,
+		tabEndLeft = (vw*38/4)/-2 + vw/2,
+		mobEndLeft = (vw*38/2)/-2 + vw/2;
+	// 1. disappear homepage info
+	homepageInfo.style.opacity = "0";
+	homepageInfo.style.filter = "blur(4px)";
+	// 2. zoom in grid and change grid color
+	setTimeout(function() {
+		homepageInfo.classList.add("hidden");
+		// change grid stroke color to fully dark
+		for (var i = 0; i < gridLines.length; i++) {
+		   gridLines[i].style.stroke = darkGrid;
 		}
-
-		// control homepage info appear and disappearing
-		// when scrollVal = 0, blur = 0; when scrollVal = 0.2, blur = 4
-		var blurAmount = Math.min(4, scrollVal * 20);
-		homepageInfo.style.filter = "blur(" + blurAmount + "px)";
-		// when scrollVal = 0, opacity = 1; when scrollVal = 0.2, opacity = 0
-		var opacityAmount = Math.max(0, (1 - scrollVal*5));
-		homepageInfo.style.opacity = opacityAmount + "";
-
-		//control homepage info being hidden or not
-		if (scrollVal >= 0.2 && !homepageInfo.classList.contains("hidden")) {
-			homepageInfo.classList.add("hidden");
-		} else if (scrollVal <= 0.2 && homepageInfo.classList.contains("hidden")) {
-			homepageInfo.classList.remove("hidden");
+		if (vw > 900) { // for desktop
+			grid.style.height = deskEndHeight + "px";
+			grid.style.top = deskEndTop + "px";
+			grid.style.left = deskEndLeft + "px";
+		} else if (vw > 600) { // for tablet
+			grid.style.strokeWidth = "2";
+			grid.style.height = tabEndHeight + "px";
+			grid.style.top = tabEndTop + "px";
+			grid.style.left = tabEndLeft + "px";
+		} else { // for mobile
+			grid.style.strokeWidth = "2";
+			grid.style.height = mobEndHeight + "px";
+			grid.style.top = mobEndTop + "px";
+			grid.style.left = mobEndLeft + "px";
 		}
-
-		// control grid zooming in/out between 0% and 90% scroll
-		// desktop animation
-		if (vw > 900) {
-			grid.style.height = (deskStartHeight + ((deskEndHeight - deskStartHeight) * Math.min(1, scrollVal/.9))) + "px";
-			grid.style.top = (deskStartTop + ((deskEndTop - deskStartTop) * Math.min(1, scrollVal/.9))) + "px";
-			grid.style.left = (deskStartLeft + ((deskEndLeft - deskStartLeft) * Math.min(1, scrollVal/.9))) + "px";			
-		}	
-		// tablet animation	
-		else if (vw > 600) {
-			grid.style.strokeWidth = "" + (1 + scrollVal); // increase stroke width to 2 gradually
-			grid.style.height = (tabStartHeight + ((tabEndHeight - tabStartHeight) * Math.min(1, scrollVal/.9))) + "px";
-			grid.style.top = (tabStartTop + ((tabEndTop - tabStartTop) * Math.min(1, scrollVal/.9))) + "px";
-			grid.style.left = (tabStartLeft + ((tabEndLeft - tabStartLeft) * Math.min(1, scrollVal/.9))) + "px";
-		}
-		// mobile animation
-		else {
-			grid.style.strokeWidth = "" + (1 + scrollVal); // increase stroke width to 2 gradually
-			grid.style.height = (mobStartHeight + ((mobEndHeight - mobStartHeight) * Math.min(1, scrollVal/.9))) + "px";
-			grid.style.top = (mobStartTop + ((mobEndTop - mobStartTop) * Math.min(1, scrollVal/.9))) + "px";
-			grid.style.left = (mobStartLeft + ((mobEndLeft - mobStartLeft) * Math.min(1, scrollVal/.9))) + "px";
-		}
-
-		// control project feed and grid fading in/out between 90% and 100% scroll
-		projectFeed.style.opacity = Math.max(0, (scrollVal - .9)*10);
-		projectFeed.style.zIndex = Math.max(0, (scrollVal - .9)*20).toFixed(); //z-index gradually goes from 0 to 2, moving in front of grid
-		grid.style.opacity = Math.min(1, (scrollVal - 1)*-10);
-
-		// control fully entering project feed at 100% scroll
-		if (scrollVal < 1) {
-			projectFeed.style.overflow = "hidden";
-			inFeedView = false;
-			var projChildren = projectFeed.querySelectorAll(".project-text");
-			for (var i = 0; i < projChildren.length; i++) {
-				projChildren[i].style.opacity = "0";
-				projChildren[i].style.filter = "blur(4px)";
-			}
-			document.body.style.cursor = "url('./icons/blue-dot.svg') 10 10, auto";
-		} else {
-			projectFeed.style.overflow = "scroll";
+		// 3. fade in project feed
+		setTimeout(function() {
+			grid.style.opacity = "0";
+			projectFeed.classList.remove("hidden");
 			inFeedView = true;
 			var projChildren = projectFeed.querySelectorAll(".project-text");
 			for (var i = 0; i < projChildren.length; i++) {
 				projChildren[i].style.opacity = "1";
 				projChildren[i].style.filter = "blur(0px)";
 			}
+			// fade in thumbnail images for mobile only
+			if (vw <= 600) {
+				var heroThumbs = projectFeed.querySelectorAll(".project-cell img");
+				for (var i = 0; i < heroThumbs.length; i++) {
+					heroThumbs[i].style.opacity = "1";
+				}
+			}
+			returnHome.style.opacity = "1";
+			returnHome.style.filter = "blur(0px)";
 			document.body.style.cursor = "url('./icons/red-dot.svg') 10 10, auto";
-		}
-		
-		// change grid stroke color to fully dark
-		for (var i = 0; i < gridLines.length; i++) {
-		   gridLines[i].style.stroke = blendColors(lightGrid, darkGrid, scrollVal);
-		}
-	} else {
-		// make sure page is at very top while preloader runs
-		window.scrollTo(0,0);
-	}
+		}, 1500);
+	}, 500);
 }
+
+function zoomFromProjects() {
+	var gridLines = document.getElementsByClassName("grid-line"),
+		deskEndHeight = 3.5*vw*38/8, // zoomed so only 8 columns are in vew
+		deskEndTop = deskEndHeight/-2 + vh/2,
+		deskEndLeft = (vw*38/8)/-2 + vw/2, // for grid to be centered, left must be negative half of grid width (38/8x of width) + half of view
+		mobEndHeight = 3.5*vw*38/32 // zoomed so 32 of 38 columns in view
+		mobEndTop = mobEndHeight/-2 + 2.5*1/32*vw; // each square is 1/32 vw, need to move grid up half vh then down 2.5 squares
+		mobEndLeft = (vw*38/32)/-2 + vw/2 // for grid to be centered, left must be negative half of grid width (38/32x of width) + half of view
+	// 1. scroll to top of project feed
+	projectFeed.scrollTo({
+		top: 0,
+		left: 0,
+		behavior: "smooth"
+	});
+	// 2. fade out project feed
+	var projChildren = projectFeed.querySelectorAll(".project-text");
+	for (var i = 0; i < projChildren.length; i++) {
+		projChildren[i].style.opacity = "0";
+		projChildren[i].style.filter = "blur(4px)";
+	}
+	// fade out thumbnail images for mobile only
+	if (vw <= 600) {
+		var heroThumbs = projectFeed.querySelectorAll(".project-cell img");
+		for (var i = 0; i < heroThumbs.length; i++) {
+			heroThumbs[i].style.opacity = "0";
+		}
+	}
+	returnHome.style.opacity = "0";
+	returnHome.style.filter = "blur(4px)";
+	inFeedView = false;
+	setTimeout(function() {
+		// 3. fade in grid
+		grid.style.opacity = "1";
+		// 4. zoom out of grid
+		setTimeout(function() {
+			projectFeed.classList.add("hidden");
+			// change grid stroke color to fully dark
+			for (var i = 0; i < gridLines.length; i++) {
+			   gridLines[i].style.stroke = lightGrid;
+			}
+			if (vw > 900) { // for desktop
+				grid.style.height = deskEndHeight + "px";
+				grid.style.top = deskEndTop + "px";
+				grid.style.left = deskEndLeft + "px";
+			} else { // for tablet and mobile
+				grid.style.strokeWidth = "1";
+				grid.style.height = mobEndHeight + "px";
+				grid.style.top = mobEndTop + "px";
+				grid.style.left = mobEndLeft + "px";
+			}
+			// 5. fade in homepage info
+			setTimeout(function() {
+				homepageInfo.classList.remove("hidden");
+				document.body.style.cursor = "url('./icons/blue-dot.svg') 10 10, auto";
+				setTimeout(function() {
+					homepageInfo.style.opacity = "1";
+					homepageInfo.style.filter = "blur(0px)";
+				}, 100);
+			}, 1500);
+		}, 500);
+	}, 500);
+}
+
+returnHome.addEventListener("click", function() {
+	zoomFromProjects();
+});
 
 ////////////////////////////////////////////////////////////////////////////////
 //                                 PROJECT FEED                               //
@@ -893,11 +882,11 @@ projectRows.forEach((row, index) => {
 		row.insertBefore(infoCell, row.children[0]);
 	}
 	// for desktop and tablet, dynamically set transition delay for all cells except project view
-	if (vw > 600) {
-		allImages.forEach((image, index) => {
-			image.style.transitionDelay = (index*50) + "ms";
-		});
-	}
+	// if (vw > 600) {
+	// 	allImages.forEach((image, index) => {
+	// 		image.style.transitionDelay = (index*50) + "ms";
+	// 	});
+	// }
 	// dynamically add project info to hidden project view
 	var projectText = row.querySelector(".project-text");
 	var projectTextRepeat = row.querySelector(".project-text-repeat");
@@ -997,6 +986,7 @@ function openProject(row, index) {
 			projectView.style.paddingBottom = "0px";
 		}
 		inProjectView = true;
+		inFeedView = false;
 		// 7. after another 500ms, animate in project view elements
 		projectView.querySelector(".project-close").classList.remove("hidden");
 		projectView.querySelector(".project-desc").classList.remove("hidden");
@@ -1056,6 +1046,7 @@ projectCloses.forEach((close, index) => {
 				projectView.style.paddingTop = .05*vw + "px";
 			}
 			inProjectView = false;
+			inFeedView = true;
 			// 4. allow user to scroll again
 			projectFeed.style.overflow = "scroll";
 			document.body.style.overflow = "auto";
