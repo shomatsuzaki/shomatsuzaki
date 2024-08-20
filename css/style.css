@@ -581,6 +581,7 @@ rect {
 		grid-column: 2 / 8;
 		grid-row: 3 / 4;
 		place-self: center;
+		text-align: center;
 		font-size: var(--desk-font-M);
 	}
 

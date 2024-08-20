@@ -112,7 +112,16 @@ function animateGrid() {
 	var deskHeight, deskTop, deskLeft, deskStroke,
 		tabHeight, tabTop, tabLeft, tabStroke,
 		mobHeight, mobTop, mobLeft, mobStroke;
-	if (isLoaded && !inFeedView) {
+	if (!isLoaded) { // initial CSS values
+		deskHeight = 3.5*vw;
+		deskTop = deskHeight/-2 + vh/2;
+		deskLeft = 0;
+		mobHeight = tabHeight = 3.5*vw*38/32;
+		mobTop = tabTop = mobHeight/-2 + vh/2;
+		mobLeft = tabLeft = (vw*38/32)/-2 + vw/2;
+		deskStroke = 1;
+		mobStroke = tabStroke = 1;
+	} else if (isLoaded && !inFeedView) {
 		deskHeight = 3.5*vw*38/8; // zoomed so only 8 columns are in vew
 		deskTop = deskHeight/-2 + vh/2;
 		deskLeft = (vw*38/8)/-2 + vw/2; // for grid to be centered, left must be negative half of grid width (38/8x of width) + half of view
@@ -267,34 +276,15 @@ window.onresize = function() {
 	vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 	vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
+	animateGrid();
 	setProjectFeed();
-
-	if (!isLoaded) {
-		if (vw > 900) {
-			// initial CSS styling for desktop
-			grid.style.height = (3.5*vw) + "px";
-			grid.style.top = (3.5*vw/-2 + vh/2) + "px";
-			grid.style.left = "0px";
-			grid.style.strokeWidth = "1px";
-		} else {
-			// initial CSS styling for tablet and mobile
-			grid.style.height = (3.5*vw*38/32) + "px";
-			grid.style.top = (3.5*vw*38/32/-2 + vh/2) + "px";
-			grid.style.left = ((vw*38/32)/-2 + vw/2) + "px";
-			grid.style.strokeWidth = "1px";
-		}
+	if (inAbout || inContact) {
+		transitionHomepageWindow();
 	}
-	else if (isLoaded && !inFeedView) {
-		animateGrid();
-		if (inAbout || inContact) {
-			transitionHomepageWindow();
-		}
-	}
-	else if (isLoaded && inFeedView) {
-		animateGrid();
+	else if (inFeedView) {
 		setProjectEvents();
 	}
-	else if (isLoaded && inProjectView) {
+	else if (inProjectView) {
 		projectRows.forEach((row, index) => {
 			var projectView = row.querySelector(".project-view");
 			projectView.style.width = vw + "px";
