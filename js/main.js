@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//                                   GENERAL                                  //
+//                               GLOBAL VARIABLES                             //
 ////////////////////////////////////////////////////////////////////////////////
 
 // get all color values of CSS variables
@@ -36,18 +36,11 @@ let inProjectView = false; // whether or not we are seeing individual project
 let inAbout = false; // whether or not we are in about me view
 let inContact = false; // whether or not we are in contact me view
 
-// cubic functions for easing, take in and output a value from 0 to 1
-function easeInCubic(x) {
-	return x*x*x;
-}
-function easeOutCubic(x) {
-	return 1 - Math.pow(1 - x, 3);
-}
-function easeInOutCubic(x) {
-	return x < 0.5 ? 4*x*x*x : 1 - Math.pow(-2*x + 2, 3)/2;
-}
+////////////////////////////////////////////////////////////////////////////////
+//                                 INITIAL LOAD                               //
+////////////////////////////////////////////////////////////////////////////////
 
-// function to hide any elements that are not in tablet/mobile
+// hide any elements that are not in tablet/mobile
 function hideElements() {
 	var dateTime = document.getElementById("date-time");
 	var developer = document.getElementById("developer");
@@ -104,160 +97,7 @@ function hideElements() {
 	}
 }
 
-// resize event listener to update viewport width+height and grid
-window.onresize = function() {
-	// update viewport width and height
-	vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-	vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
-
-	// re-hide/show elements
-	hideElements();
-
-	// re-arrange order of project thumbnails
-	projectRows.forEach((row, index) => {
-		var infoCell = row.querySelector(".project-info");
-		var projectView = row.querySelector(".project-view");
-		var allImages = row.querySelectorAll(".project-cell img"); // excludes close button
-		// rearrange project-info cell based on device
-		row.appendChild(infoCell);
-		row.appendChild(projectView);
-		if (vw > 900) {
-			row.insertBefore(infoCell, row.children[index % 6]);
-		} else if (vw > 600) {
-			row.insertBefore(infoCell, row.children[index % 4]);
-		} else if (index % 2 == 0) { // for mobile, only matters if project num is even or odd
-			row.insertBefore(infoCell, row.children[0]);
-		}
-		// dynamically set text width of project view
-		var projectText = row.querySelector(".project-text");
-		var projectTextRepeat = row.querySelector(".project-text-repeat");
-		var projectDesc = row.querySelector(".project-desc");
-		projectTextRepeat.style.width = getComputedStyle(projectText).width;
-		if (vw > 900) {
-			projectDesc.style.width = getComputedStyle(projectText).width;
-		} else {
-			projectDesc.style.width = "50%";
-		}
-	});
-
-	// resize grid based on where we are in user flow, since SVG grid will not scale dynamically
-	if (!isLoaded) {
-		if (vw > 900) {
-			// desktop
-			grid.style.height = (3.5*vw) + "px";
-			grid.style.top = (3.5*vw/-2 + vh/2) + "px";
-			grid.style.left = "0px";
-			grid.style.strokeWidth = "1px";
-		} else {
-			// tablet and mobile
-			grid.style.height = (3.5*vw*38/32) + "px";
-			grid.style.top = (3.5*vw*38/32/-2 + vh/2) + "px";
-			grid.style.left = ((vw*38/32)/-2 + vw/2) + "px";
-			grid.style.strokeWidth = "1px";
-		}
-	}
-	else if (isLoaded && !inFeedView) {
-		if (vw > 900) {
-			// desktop
-			grid.style.height = (3.5*vw*38/8) + "px";
-			grid.style.top = (3.5*vw*38/8/-2 + vh/2) + "px";
-			grid.style.left = ((vw*38/8)/-2 + vw/2) + "px";
-			grid.style.strokeWidth = "2px";
-		} else {
-			// tablet and mobile
-			grid.style.height = (3.5*vw*38/32) + "px";
-			grid.style.top = (3.5*vw*38/32/-2 + 2.5*1/32*vw) + "px";
-			grid.style.left = ((vw*38/32)/-2 + vw/2) + "px";
-			grid.style.strokeWidth = "1px";
-		}
-		if (inAbout) {
-			if (vw > 900) {
-				homepageInfo.querySelector("#name").style.marginTop = "0";
-				homepageWindow.style.transform = "translate(-50%,100%) scale(6,3)";
-				homepageWindow.style.margin = "0.5px 0 0 0.5px";
-				homepageWindow.style.gridRow = "2 / 3";
-			} else if (vw > 600) {
-				homepageInfo.querySelector("#name").style.marginTop = "-19.5vw";
-				homepageWindow.style.transform = "translate(0%,0%) scale(6,60)";
-				homepageWindow.style.margin = "0";
-				homepageWindow.style.gridRow = "2 / 5";
-			} else {
-				homepageInfo.querySelector("#name").style.marginTop = "-18vw";
-				homepageWindow.style.transform = "translate(0%,0%) scale(6,60)";
-				homepageWindow.style.margin = "0";
-				homepageWindow.style.gridRow = "2 / 5";
-			}
-		}
-		if (inContact) {
-			if (vw > 900) {
-				homepageWindow.style.transform = "translate(-50%,-100%) scale(6,3)";
-				homepageWindow.style.margin = "0.5px 0 0 0.5px";
-				homepageWindow.style.gridRow = "4 / 5";
-			} else if (vw > 600) {
-				homepageWindow.style.transform = "translate(0%,0%) scale(6,60)";
-				homepageWindow.style.margin = "0";
-				homepageWindow.style.gridRow = "2 / 5";
-			} else {
-				homepageWindow.style.transform = "translate(0%,0%) scale(6,60)";
-				homepageWindow.style.margin = "0";
-				homepageWindow.style.gridRow = "2 / 5";
-			}
-		}
-	}
-	else if (isLoaded && inFeedView) {
-		if (vw > 900) {
-			// desktop
-			grid.style.height = (3.5*vw*38/6) + "px";
-			grid.style.top = (3.5*vw*38/6/-2 + 1.5*1/6*vw) + "px";
-			grid.style.left = ((vw*38/6)/-2 + vw/2) + "px";
-			grid.style.strokeWidth = "2px";
-		} else if (vw > 600) {
-			// tablet
-			grid.style.height = (3.5*vw*38/4) + "px";
-			grid.style.top = (3.5*vw*38/4/-2 + 1.5*1/4*vw) + "px";
-			grid.style.left = ((vw*38/4)/-2 + vw/2) + "px";
-			grid.style.strokeWidth = "2px";
-		} else {
-			// mobile
-			grid.style.height = (3.5*vw*38/2) + "px";
-			grid.style.top = (3.5*vw*38/2/-2 + 1.5*1/2*vw) + "px";
-			grid.style.left = ((vw*38/2)/-2 + vw/2) + "px";
-			grid.style.strokeWidth = "2px";
-		}
-	}
-	else if (isLoaded && inProjectView) {
-		projectRows.forEach((row, index) => {
-			var projectView = row.querySelector(".project-view");
-			projectView.style.width = vw + "px";
-			projectView.style.height = vh + "px";
-			projectView.style.top = "0px";
-			projectView.style.left = "0px";				
-			if (vw > 900) {
-				projectView.style.padding = .1*vw + "px";
-				projectView.style.paddingBottom = "0px";
-			} else {
-				projectView.style.padding = .2*vw + "px " + .05*vw + "px";
-				projectView.style.paddingBottom = "0px";
-			}
-		});
-	}
-};
-
-// adjust for change from portrait to landscape
-// screen.orientation.addEventListener("change", function() {
-// 	var noLandscape = document.getElementById("no-landscape");
-// 	if (screen.orientation.type.includes("landscape") && !inProjectView) {
-// 		noLandscape.classList.remove("hidden");
-// 	}
-// 	else if (screen.orientation.type.includes("portrait")) {
-// 		noLandscape.classList.add("hidden");
-//     }
-// });
-
-////////////////////////////////////////////////////////////////////////////////
-//                              OPENING ANIMATION                             //
-////////////////////////////////////////////////////////////////////////////////
-
+// count up to 100% as page loads
 function percentLoad() {
 	// get all the percentage HTML elements
 	var percentages = document.getElementsByClassName("percentage"),
@@ -284,6 +124,7 @@ function percentLoad() {
 	}, duration*10);
 }
 
+// animate logo lines on initial load
 function animateLogo() {
 	var vtMask1 = document.getElementById("vt-mask1"),
 		vtMask2 = document.getElementById("vt-mask2"),
@@ -322,60 +163,68 @@ function animateLogo() {
 			// 4. initiate grid zoom
 			setTimeout(function() {
 				isLoaded = true;
-				animateGrid();
+				animateGrid1();
+				setTimeout(function() {
+					simulateHover();
+				}, 1500);
 			}, 1800);
 		}, 600);
 	}, 1500);
 }
 
-function animateGrid() {
+// animate grid from initial load to homepage
+function animateGrid1() {
 	var deskEndHeight = 3.5*vw*38/8, // zoomed so only 8 columns are in vew
 		deskEndTop = deskEndHeight/-2 + vh/2,
 		deskEndLeft = (vw*38/8)/-2 + vw/2, // for grid to be centered, left must be negative half of grid width (38/8x of width) + half of view
-		mobHeight = 3.5*vw*38/32 // zoomed so 32 of 38 columns in view
-		mobEndTop = mobHeight/-2 + 2.5*1/32*vw; // each square is 1/32 vw, need to move grid up half vh then down 2.5 squares
-	// 1. animate grid
+		mobEndHeight = 3.5*vw*38/32, // zoomed so 32 of 38 columns in view
+		mobEndTop = mobEndHeight/-2 + 2.5*1/32*vw, // each square is 1/32 vw, need to move grid up half vh then down 2.5 squares
+		mobEndLeft = (vw*38/32)/-2 + vw/2;
 	if (vw > 900) { // for desktop
-		grid.style.strokeWidth = "2";
+		grid.style.strokeWidth = "2px";
 		grid.style.height = deskEndHeight + "px";
 		grid.style.top = deskEndTop + "px";
 		grid.style.left = deskEndLeft + "px";
 	} else { // for tablet and mobile
+		grid.style.strokeWidth = "1px";
+		grid.style.height = mobEndHeight + "px";
 		grid.style.top = mobEndTop + "px";
+		grid.style.left = mobEndLeft + "px";
 	}
-	// 2. make homepage info visible
-	setTimeout(function() {
-		homepageInfo.classList.remove("hidden");
-		setTimeout(function() {
-			homepageInfo.style.opacity = "1";
-			homepageInfo.style.filter = "blur(0px)";
-			// 3. trigger hover events on desktop
-			if (vw > 900) {
-				var mouseoverEvent = new Event("mouseenter");
-				var mouseoutEvent = new Event("mouseleave");
-				setTimeout(function() {
-					aboutMe.dispatchEvent(mouseoverEvent);
-					setTimeout(function() {
-						aboutMe.dispatchEvent(mouseoutEvent);
-						setTimeout(function() {
-							contactMe.dispatchEvent(mouseoverEvent);
-							setTimeout(function() {
-								contactMe.dispatchEvent(mouseoutEvent);
-								setTimeout(function() {
-									projectBtn.dispatchEvent(mouseoverEvent);
-										setTimeout(function() {
-											projectBtn.dispatchEvent(mouseoutEvent);
-										}, 500);
-								}, 500);
-							}, 500);
-						}, 500);
-					}, 500);
-				}, 500);
-			}
-		}, 100);
-	}, 1500);
 }
 
+// simulate hover effects on desktop, for initial load only
+function simulateHover() {
+	homepageInfo.classList.remove("hidden");
+	setTimeout(function() {
+		homepageInfo.style.opacity = "1";
+		homepageInfo.style.filter = "blur(0px)";
+		if (vw > 900) {
+			var mouseoverEvent = new Event("mouseenter");
+			var mouseoutEvent = new Event("mouseleave");
+			setTimeout(function() {
+				aboutMe.dispatchEvent(mouseoverEvent);
+				setTimeout(function() {
+					projectBtn.dispatchEvent(mouseoverEvent);
+					setTimeout(function() {
+						contactMe.dispatchEvent(mouseoverEvent);
+						setTimeout(function() {
+							aboutMe.dispatchEvent(mouseoutEvent);
+							setTimeout(function() {
+								projectBtn.dispatchEvent(mouseoutEvent);
+									setTimeout(function() {
+										contactMe.dispatchEvent(mouseoutEvent);
+									}, 175);
+							}, 175);
+						}, 175);
+					}, 175);
+				}, 175);
+			}, 175);
+		}
+	}, 50);
+}
+
+// show current date and time on homepage
 function displayTime() {
 	var now, dateOnly, timeOnly;
 	var handler = setInterval(function() {
@@ -389,10 +238,46 @@ function displayTime() {
 		};
 		dateOnly = now.toLocaleDateString(undefined, options);
 		timeOnly = now.toLocaleTimeString();
-
 		// insert date and time into HTML, update every second
 		document.getElementById("date-time").innerHTML = dateOnly + ", " + timeOnly;
 	}, 1000);
+}
+
+// re-arrange project feed thumbnails and dynamically set project text
+function setProjectFeed() {
+	projectRows.forEach((row, index) => {
+		var infoCell = row.querySelector(".project-info");
+		var projectView = row.querySelector(".project-view");
+		// dynamically add project numbers to each row
+		if (index < 9) {
+			row.querySelector(".project-number").innerHTML = "0" + (index + 1);
+		} else {
+			row.querySelector(".project-number").innerHTML = "" + (index + 1);
+		}
+		// rearrange project-info cell based on device
+		row.appendChild(infoCell);
+		row.appendChild(projectView);
+		if (vw > 900) {
+			row.insertBefore(infoCell, row.children[index % 6]);
+		} else if (vw > 600) {
+			row.insertBefore(infoCell, row.children[index % 4]);
+		} else if (index % 2 == 0) { // for mobile, only matters if project num is even or odd
+			row.insertBefore(infoCell, row.children[0]);
+		}
+		// dynamically add project info to hidden project view
+		var projectText = row.querySelector(".project-text");
+		var projectTextRepeat = row.querySelector(".project-text-repeat");
+		var projectDesc = row.querySelector(".project-desc");
+		projectText.innerHTML = projectTextRepeat.innerHTML;
+		// dynamically set text width of project view
+		projectTextRepeat.style.width = getComputedStyle(projectText).width;
+		// dynamically set width of project description
+		if (vw > 900) {
+			projectDesc.style.width = getComputedStyle(projectText).width;
+		} else {
+			projectDesc.style.width = "50%";
+		}
+	});
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -400,68 +285,248 @@ document.addEventListener("DOMContentLoaded", () => {
 	percentLoad(); // runs preloader percent animation
 	animateLogo(); // runs SHO logo animation during preloader
 	displayTime(); // runs current time display in homepage info
-	setProjectFeed(); // re-arranges project feed thumbnails based on device size
+	setProjectFeed(); 
 });
+
+////////////////////////////////////////////////////////////////////////////////
+//                                    RESIZE                                  //
+////////////////////////////////////////////////////////////////////////////////
+
+// resize event listener to update viewport width+height and grid
+window.onresize = function() {
+	// update viewport width and height
+	vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+	vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+
+	hideElements();
+	setProjectFeed();
+
+	if (!isLoaded) {
+		if (vw > 900) {
+			// initial CSS styling for desktop
+			grid.style.height = (3.5*vw) + "px";
+			grid.style.top = (3.5*vw/-2 + vh/2) + "px";
+			grid.style.left = "0px";
+			grid.style.strokeWidth = "1px";
+		} else {
+			// initial CSS styling for tablet and mobile
+			grid.style.height = (3.5*vw*38/32) + "px";
+			grid.style.top = (3.5*vw*38/32/-2 + vh/2) + "px";
+			grid.style.left = ((vw*38/32)/-2 + vw/2) + "px";
+			grid.style.strokeWidth = "1px";
+		}
+	}
+	else if (isLoaded && !inFeedView) {
+		animateGrid1();
+		if (inAbout || inContact) {
+			transitionHomepageWindow();
+		}
+	}
+	else if (isLoaded && inFeedView) {
+		if (vw > 900) {
+			// desktop
+			grid.style.height = (3.5*vw*38/6) + "px";
+			grid.style.top = (3.5*vw*38/6/-2 + 1.5*1/6*vw) + "px";
+			grid.style.left = ((vw*38/6)/-2 + vw/2) + "px";
+			grid.style.strokeWidth = "2px";
+			var heroThumbs = projectFeed.querySelectorAll(".project-cell img");
+			for (var i = 0; i < heroThumbs.length; i++) {
+				heroThumbs[i].style.opacity = "0";
+			}
+		} else if (vw > 600) {
+			// tablet
+			grid.style.height = (3.5*vw*38/4) + "px";
+			grid.style.top = (3.5*vw*38/4/-2 + 1.5*1/4*vw) + "px";
+			grid.style.left = ((vw*38/4)/-2 + vw/2) + "px";
+			grid.style.strokeWidth = "2px";
+			var heroThumbs = projectFeed.querySelectorAll(".project-cell img");
+			for (var i = 0; i < heroThumbs.length; i++) {
+				heroThumbs[i].style.opacity = "0";
+			}
+		} else {
+			// mobile
+			grid.style.height = (3.5*vw*38/2) + "px";
+			grid.style.top = (3.5*vw*38/2/-2 + 1.5*1/2*vw) + "px";
+			grid.style.left = ((vw*38/2)/-2 + vw/2) + "px";
+			grid.style.strokeWidth = "2px";
+			var heroThumbs = projectFeed.querySelectorAll(".project-cell img");
+			for (var i = 0; i < heroThumbs.length; i++) {
+				heroThumbs[i].style.opacity = "1";
+			}
+		}
+		setProjectEvents();
+	}
+	else if (isLoaded && inProjectView) {
+		projectRows.forEach((row, index) => {
+			var projectView = row.querySelector(".project-view");
+			projectView.style.width = vw + "px";
+			projectView.style.height = vh + "px";
+			projectView.style.top = "0px";
+			projectView.style.left = "0px";				
+			if (vw > 900) {
+				projectView.style.padding = .1*vw + "px";
+				projectView.style.paddingBottom = "0px";
+			} else {
+				projectView.style.padding = .2*vw + "px " + .05*vw + "px";
+				projectView.style.paddingBottom = "0px";
+			}
+		});
+	}
+};
+
+// adjust for change from portrait to landscape
+// screen.orientation.addEventListener("change", function() {
+// 	var noLandscape = document.getElementById("no-landscape");
+// 	if (screen.orientation.type.includes("landscape") && !inProjectView) {
+// 		noLandscape.classList.remove("hidden");
+// 	}
+// 	else if (screen.orientation.type.includes("portrait")) {
+// 		noLandscape.classList.add("hidden");
+//     }
+// });
 
 ////////////////////////////////////////////////////////////////////////////////
 //                                HOMEPAGE INFO                               //
 ////////////////////////////////////////////////////////////////////////////////
 
-aboutMe.addEventListener("click", function() {
+// maximize or minimize homepage window and adjust name top margin
+function transitionHomepageWindow() {
+	var name = homepageInfo.querySelector("#name");
+	if (inAbout) {
+		if (vw > 900) {
+			name.style.marginTop = "0";
+			homepageWindow.style.transform = "translate(-50%,100%) scale(6,3)";
+			homepageWindow.style.margin = "0.5px 0 0 0.5px";
+			homepageWindow.style.gridRow = "2 / 3";
+		} else if (vw > 600) {
+			name.style.marginTop = "-19.5vw";
+			homepageWindow.style.transform = "translate(0%,0%) scale(6,60)";
+			homepageWindow.style.margin = "0";
+			homepageWindow.style.gridRow = "2 / 5";
+		} else {
+			name.style.marginTop = "-18vw";
+			homepageWindow.style.transform = "translate(0%,0%) scale(6,60)";
+			homepageWindow.style.margin = "0";
+			homepageWindow.style.gridRow = "2 / 5";
+		}
+	} else if (inContact) {
+		if (vw > 900) {
+			homepageWindow.style.transform = "translate(-50%,-100%) scale(6,3)";
+			homepageWindow.style.margin = "0.5px 0 0 0.5px";
+			homepageWindow.style.gridRow = "4 / 5";
+		} else if (vw > 600) {
+			homepageWindow.style.transform = "translate(0%,0%) scale(6,60)";
+			homepageWindow.style.margin = "0";
+			homepageWindow.style.gridRow = "2 / 5";
+		} else {
+			homepageWindow.style.transform = "translate(0%,0%) scale(6,60)";
+			homepageWindow.style.margin = "0";
+			homepageWindow.style.gridRow = "2 / 5";
+		}
+	} else {
+		homepageWindow.style.margin = "0";
+		if (vw > 900) {
+			name.style.marginTop = "0";
+			homepageWindow.style.transform = "translate(0,0) scale(1,1)";
+		} else if (vw > 600) {
+			name.style.marginTop = "0";
+			homepageWindow.style.transform = "scale(1,1)";
+		} else {
+			name.style.marginTop = "1.4vw";
+			homepageWindow.style.transform = "scale(1,1)";
+		}
+	}
+}
+
+// fade in or out about info
+function transitionAboutInfo() {
 	var aboutInfo = homepageInfo.querySelector("#about-info");
 	var aboutPic = homepageInfo.querySelector("#about-pic");
-	// remove hidden class from hidden elements (still invisible except window)
-	aboutInfo.classList.remove("hidden");
-	aboutPic.classList.remove("hidden");
-	homepageClose.classList.remove("hidden");
+	if (inAbout) {
+		// remove hidden class from hidden elements (still invisible)
+		aboutInfo.classList.remove("hidden");
+		aboutPic.classList.remove("hidden");
+		homepageClose.classList.remove("hidden");
+		setTimeout(function() {
+			homepageInfo.querySelector("#name").style.color = offWhite;
+			aboutInfo.style.opacity = "1";
+			aboutInfo.style.filter = "blur(0px)";
+			aboutPic.style.opacity = "1";
+			aboutPic.style.filter = "blur(0px)";
+			homepageClose.style.opacity = "1";
+			homepageClose.style.filter = "blur(0px)";
+		}, 50);
+	} else {
+		homepageInfo.querySelector("#name").style.color = darkColor;
+		aboutInfo.style.opacity = "0";
+		aboutInfo.style.filter = "blur(4px)";
+		aboutPic.style.opacity = "0";
+		aboutPic.style.filter = "blur(4px)";
+		homepageClose.style.opacity = "0";
+		homepageClose.style.filter = "blur(4px)";
+		setTimeout(function() {
+			aboutInfo.classList.add("hidden");
+			aboutPic.classList.add("hidden");
+			homepageClose.classList.add("hidden");
+		}, 50);
+	}
+}
+
+// fade in or out contact info
+function transitionContactInfo() {
+	var contactInfo = homepageInfo.querySelector("#contact-info");
+	if (inContact) {
+		// remove hidden class from hidden elements (still invisible)
+		contactInfo.classList.remove("hidden");
+		homepageClose.classList.remove("hidden");
+		setTimeout(function() {
+			homepageInfo.querySelector("#name").style.color = offWhite;
+			contactInfo.style.opacity = "1";
+			contactInfo.style.filter = "blur(0px)";
+			homepageClose.style.opacity = "1";
+			homepageClose.style.filter = "blur(0px)";
+		}, 50);
+	} else {
+		homepageInfo.querySelector("#name").style.color = darkColor;
+		contactInfo.style.opacity = "0";
+		contactInfo.style.filter = "blur(4px)";
+		homepageClose.style.opacity = "0";
+		homepageClose.style.filter = "blur(4px)";
+		setTimeout(function() {
+			contactInfo.classList.add("hidden");
+			homepageClose.classList.add("hidden");
+		}, 50);
+	}
+}
+
+aboutMe.addEventListener("click", function() {
 	document.body.style.cursor = "url('./icons/yellow-dot.svg') 10 10, auto";
 	inAbout = true;
 	if (vw > 900) {
-		// 1. move homepage window to contact square
+		// move homepage window to contact square and make visible
 		homepageWindow.style.gridRow = "2 / 3";
-		// 2. remove hidden class from homepage window, making it visible
 		homepageWindow.classList.remove("hidden");
 		setTimeout(function() {
-			// 3. set name to white
-			homepageInfo.querySelector("#name").style.color = offWhite;
-			// 4. transform window to fill sho logo
-			homepageWindow.style.transform = "translate(-50%,100%) scale(6,3)";
-			homepageWindow.style.margin = "0.5px 0 0 0.5px";
+			// transform window to fill sho logo and adjust name margin
+			transitionHomepageWindow();
 			setTimeout(function() {
-				// 5. fade in all about me info
-				aboutInfo.style.opacity = "1";
-				aboutInfo.style.filter = "blur(0px)";
-				aboutPic.style.opacity = "1";
-				aboutPic.style.filter = "blur(0px)";
-				homepageClose.style.opacity = "1";
-				homepageClose.style.filter = "blur(0px)";
+				// fade in about info
+				transitionAboutInfo();
 			}, 500);
 		}, 100);
-	} else { // for tablet and mobile only
-		// 1. animate black square across sho logo
+	} else {
+		// animate black square across sho logo
 		var blackSquare = aboutMe.nextElementSibling.querySelector(".black-square");
 		blackSquare.style.transform = "translateX(0)";
 		setTimeout(function() {
-			// 2. remove hidden class from homepage window, making it visible
+			// remove hidden class from homepage window, making it visible
 			homepageWindow.classList.remove("hidden");
 			setTimeout(function() {
-				// 2. set name to white and shift up
-				homepageInfo.querySelector("#name").style.color = offWhite;
-				if (vw > 600) {
-					homepageInfo.querySelector("#name").style.marginTop = "-19.5vw";
-				} else {
-					homepageInfo.querySelector("#name").style.marginTop = "-18vw";
-				}
-				// 3. transform window to fill screen
-				homepageWindow.style.transform = "scale(6,60)";
+				// transform window to fill sho logo and adjust name margin
+				transitionHomepageWindow();
 				setTimeout(function() {
-					// 4. fade in all about me info
-					aboutInfo.style.opacity = "1";
-					aboutInfo.style.filter = "blur(0px)";
-					aboutPic.style.opacity = "1";
-					aboutPic.style.filter = "blur(0px)";
-					homepageClose.style.opacity = "1";
-					homepageClose.style.filter = "blur(0px)";
+					// fade in about info
+					transitionAboutInfo();
 				}, 500);
 			}, 100);
 		}, 300);
@@ -469,49 +534,33 @@ aboutMe.addEventListener("click", function() {
 });
 
 contactMe.addEventListener("click", function() {
-	var contactInfo = homepageInfo.querySelector("#contact-info");
-	// remove hidden class from hidden elements (still invisible except window)
-	contactInfo.classList.remove("hidden");
-	homepageClose.classList.remove("hidden");
 	document.body.style.cursor = "url('./icons/green-dot.svg') 10 10, auto";
 	inContact = true;
 	if (vw > 900) {
-		// 1. move homepage window to contact square
+		// move homepage window to contact square and make visible
 		homepageWindow.style.gridRow = "4 / 5";
-		// 2. remove hidden class from homepage window, making it visible
 		homepageWindow.classList.remove("hidden");
 		setTimeout(function() {
-			// 3. set name to white
-			homepageInfo.querySelector("#name").style.color = offWhite;
-			// 4. transform window to fill sho logo
-			homepageWindow.style.transform = "translate(-50%,-100%) scale(6,3)";
-			homepageWindow.style.margin = "0.5px 0 0 0.5px";
+			// transform window to fill sho logo and adjust name margin
+			transitionHomepageWindow();
 			setTimeout(function() {
-				// 5. fade in all about me info
-				contactInfo.style.opacity = "1";
-				contactInfo.style.filter = "blur(0px)";
-				homepageClose.style.opacity = "1";
-				homepageClose.style.filter = "blur(0px)";
+				// fade in contact info
+				transitionContactInfo();
 			}, 500);
 		}, 100);
 	} else { // for tablet and mobile only
-		// 1. animate black square across sho logo
+		// animate black square across sho logo
 		var blackSquare = contactMe.nextElementSibling.querySelector(".black-square");
 		blackSquare.style.transform = "translateX(0)";
 		setTimeout(function() {
-			// 2. remove hidden class from homepage window, making it visible
+			// remove hidden class from homepage window, making it visible
 			homepageWindow.classList.remove("hidden");
 			setTimeout(function() {
-				// 2. set name to white but do NOT shift up
-				homepageInfo.querySelector("#name").style.color = offWhite;
-				// 3. transform window to fill screen
-				homepageWindow.style.transform = "scale(6,60)";
+				// transform window to fill screen and adjust name margin
+				transitionHomepageWindow();
 				setTimeout(function() {
-					// 4. fade in all about me info
-					contactInfo.style.opacity = "1";
-					contactInfo.style.filter = "blur(0px)";
-					homepageClose.style.opacity = "1";
-					homepageClose.style.filter = "blur(0px)";
+					// fade in contact info
+					transitionContactInfo();
 				}, 500);
 			}, 100);
 		}, 300);
@@ -519,121 +568,67 @@ contactMe.addEventListener("click", function() {
 });
 
 homepageClose.addEventListener("click", function() {
-	// 1. check which view is open, about or contact
+	document.body.style.cursor = "url('./icons/blue-dot.svg') 10 10, auto";
+	var mouseoverEvent = new Event("mouseenter");
+	var mouseoutEvent = new Event("mouseleave");
 	if (inAbout) {
-		var aboutInfo = homepageInfo.querySelector("#about-info");
-		var aboutPic = homepageInfo.querySelector("#about-pic");
-		// 2. fade out all about me info
-		aboutInfo.style.opacity = "0";
-		aboutInfo.style.filter = "blur(4px)";
-		aboutPic.style.opacity = "0";
-		aboutPic.style.filter = "blur(4px)";
-		homepageClose.style.opacity = "0";
-		homepageClose.style.filter = "blur(4px)";
-		document.body.style.cursor = "url('./icons/blue-dot.svg') 10 10, auto";
-		if (vw > 900) {
-			setTimeout(function() {
-				// 3. transform window back to single square
-				homepageWindow.style.transform = "translate(0,0) scale(1,1)";
-				homepageWindow.style.margin = "0";
-				// 4. set name back to black
-				homepageInfo.querySelector("#name").style.color = darkColor;
-				// 5. reset about square to mouseover position
-				var blackSquare = aboutMe.nextElementSibling.querySelector(".black-square");
-				blackSquare.style.transform = "translateX(0)";
-				aboutMe.style.color = offWhite;
-				aboutMe.querySelector(".side-arrow").style.filter = "invert(1)";
-				setTimeout(function() {
-					// 6. add hidden class back to hidden elements
-					homepageWindow.classList.add("hidden");
-					aboutInfo.classList.add("hidden");
-					aboutPic.classList.add("hidden");
-					homepageClose.classList.add("hidden");
-					// 7. reset about square to mouseout position
-					blackSquare.style.transform = "translateX(-101%)";
-					aboutMe.style.color = darkColor;
-					aboutMe.querySelector(".side-arrow").style.filter = "invert(0)";
-				}, 700);
-			}, 500);
-		} else { // for tablet and mobile only
-			setTimeout(function() {
-				// 3. transform window back to single square
-				homepageWindow.style.transform = "scale(1,1)";
-				homepageWindow.style.margin = "0";
-				// 4. set name back to black and shift down
-				homepageInfo.querySelector("#name").style.color = darkColor;
-				if (vw > 600) {
-					homepageInfo.querySelector("#name").style.marginTop = "0";
-				} else {
-					homepageInfo.querySelector("#name").style.marginTop = "1.4vw";
-				}
-				// 5. reset about square to mouseover position
-				var blackSquare = aboutMe.nextElementSibling.querySelector(".black-square");
-				blackSquare.style.transform = "translateX(0)";
-				setTimeout(function() {
-					// 6. add hidden class back to hidden elements
-					homepageWindow.classList.add("hidden");
-					aboutInfo.classList.add("hidden");
-					aboutPic.classList.add("hidden");
-					homepageClose.classList.add("hidden");
-					// 7. reset about square to mouseout position
-					blackSquare.style.transform = "translateX(-101%)";
-				}, 800);
-			}, 500);
-		}
 		inAbout = false;
-	} else if (inContact) {
-		var contactInfo = homepageInfo.querySelector("#contact-info");
-		// 3. fade out all contact info
-		contactInfo.style.opacity = "0";
-		contactInfo.style.filter = "blur(4px)";
-		homepageClose.style.opacity = "0";
-		homepageClose.style.filter = "blur(4px)";
-		document.body.style.cursor = "url('./icons/blue-dot.svg') 10 10, auto";
-		if (vw > 900) {
-			setTimeout(function() {
-				// 4. transform window back to single square
-				homepageWindow.style.transform = "translate(0,0) scale(1,1)";
-				homepageWindow.style.margin = "0";
-				// 5. set name back to black
-				homepageInfo.querySelector("#name").style.color = darkColor;
-				// 6. reset about square to mouseover position
-				var blackSquare = contactMe.nextElementSibling.querySelector(".black-square");
-				blackSquare.style.transform = "translateX(0)";
-				contactMe.style.color = offWhite;
-				contactMe.querySelector(".side-arrow").style.filter = "invert(1)";
+		// fade out about info
+		transitionAboutInfo();
+		setTimeout(function() {
+			// transform window back to single square and adjust name margin
+			transitionHomepageWindow();
+			if (vw > 900) {
+				// reset about square to mouseover position
+				aboutMe.dispatchEvent(mouseoverEvent);
 				setTimeout(function() {
-					// 7. add hidden class back to hidden elements
 					homepageWindow.classList.add("hidden");
-					contactInfo.classList.add("hidden");
-					homepageClose.classList.add("hidden");
-					// 8. reset about square to mouseout position
-					blackSquare.style.transform = "translateX(-101%)";
-					contactMe.style.color = darkColor;
-					contactMe.querySelector(".side-arrow").style.filter = "invert(0)";
-				}, 700);
-			}, 500);
-		} else { // for tablet and mobile only
-			setTimeout(function() {
-				// 4. transform window back to single square
-				homepageWindow.style.transform = "scale(1,1)";
-				homepageWindow.style.margin = "0";
-				// 5. set name back to black but do NOT shift down
-				homepageInfo.querySelector("#name").style.color = darkColor;
-				// 6. reset about square to mouseover position
-				var blackSquare = contactMe.nextElementSibling.querySelector(".black-square");
+					setTimeout(function() {
+						// reset about square to mouseout position
+						aboutMe.dispatchEvent(mouseoutEvent);
+					}, 150);
+				}, 800);
+			} else {
+				// reset about square to over logo
+				var blackSquare = aboutMe.nextElementSibling.querySelector(".black-square");
 				blackSquare.style.transform = "translateX(0)";
 				setTimeout(function() {
-					// 7. add hidden class back to hidden elements
+					// add hidden class back to hidden elements
 					homepageWindow.classList.add("hidden");
-					contactInfo.classList.add("hidden");
-					homepageClose.classList.add("hidden");
-					// 8. reset about square to mouseout position
+					// reset about square to mouseout position
 					blackSquare.style.transform = "translateX(-101%)";
 				}, 800);
-			}, 500);
-		}
+			}
+		}, 400);
+	} else if (inContact) {
 		inContact = false;
+		// fade out contact info
+		transitionContactInfo();
+		setTimeout(function() {
+			// transform window back to single square and adjust name margin
+			transitionHomepageWindow();
+			if (vw > 900) {
+				// reset about square to mouseover position
+				contactMe.dispatchEvent(mouseoverEvent);
+				setTimeout(function() {
+					homepageWindow.classList.add("hidden");
+					setTimeout(function() {
+						// reset about square to mouseout position
+						contactMe.dispatchEvent(mouseoutEvent);
+					}, 150);
+				}, 800);
+			} else {
+				// reset about square to over logo
+				var blackSquare = contactMe.nextElementSibling.querySelector(".black-square");
+				blackSquare.style.transform = "translateX(0)";
+				setTimeout(function() {
+					// add hidden class back to hidden elements
+					homepageWindow.classList.add("hidden");
+					// reset about square to mouseout position
+					blackSquare.style.transform = "translateX(-101%)";
+				}, 800);
+			}
+		}, 400);
 	}
 });
 
@@ -833,42 +828,6 @@ returnHome.addEventListener("click", function() {
 ////////////////////////////////////////////////////////////////////////////////
 //                                 PROJECT FEED                               //
 ////////////////////////////////////////////////////////////////////////////////
-
-function setProjectFeed() {
-	projectRows.forEach((row, index) => {
-		var infoCell = row.querySelector(".project-info");
-		var projectView = row.querySelector(".project-view");
-		// dynamically add project numbers to each row
-		if (index < 9) {
-			row.querySelector(".project-number").innerHTML = "0" + (index + 1);
-		} else {
-			row.querySelector(".project-number").innerHTML = "" + (index + 1);
-		}
-		// rearrange project-info cell based on device
-		row.appendChild(infoCell);
-		row.appendChild(projectView);
-		if (vw > 900) {
-			row.insertBefore(infoCell, row.children[index % 6]);
-		} else if (vw > 600) {
-			row.insertBefore(infoCell, row.children[index % 4]);
-		} else if (index % 2 == 0) { // for mobile, only matters if project num is even or odd
-			row.insertBefore(infoCell, row.children[0]);
-		}
-		// dynamically add project info to hidden project view
-		var projectText = row.querySelector(".project-text");
-		var projectTextRepeat = row.querySelector(".project-text-repeat");
-		var projectDesc = row.querySelector(".project-desc");
-		projectText.innerHTML = projectTextRepeat.innerHTML;
-		// dynamically set text width of project view
-		projectTextRepeat.style.width = getComputedStyle(projectText).width;
-		// dynamically set width of project description
-		if (vw > 900) {
-			projectDesc.style.width = getComputedStyle(projectText).width;
-		} else {
-			projectDesc.style.width = "50%";
-		}
-	});
-}
 
 // all event listeners for hovering and clicking on projects,
 // triggered when clicking on projects button on homepage
