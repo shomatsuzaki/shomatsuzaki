@@ -40,63 +40,6 @@ let inContact = false; // whether or not we are in contact me view
 //                                 INITIAL LOAD                               //
 ////////////////////////////////////////////////////////////////////////////////
 
-// hide any elements that are not in tablet/mobile
-function hideElements() {
-	var dateTime = document.getElementById("date-time");
-	var developer = document.getElementById("developer");
-	if (vw > 900) { // for desktop
-		tapProjects.classList.add("hidden");
-		projectBtn.classList.remove("hidden");
-		projectBtn.nextElementSibling.classList.remove("hidden");
-		dateTime.classList.remove("hidden");
-		developer.classList.remove("hidden");
-		// don't hide any project thumbnails
-		projectRows.forEach((row) => {
-			var projectCells = row.children;
-			for (var i = 0; i < projectCells.length-1; i++) {
-				// ignores project-view
-				projectCells[i].classList.remove("hidden");
-			}
-		});
-	} else if (vw > 600) { // for tablet
-		projectBtn.classList.add("hidden");
-		projectBtn.nextElementSibling.classList.add("hidden");
-		tapProjects.classList.remove("hidden");
-		dateTime.classList.remove("hidden");
-		developer.classList.remove("hidden");
-		// remove the last two project thumbnails
-		projectRows.forEach((row) => {
-			var projectCells = row.children;
-			for (var i = 0; i < projectCells.length-1; i++) {
-				// ignores project-view
-				if (i < 4) {
-					projectCells[i].classList.remove("hidden");
-				} else {
-					projectCells[i].classList.add("hidden");
-				}
-			}
-		});
-	} else { // for mobile
-		projectBtn.classList.add("hidden");
-		projectBtn.nextElementSibling.classList.add("hidden");
-		dateTime.classList.add("hidden");
-		developer.classList.add("hidden");
-		tapProjects.classList.remove("hidden");
-		// remove all thumbnails except hero image and project info
-		projectRows.forEach((row) => {
-			var projectCells = row.children;
-			for (var i = 0; i < projectCells.length-1; i++) {
-				// ignores project-view
-				if (projectCells[i].classList.contains("project-image")) {
-					projectCells[i].classList.add("hidden");
-				} else {
-					projectCells[i].classList.remove("hidden");
-				}
-			}
-		});
-	}
-}
-
 // count up to 100% as page loads
 function percentLoad() {
 	// get all the percentage HTML elements
@@ -281,10 +224,9 @@ function setProjectFeed() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-	hideElements(); // hides any elements that need to be hidden for responsiveness
-	percentLoad(); // runs preloader percent animation
-	animateLogo(); // runs SHO logo animation during preloader
-	displayTime(); // runs current time display in homepage info
+	percentLoad();
+	animateLogo();
+	displayTime();
 	setProjectFeed(); 
 });
 
@@ -298,7 +240,6 @@ window.onresize = function() {
 	vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 	vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
-	hideElements();
 	setProjectFeed();
 
 	if (!isLoaded) {
