@@ -435,9 +435,6 @@ aboutMe.addEventListener("click", function() {
 				aboutPic.style.filter = "blur(0px)";
 				homepageClose.style.opacity = "1";
 				homepageClose.style.filter = "blur(0px)";
-				// 6. prevent scroll
-				projectFeed.style.overflow = "hidden";
-				document.body.style.overflow = "hidden";
 			}, 500);
 		}, 100);
 	} else { // for tablet and mobile only
@@ -465,9 +462,6 @@ aboutMe.addEventListener("click", function() {
 					aboutPic.style.filter = "blur(0px)";
 					homepageClose.style.opacity = "1";
 					homepageClose.style.filter = "blur(0px)";
-					// 5. prevent scroll
-					projectFeed.style.overflow = "hidden";
-					document.body.style.overflow = "hidden";
 				}, 500);
 			}, 100);
 		}, 300);
@@ -498,9 +492,6 @@ contactMe.addEventListener("click", function() {
 				contactInfo.style.filter = "blur(0px)";
 				homepageClose.style.opacity = "1";
 				homepageClose.style.filter = "blur(0px)";
-				// 6. prevent scroll
-				projectFeed.style.overflow = "hidden";
-				document.body.style.overflow = "hidden";
 			}, 500);
 		}, 100);
 	} else { // for tablet and mobile only
@@ -521,9 +512,6 @@ contactMe.addEventListener("click", function() {
 					contactInfo.style.filter = "blur(0px)";
 					homepageClose.style.opacity = "1";
 					homepageClose.style.filter = "blur(0px)";
-					// 5. prevent scroll
-					projectFeed.style.overflow = "hidden";
-					document.body.style.overflow = "hidden";
 				}, 500);
 			}, 100);
 		}, 300);
@@ -531,14 +519,11 @@ contactMe.addEventListener("click", function() {
 });
 
 homepageClose.addEventListener("click", function() {
-	// 1. allow scroll
-	projectFeed.style.overflow = "scroll";
-	document.body.style.overflow = "auto";
-	// 2. check which view is open, about or contact
+	// 1. check which view is open, about or contact
 	if (inAbout) {
 		var aboutInfo = homepageInfo.querySelector("#about-info");
 		var aboutPic = homepageInfo.querySelector("#about-pic");
-		// 3. fade out all about me info
+		// 2. fade out all about me info
 		aboutInfo.style.opacity = "0";
 		aboutInfo.style.filter = "blur(4px)";
 		aboutPic.style.opacity = "0";
@@ -548,23 +533,23 @@ homepageClose.addEventListener("click", function() {
 		document.body.style.cursor = "url('./icons/blue-dot.svg') 10 10, auto";
 		if (vw > 900) {
 			setTimeout(function() {
-				// 4. transform window back to single square
+				// 3. transform window back to single square
 				homepageWindow.style.transform = "translate(0,0) scale(1,1)";
 				homepageWindow.style.margin = "0";
-				// 5. set name back to black
+				// 4. set name back to black
 				homepageInfo.querySelector("#name").style.color = darkColor;
-				// 6. reset about square to mouseover position
+				// 5. reset about square to mouseover position
 				var blackSquare = aboutMe.nextElementSibling.querySelector(".black-square");
 				blackSquare.style.transform = "translateX(0)";
 				aboutMe.style.color = offWhite;
 				aboutMe.querySelector(".side-arrow").style.filter = "invert(1)";
 				setTimeout(function() {
-					// 7. add hidden class back to hidden elements
+					// 6. add hidden class back to hidden elements
 					homepageWindow.classList.add("hidden");
 					aboutInfo.classList.add("hidden");
 					aboutPic.classList.add("hidden");
 					homepageClose.classList.add("hidden");
-					// 8. reset about square to mouseout position
+					// 7. reset about square to mouseout position
 					blackSquare.style.transform = "translateX(-101%)";
 					aboutMe.style.color = darkColor;
 					aboutMe.querySelector(".side-arrow").style.filter = "invert(0)";
@@ -572,26 +557,26 @@ homepageClose.addEventListener("click", function() {
 			}, 500);
 		} else { // for tablet and mobile only
 			setTimeout(function() {
-				// 4. transform window back to single square
+				// 3. transform window back to single square
 				homepageWindow.style.transform = "scale(1,1)";
 				homepageWindow.style.margin = "0";
-				// 5. set name back to black and shift down
+				// 4. set name back to black and shift down
 				homepageInfo.querySelector("#name").style.color = darkColor;
 				if (vw > 600) {
 					homepageInfo.querySelector("#name").style.marginTop = "0";
 				} else {
 					homepageInfo.querySelector("#name").style.marginTop = "1.4vw";
 				}
-				// 6. reset about square to mouseover position
+				// 5. reset about square to mouseover position
 				var blackSquare = aboutMe.nextElementSibling.querySelector(".black-square");
 				blackSquare.style.transform = "translateX(0)";
 				setTimeout(function() {
-					// 7. add hidden class back to hidden elements
+					// 6. add hidden class back to hidden elements
 					homepageWindow.classList.add("hidden");
 					aboutInfo.classList.add("hidden");
 					aboutPic.classList.add("hidden");
 					homepageClose.classList.add("hidden");
-					// 8. reset about square to mouseout position
+					// 7. reset about square to mouseout position
 					blackSquare.style.transform = "translateX(-101%)";
 				}, 800);
 			}, 500);
@@ -979,8 +964,7 @@ function openProject(row, index) {
 	projectView.style.opacity = "1";
 	projectView.classList.remove("hidden");
 	// 5. prevent user from scrolling while in project view
-	projectFeed.style.overflow = "hidden";
-	document.body.style.overflow = "hidden";		
+	projectFeed.style.overflow = "hidden";		
 	setTimeout(function() {
 		// 6. expand project view to fill screen
 		projectView.style.width = vw + "px";
@@ -1025,6 +1009,7 @@ function stopVideo(element) {
 	}
 }
 
+// event listeners for all close buttons in project view
 projectCloses.forEach((close, index) => {
 	close.addEventListener("click", function() {
 		var projectView = close.parentNode;
@@ -1058,7 +1043,6 @@ projectCloses.forEach((close, index) => {
 			inFeedView = true;
 			// 4. allow user to scroll again
 			projectFeed.style.overflow = "scroll";
-			document.body.style.overflow = "auto";
 			setTimeout(function() {
 				// 5. fade out of black project view cell
 				projectView.style.opacity = "0";

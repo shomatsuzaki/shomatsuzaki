@@ -292,7 +292,7 @@ rect {
 	place-items: start;
 	align-content: start;
 	width: 100%;
-	z-index: 3;
+	z-index: 4;
 }
 
 .project-row {
@@ -409,10 +409,6 @@ rect {
 
 .content iframe, .photo {
 	width: 100%;
-}
-
-.content iframe {
-	z-index: 999;
 }
 
 /*----------------------------------------------------------------------------*/
@@ -1112,7 +1108,7 @@ rect {
     display: none;
 	visibility: hidden;
 	opacity: 0;
-    z-index: 4;
+    z-index: 3;
 }
 
 @media screen and (pointer: coarse) and (orientation: landscape) {
