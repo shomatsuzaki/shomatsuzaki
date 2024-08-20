@@ -265,7 +265,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	loadingAnimation();
 	setProjectFeed();
 	setTimeout(function() {
-		setProjectEvents();
+		setRippleEvents();
 	}, 2);
 });
 
@@ -282,7 +282,7 @@ window.onresize = function() {
 	animateGrid(); // set correct grid size
 	setProjectFeed(); // reorder project thumbnails
 	setTimeout(function() {
-		setProjectEvents(); // reset ripple effect of thumbnails
+		setRippleEvents(); // reset ripple effect of thumbnails
 	}, 2);
 	if (inAbout || inContact) {
 		transitionHomepageWindow(); // resize homepage popup window
@@ -731,7 +731,7 @@ function rippleEffect(allCells, infoCell, allImages, hoverCellIndex) {
 
 // add event listeners for hovering over a cell, hovering away from a row,
 // and clicking on a row
-function setProjectEvents() {
+function setRippleEvents() {
 	projectRows.forEach((row, rowIndex) => {
 		var allCells = row.querySelectorAll(".project-cell");
 		var infoCell = row.querySelector(".project-info");
@@ -742,22 +742,6 @@ function setProjectEvents() {
 				rippleEffect(allCells, infoCell, allImages, cellIndex);
 			};
 		});
-		// add inline handler at row level for hovering away
-		row.onmouseleave = function() {
-			if (vw > 600) {
-				// set background to black and text to white
-				infoCell.style.backgroundColor = offWhite + "";
-				infoCell.style.color = darkColor + "";
-				// animate out all images
-				allImages.forEach((image) => {
-					image.style.opacity = "0";
-				});
-			}
-		}
-		// add event listener at row level for clicking on a project
-		row.onclick = function() {
-			openProject(row, rowIndex);
-		}
 	});
 }
 
@@ -802,7 +786,7 @@ function openProject(row, index) {
 	projectView.style.opacity = "1";
 	projectView.classList.remove("hidden");
 	// 5. prevent user from scrolling while in project view
-	projectFeed.style.overflow = "hidden";		
+	projectFeed.style.overflow = "hidden";
 	setTimeout(function() {
 		// 6. expand project view to fill screen
 		projectView.style.width = vw + "px";
@@ -827,6 +811,28 @@ function openProject(row, index) {
 		}, 500);
 	}, 100);
 }
+
+// add event listeners for project rows on initial load
+projectRows.forEach((row, index) => {
+	var infoCell = row.querySelector(".project-info");
+	var allImages = row.querySelectorAll(".project-cell img"); // excludes close button
+	// add event listener at row level for hovering away
+	row.addEventListener("mouseleave", function() {
+		if (vw > 600) {
+			// set background to black and text to white
+			infoCell.style.backgroundColor = offWhite + "";
+			infoCell.style.color = darkColor + "";
+			// animate out all images
+			allImages.forEach((image) => {
+				image.style.opacity = "0";
+			});
+		}
+	});
+	// add event listener at row level for clicking on project, only fires once
+	row.addEventListener("click", function() {
+		openProject(row, index);
+	}, {once: true});
+});
 
 ////////////////////////////////////////////////////////////////////////////////
 //                              INDIVIDUAL PROJECT                            //
