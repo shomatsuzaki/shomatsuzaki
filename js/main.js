@@ -167,26 +167,26 @@ function simulateHover() {
 		homepageInfo.style.opacity = "1";
 		homepageInfo.style.filter = "blur(0px)";
 		if (vw > 900) {
-			var mouseoverEvent = new Event("mouseenter");
-			var mouseoutEvent = new Event("mouseleave");
+			var mouseenterEvent = new Event("mouseenter");
+			var mouseleaveEvent = new Event("mouseleave");
 			setTimeout(function() {
-				aboutMe.dispatchEvent(mouseoverEvent);
+				aboutMe.dispatchEvent(mouseenterEvent);
 				setTimeout(function() {
-					projectBtn.dispatchEvent(mouseoverEvent);
+					aboutMe.dispatchEvent(mouseleaveEvent);
 					setTimeout(function() {
-						contactMe.dispatchEvent(mouseoverEvent);
+						projectBtn.dispatchEvent(mouseenterEvent);
 						setTimeout(function() {
-							aboutMe.dispatchEvent(mouseoutEvent);
+							projectBtn.dispatchEvent(mouseleaveEvent);
 							setTimeout(function() {
-								projectBtn.dispatchEvent(mouseoutEvent);
+								contactMe.dispatchEvent(mouseenterEvent);
 									setTimeout(function() {
-										contactMe.dispatchEvent(mouseoutEvent);
-									}, 175);
-							}, 175);
-						}, 175);
-					}, 175);
-				}, 175);
-			}, 175);
+										contactMe.dispatchEvent(mouseleaveEvent);
+									}, 500);
+							}, 500);
+						}, 500);
+					}, 500);
+				}, 500);
+			}, 700);
 		}
 	}, 50);
 }
@@ -201,7 +201,7 @@ function loadingAnimation() {
 		setTimeout(function() {
 			simulateHover();
 		}, 1500);
-	}, 3500);
+	}, 4000);
 }
 
 // show current date and time on homepage
@@ -487,8 +487,8 @@ contactMe.addEventListener("click", function() {
 
 homepageClose.addEventListener("click", function() {
 	document.body.style.cursor = "url('./icons/blue-dot.svg') 10 10, auto";
-	var mouseoverEvent = new Event("mouseenter");
-	var mouseoutEvent = new Event("mouseleave");
+	var mouseenterEvent = new Event("mouseenter");
+	var mouseleaveEvent = new Event("mouseleave");
 	if (inAbout) {
 		inAbout = false;
 		// fade out about info
@@ -497,13 +497,13 @@ homepageClose.addEventListener("click", function() {
 			// transform window back to single square and adjust name margin
 			transitionHomepageWindow();
 			if (vw > 900) {
-				// reset about square to mouseover position
-				aboutMe.dispatchEvent(mouseoverEvent);
+				// reset about square to mouseenter position
+				aboutMe.dispatchEvent(mouseenterEvent);
 				setTimeout(function() {
 					homepageWindow.classList.add("hidden");
 					setTimeout(function() {
-						// reset about square to mouseout position
-						aboutMe.dispatchEvent(mouseoutEvent);
+						// reset about square to mouseleave position
+						aboutMe.dispatchEvent(mouseleaveEvent);
 					}, 150);
 				}, 800);
 			} else {
@@ -513,7 +513,7 @@ homepageClose.addEventListener("click", function() {
 				setTimeout(function() {
 					// add hidden class back to hidden elements
 					homepageWindow.classList.add("hidden");
-					// reset about square to mouseout position
+					// reset about square to mouseleave position
 					blackSquare.style.transform = "translateX(-101%)";
 				}, 800);
 			}
@@ -526,13 +526,13 @@ homepageClose.addEventListener("click", function() {
 			// transform window back to single square and adjust name margin
 			transitionHomepageWindow();
 			if (vw > 900) {
-				// reset about square to mouseover position
-				contactMe.dispatchEvent(mouseoverEvent);
+				// reset about square to mouseenter position
+				contactMe.dispatchEvent(mouseenterEvent);
 				setTimeout(function() {
 					homepageWindow.classList.add("hidden");
 					setTimeout(function() {
-						// reset about square to mouseout position
-						contactMe.dispatchEvent(mouseoutEvent);
+						// reset about square to mouseleave position
+						contactMe.dispatchEvent(mouseleaveEvent);
 					}, 150);
 				}, 800);
 			} else {
@@ -542,7 +542,7 @@ homepageClose.addEventListener("click", function() {
 				setTimeout(function() {
 					// add hidden class back to hidden elements
 					homepageWindow.classList.add("hidden");
-					// reset about square to mouseout position
+					// reset about square to mouseleave position
 					blackSquare.style.transform = "translateX(-101%)";
 				}, 800);
 			}
