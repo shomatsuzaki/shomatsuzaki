@@ -263,7 +263,10 @@ function setProjectFeed() {
 document.addEventListener("DOMContentLoaded", () => {
 	displayTime();
 	loadingAnimation();
-	setProjectFeed(); 
+	setProjectFeed();
+	setTimeout(function() {
+		setProjectEvents();
+	}, 2);
 });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -276,13 +279,13 @@ window.onresize = function() {
 	vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 	vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
-	animateGrid();
-	setProjectFeed();
+	animateGrid(); // set correct grid size
+	setProjectFeed(); // reorder project thumbnails
+	setTimeout(function() {
+		setProjectEvents(); // reset ripple effect of thumbnails
+	}, 2);
 	if (inAbout || inContact) {
-		transitionHomepageWindow();
-	}
-	else if (inFeedView) {
-		setProjectEvents();
+		transitionHomepageWindow(); // resize homepage popup window
 	}
 	else if (inProjectView) {
 		projectRows.forEach((row, index) => {
@@ -625,45 +628,20 @@ projectBtn.addEventListener("mouseleave", function() {
 ////////////////////////////////////////////////////////////////////////////////
 
 function zoomToProjects() {
-	var gridLines = document.getElementsByClassName("grid-line"),
-		deskEndHeight = 3.5*vw*38/6, // zoomed so 6 of 38 columns in view
-		tabEndHeight = 3.5*vw*38/4, // zoomed so 4 of 38 columns in view
-		mobEndHeight = 3.5*vw*38/2, // zoomed so 2 of 38 columns in view
-		deskEndTop = deskEndHeight/-2 + 1.5*1/6*vw, // center grid to top of view, then down 1.5 squares
-		tabEndTop = tabEndHeight/-2 + 1.5*1/4*vw, // center grid to top of view, then down 1.5 squares
-		mobEndTop = mobEndHeight/-2 + 1.5*1/2*vw, // center grid to top of view, then down 1.5 squares
-		deskEndLeft = (vw*38/6)/-2 + vw/2,
-		tabEndLeft = (vw*38/4)/-2 + vw/2,
-		mobEndLeft = (vw*38/2)/-2 + vw/2;
+	document.body.style.cursor = "url('./icons/red-dot.svg') 10 10, auto";
+	var gridLines = document.getElementsByClassName("grid-line");
 	inFeedView = true;
-	// 1. set hover and click event listeners for projects
-	setProjectEvents();
-	// 2. disappear homepage info
+	// fade out homepage info
 	homepageInfo.style.opacity = "0";
 	homepageInfo.style.filter = "blur(4px)";
-	// 3. zoom in grid and change grid color
+	// zoom in grid and change grid color
 	setTimeout(function() {
 		homepageInfo.classList.add("hidden");
-		// change grid stroke color to fully dark
+		animateGrid();
 		for (var i = 0; i < gridLines.length; i++) {
 		   gridLines[i].style.stroke = darkGrid;
 		}
-		if (vw > 900) { // for desktop
-			grid.style.height = deskEndHeight + "px";
-			grid.style.top = deskEndTop + "px";
-			grid.style.left = deskEndLeft + "px";
-		} else if (vw > 600) { // for tablet
-			grid.style.strokeWidth = "2";
-			grid.style.height = tabEndHeight + "px";
-			grid.style.top = tabEndTop + "px";
-			grid.style.left = tabEndLeft + "px";
-		} else { // for mobile
-			grid.style.strokeWidth = "2";
-			grid.style.height = mobEndHeight + "px";
-			grid.style.top = mobEndTop + "px";
-			grid.style.left = mobEndLeft + "px";
-		}
-		// 4. fade in project feed
+		// fade in project feed and fade out grid
 		setTimeout(function() {
 			grid.style.opacity = "0";
 			projectFeed.classList.remove("hidden");
@@ -674,27 +652,21 @@ function zoomToProjects() {
 			}
 			returnHome.style.opacity = "1";
 			returnHome.style.filter = "blur(0px)";
-			document.body.style.cursor = "url('./icons/red-dot.svg') 10 10, auto";
 		}, 1500);
 	}, 500);
 }
 
 function zoomFromProjects() {
+	document.body.style.cursor = "url('./icons/blue-dot.svg') 10 10, auto";
+	var gridLines = document.getElementsByClassName("grid-line");
 	inFeedView = false;
-	var gridLines = document.getElementsByClassName("grid-line"),
-		deskEndHeight = 3.5*vw*38/8, // zoomed so only 8 columns are in vew
-		deskEndTop = deskEndHeight/-2 + vh/2,
-		deskEndLeft = (vw*38/8)/-2 + vw/2, // for grid to be centered, left must be negative half of grid width (38/8x of width) + half of view
-		mobEndHeight = 3.5*vw*38/32 // zoomed so 32 of 38 columns in view
-		mobEndTop = mobEndHeight/-2 + 2.5*1/32*vw; // each square is 1/32 vw, need to move grid up half vh then down 2.5 squares
-		mobEndLeft = (vw*38/32)/-2 + vw/2 // for grid to be centered, left must be negative half of grid width (38/32x of width) + half of view
-	// 1. scroll to top of project feed
+	// scroll to top of project feed
 	projectFeed.scrollTo({
 		top: 0,
 		left: 0,
 		behavior: "smooth"
 	});
-	// 2. fade out project feed
+	// fade out project feed
 	var projChildren = projectFeed.querySelectorAll(".project-text");
 	for (var i = 0; i < projChildren.length; i++) {
 		projChildren[i].style.opacity = "0";
@@ -703,29 +675,18 @@ function zoomFromProjects() {
 	returnHome.style.opacity = "0";
 	returnHome.style.filter = "blur(4px)";
 	setTimeout(function() {
-		// 3. fade in grid
+		// fade in grid
 		grid.style.opacity = "1";
-		// 4. zoom out of grid
+		// zoom out of grid and change grid color
 		setTimeout(function() {
 			projectFeed.classList.add("hidden");
-			// change grid stroke color to fully dark
+			animateGrid();
 			for (var i = 0; i < gridLines.length; i++) {
 			   gridLines[i].style.stroke = lightGrid;
 			}
-			if (vw > 900) { // for desktop
-				grid.style.height = deskEndHeight + "px";
-				grid.style.top = deskEndTop + "px";
-				grid.style.left = deskEndLeft + "px";
-			} else { // for tablet and mobile
-				grid.style.strokeWidth = "1";
-				grid.style.height = mobEndHeight + "px";
-				grid.style.top = mobEndTop + "px";
-				grid.style.left = mobEndLeft + "px";
-			}
-			// 5. fade in homepage info
+			// fade in homepage info
 			setTimeout(function() {
 				homepageInfo.classList.remove("hidden");
-				document.body.style.cursor = "url('./icons/blue-dot.svg') 10 10, auto";
 				setTimeout(function() {
 					homepageInfo.style.opacity = "1";
 					homepageInfo.style.filter = "blur(0px)";
@@ -743,43 +704,46 @@ returnHome.addEventListener("click", function() {
 //                                 PROJECT FEED                               //
 ////////////////////////////////////////////////////////////////////////////////
 
-// all event listeners for hovering and clicking on projects,
-// triggered when clicking on projects button on homepage
+// create ripple effect when hovering over project thumbnail
+function rippleEffect(allCells, infoCell, allImages, hoverCellIndex) {
+	if (vw > 600) {
+		allCells.forEach((cell, index) => {
+			if (cell.classList.contains("project-info")) {
+				// set delay for info cell changing background color and text color
+				cell.style.transitionDelay = (Math.abs(hoverCellIndex - index)*70) + "ms";
+			} else {
+				// set delay for images in image cells changing opacity
+				cell.children[0].style.transitionDelay = (Math.abs(hoverCellIndex - index)*70) + "ms";
+			}
+		});
+		// change color of info cell and make thumbnail images appear
+		setTimeout(function() {
+			// set background to black and text to white
+			infoCell.style.backgroundColor = darkColor + "";
+			infoCell.style.color = lightColor + "";
+			// animate in all images
+			allImages.forEach((image) => {
+				image.style.opacity = "1";
+			});
+		}, 2);
+	}
+}
+
+// add event listeners for hovering over a cell, hovering away from a row,
+// and clicking on a row
 function setProjectEvents() {
 	projectRows.forEach((row, rowIndex) => {
-		var infoCell = row.querySelector(".project-info");
 		var allCells = row.querySelectorAll(".project-cell");
+		var infoCell = row.querySelector(".project-info");
 		var allImages = row.querySelectorAll(".project-cell img"); // excludes close button
-		// add event listener at the cell level for mousing over a cell
-		allCells.forEach((cell, cellIndex1) => {
-			cell.addEventListener("mouseenter", function() {
-				if (vw > 600) { // for desktop and tablet only
-					// set delays for all cells in the hovered over row
-					allCells.forEach((cell2, cellIndex2) => {
-						if (cell2.classList.contains("project-info")) {
-							// set delay for info cell changing background color and text color
-							cell2.style.transitionDelay = (Math.abs(cellIndex1 - cellIndex2)*70) + "ms";
-						} else {
-							// set delay for images in image cells changing opacity
-							cell2.children[0].style.transitionDelay = (Math.abs(cellIndex1 - cellIndex2)*70) + "ms";
-						}
-					});
-					// change color of info cell and make thumbnail images appear
-					setTimeout(function() {
-						// set background to black and text to white
-						infoCell.style.backgroundColor = darkColor + "";
-						infoCell.style.color = lightColor + "";
-						// animate in all images
-						allImages.forEach((image) => {
-							image.style.opacity = "1";
-						});
-					}, 1);
-				}
-			});
+		// add inline handler at cell level for hovering over a cell
+		allCells.forEach((cell, cellIndex) => {
+			cell.onmouseenter = function() {
+				rippleEffect(allCells, infoCell, allImages, cellIndex);
+			};
 		});
-		// add event listener at the row level for leaving a row
-		row.addEventListener("mouseleave", function() {
-			// reverting rollover animation for each row
+		// add inline handler at row level for hovering away
+		row.onmouseleave = function() {
 			if (vw > 600) {
 				// set background to black and text to white
 				infoCell.style.backgroundColor = offWhite + "";
@@ -789,11 +753,11 @@ function setProjectEvents() {
 					image.style.opacity = "0";
 				});
 			}
-		});
-		// add event listener for clicking a row
-		row.addEventListener("click", function() {
+		}
+		// add event listener at row level for clicking on a project
+		row.onclick = function() {
 			openProject(row, rowIndex);
-		}, {once: true}); // don't let user click repeatedly
+		}
 	});
 }
 
