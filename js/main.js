@@ -288,20 +288,7 @@ window.onresize = function() {
 		transitionHomepageWindow(); // resize homepage popup window
 	}
 	else if (inProjectView) {
-		projectRows.forEach((row, index) => {
-			var projectView = row.querySelector(".project-view");
-			projectView.style.width = vw + "px";
-			projectView.style.height = vh + "px";
-			projectView.style.top = "0px";
-			projectView.style.left = "0px";				
-			if (vw > 900) {
-				projectView.style.padding = .1*vw + "px";
-				projectView.style.paddingBottom = "0px";
-			} else {
-				projectView.style.padding = .2*vw + "px " + .05*vw + "px";
-				projectView.style.paddingBottom = "0px";
-			}
-		});
+		animateProjectView(); // resize project view popup window
 	}
 };
 
@@ -745,62 +732,44 @@ function setRippleEvents() {
 	});
 }
 
-// variables for storing the top and left values of any clicked project info cell
-var infoTop = 0,
-	infoLeft = 0;
+// set correct size of project view
+function animateProjectView() {
+	projectRows.forEach((row) => {
+		var projectView = row.querySelector(".project-view");
+		if (!projectView.classList.contains("hidden")) {
+			projectView.style.width = vw + "px";
+			projectView.style.height = vh + "px";
+			projectView.style.top = "0px";
+			projectView.style.left = "0px";			
+			if (vw > 900) {
+				projectView.style.padding = .1*vw + "px";
+				projectView.style.paddingBottom = "0px";
+			} else {
+				projectView.style.padding = .2*vw + "px " + .05*vw + "px";
+				projectView.style.paddingBottom = "0px";
+			}
+		}
+	});
+}
 
 function openProject(row, index) {
 	inProjectView = true;
-	// 1. calculate "left" of square relative to viewport (project-cell index * square width)
-	var hiddenNum = 0; // need to account for hidden cells that are counted in the row index
-	for (var i = 0; i < row.children.length; i++) {
-		if (row.children[i].classList.contains("hidden")) {
-			hiddenNum++;
-		}
-		else if (row.children[i].classList.contains("project-info")) {
-			if (vw > 900) {
-				infoLeft = (i - hiddenNum)*vw/6;
-				break;
-			} else if (vw > 600) {
-				infoLeft = (i - hiddenNum)*vw/4;
-				break;
-			} else {
-				infoLeft = (i - hiddenNum)*vw/2;
-				break;
-			}
-		}
-	}
-	// 2. calculate "top" of square relative to viewport (row index * square width - feed scrollTop)
-	if (vw > 900) {
-		infoTop = index*vw/6 - projectFeed.scrollTop;
-	} else if (vw > 600) {
-		infoTop = index*vw/4 - projectFeed.scrollTop;
-	} else {
-		infoTop = index*vw/2 - projectFeed.scrollTop;
-	}
-	// 3. move project view (with duplicate project info) at the correct top and left
+	// match top, left, width, and height of project info cell
 	var projectView = row.querySelector(".project-view");
-	projectView.style.top = infoTop + "px";
-	projectView.style.left = infoLeft + "px";
-	// 4. make project view appear, in line with project-info cell already there
+	var infoCell = row.querySelector(".project-info");
+	projectView.style.top = infoCell.getBoundingClientRect().top + "px";
+	projectView.style.left = infoCell.getBoundingClientRect().left + "px";
+	projectView.style.width = infoCell.getBoundingClientRect().width + "px";
+	projectView.style.height = infoCell.getBoundingClientRect().height + "px";
+	// make project view appear, in line with project-info cell already there
 	projectView.style.opacity = "1";
 	projectView.classList.remove("hidden");
-	// 5. prevent user from scrolling while in project view
+	// prevent user from scrolling while in project view
 	projectFeed.style.overflow = "hidden";
 	setTimeout(function() {
-		// 6. expand project view to fill screen
-		projectView.style.width = vw + "px";
-		projectView.style.height = vh + "px";
-		projectView.style.top = "0px";
-		projectView.style.left = "0px";
-		if (vw > 900) {
-			projectView.style.padding = .1*vw + "px";
-			projectView.style.paddingBottom = "0px";
-		} else {
-			projectView.style.padding = .12*vw + "px " + .05*vw + "px";
-			projectView.style.paddingBottom = "0px";
-		}
-		// 7. after another 500ms, animate in project view elements
+		// scale up project view to fill screen
+		animateProjectView();
+		// fade in project view elements
 		projectView.querySelector(".project-close").classList.remove("hidden");
 		projectView.querySelector(".project-desc").classList.remove("hidden");
 		projectView.querySelector(".content").classList.remove("hidden");
@@ -856,9 +825,10 @@ projectCloses.forEach((close, index) => {
 	close.addEventListener("click", function() {
 		inProjectView = false;
 		var projectView = close.parentNode;
-		// 1. pause any video playing
+		var infoCell = projectView.parentNode.querySelector(".project-info");
+		// pause any video playing
 		stopVideo(projectView);
-		// 2. hide all project view elements except project info
+		// hide all project view elements except project info
 		close.style.opacity = "0";
 		projectView.querySelector(".project-desc").style.opacity = "0";
 		projectView.querySelector(".content").style.opacity = "0";
@@ -866,20 +836,16 @@ projectCloses.forEach((close, index) => {
 			close.classList.add("hidden");
 			projectView.querySelector(".project-desc").classList.add("hidden");
 			projectView.querySelector(".content").classList.add("hidden");
-			// 3. shrink project view and re-align to project info cell
-			projectView.style.top = infoTop + "px";
-			projectView.style.left = infoLeft + "px";
+			// shrink project view and re-align to project info cell
+			projectView.style.top = infoCell.getBoundingClientRect().top + "px";
+			projectView.style.left = infoCell.getBoundingClientRect().left + "px";
+			projectView.style.width = infoCell.getBoundingClientRect().width + "px";
+			projectView.style.height = infoCell.getBoundingClientRect().height + "px";
 			if (vw > 900) {
-				projectView.style.width = vw/6 + "px";
-				projectView.style.height = vw/6 + "px";
 				projectView.style.padding = .02*vw + "px";
 			} else if (vw > 600) {
-				projectView.style.width = vw/4 + "px";
-				projectView.style.height = vw/4 + "px";
 				projectView.style.padding = .03*vw + "px";
 			} else {
-				projectView.style.width = vw/2 + "px";
-				projectView.style.height = vw/2 + "px";
 				projectView.style.paddingTop = .05*vw + "px";
 			}
 			// 4. allow user to scroll again
