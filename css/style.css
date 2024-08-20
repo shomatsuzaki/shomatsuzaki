@@ -1069,6 +1069,10 @@ rect {
 		display: none;
 	}
 
+	.project-cell img {
+		opacity: 1 !important;
+	}
+
 	.project-info, .project-view {
 		padding: 5vw;
 	}
@@ -1083,10 +1087,6 @@ rect {
 		line-height: 8vw;
 		padding-bottom: 4vw;
 		margin-bottom: 4vw;
-	}
-
-	.project-cell img {
-		transition: opacity 500ms ease-out;
 	}
 
 	#return-home {
