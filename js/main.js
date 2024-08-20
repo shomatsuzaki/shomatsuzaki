@@ -42,29 +42,33 @@ let inContact = false; // whether or not we are in contact me view
 
 // count up to 100% as page loads
 function percentLoad() {
-	// get all the percentage HTML elements
-	var percentages = document.getElementsByClassName("percentage"),
-		count = 0,
-		endCount = 100,
-		duration = 3.5; // in seconds
-	// count up every 30ms for a total of 3s
-	var handler = setInterval(function() {
-		for (var i = 0; i < percentages.length; i++) {
-			var percentage = percentages[i];
-			if (count < 10) {
-				percentage.innerHTML = "0" + count;
-			} else {
-				percentage.innerHTML = count;
+	return new Promise((resolve) => {
+		// get all the percentage HTML elements
+		var percentages = document.getElementsByClassName("percentage"),
+			count = 0,
+			endCount = 100,
+			duration = 3.5; // in seconds
+		// count up every 30ms for a total of 3s
+		var handler = setInterval(function() {
+			for (var i = 0; i < percentages.length; i++) {
+				var percentage = percentages[i];
+				if (count < 10) {
+					percentage.innerHTML = "0" + count;
+				} else {
+					percentage.innerHTML = count;
+				}
 			}
-		}
-		count++;
-		if (count > endCount) {
-			var preloader = document.getElementById("preloader");
-			preloader.style.opacity = "0";
-			preloader.style.filter = "blur(4px)";
-			clearInterval(handler);
-		}
-	}, duration*10);
+			count++;
+			if (count > endCount) {
+				var preloader = document.getElementById("preloader");
+				preloader.style.opacity = "0";
+				preloader.style.filter = "blur(4px)";
+				isLoaded = true;
+				clearInterval(handler);
+				resolve();
+			}
+		}, duration*10);
+	});
 }
 
 // animate logo lines on initial load
@@ -193,15 +197,13 @@ function simulateHover() {
 
 // full opening animation sequence
 function loadingAnimation() {
-	percentLoad();
 	drawLogo();
-	setTimeout(function() {
-		isLoaded = true;
+	percentLoad().then(function() {
 		animateGrid();
 		setTimeout(function() {
 			simulateHover();
 		}, 1500);
-	}, 4000);
+	});
 }
 
 // show current date and time on homepage
