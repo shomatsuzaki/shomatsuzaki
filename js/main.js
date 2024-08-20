@@ -46,7 +46,7 @@ function percentLoad() {
 	var percentages = document.getElementsByClassName("percentage"),
 		count = 0,
 		endCount = 100,
-		duration = 3; // in seconds
+		duration = 3.5; // in seconds
 	// count up every 30ms for a total of 3s
 	var handler = setInterval(function() {
 		for (var i = 0; i < percentages.length; i++) {
@@ -68,7 +68,7 @@ function percentLoad() {
 }
 
 // animate logo lines on initial load
-function animateLogo() {
+function drawLogo() {
 	var vtMask1 = document.getElementById("vt-mask1"),
 		vtMask2 = document.getElementById("vt-mask2"),
 		vtMask3 = document.getElementById("vt-mask3"),
@@ -103,14 +103,6 @@ function animateLogo() {
 			//reverse direction for some lines
 			vtMask6.style.transform = "translateY(-8px)";
 			hzMask5.style.transform = "translateX(-8px)";
-			// 4. initiate grid zoom
-			setTimeout(function() {
-				isLoaded = true;
-				animateGrid1();
-				setTimeout(function() {
-					simulateHover();
-				}, 1500);
-			}, 1800);
 		}, 600);
 	}, 1500);
 }
@@ -165,6 +157,19 @@ function simulateHover() {
 			}, 175);
 		}
 	}, 50);
+}
+
+// full opening animation sequence
+function loadingAnimation() {
+	percentLoad();
+	drawLogo();
+	setTimeout(function() {
+		isLoaded = true;
+		animateGrid1();
+		setTimeout(function() {
+			simulateHover();
+		}, 1500);
+	}, 3500);
 }
 
 // show current date and time on homepage
@@ -224,9 +229,8 @@ function setProjectFeed() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-	percentLoad();
-	animateLogo();
 	displayTime();
+	loadingAnimation();
 	setProjectFeed(); 
 });
 
