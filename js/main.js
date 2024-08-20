@@ -853,8 +853,8 @@ function stopVideo(element) {
 
 // event listeners for all close buttons in project view
 projectCloses.forEach((close, index) => {
-	inProjectView = false;
 	close.addEventListener("click", function() {
+		inProjectView = false;
 		var projectView = close.parentNode;
 		// 1. pause any video playing
 		stopVideo(projectView);
