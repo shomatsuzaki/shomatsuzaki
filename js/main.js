@@ -256,8 +256,10 @@ function setProjectFeed() {
 		// dynamically set width of project description
 		if (vw > 900) {
 			projectDesc.style.width = getComputedStyle(projectText).width;
-		} else {
+		} else if (vw > 600) {
 			projectDesc.style.width = "50%";
+		} else {
+			projectDesc.style.width = "100%";
 		}
 	});
 }
