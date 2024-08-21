@@ -633,9 +633,10 @@ function zoomToProjects() {
 		   gridLines[i].style.stroke = darkGrid;
 		}
 		// fade in project feed and fade out grid
+		projectFeed.classList.remove("hidden");
 		setTimeout(function() {
 			grid.style.opacity = "0";
-			projectFeed.classList.remove("hidden");
+			projectFeed.style.opacity = "1";
 			var projChildren = projectFeed.querySelectorAll(".project-text");
 			for (var i = 0; i < projChildren.length; i++) {
 				projChildren[i].style.opacity = "1";
@@ -667,6 +668,7 @@ function zoomFromProjects() {
 	returnHome.style.filter = "blur(4px)";
 	setTimeout(function() {
 		// fade in grid
+		projectFeed.style.opacity = "0";
 		grid.style.opacity = "1";
 		// zoom out of grid and change grid color
 		setTimeout(function() {

@@ -298,6 +298,8 @@ rect {
 	align-content: start;
 	width: 100%;
 	z-index: 4;
+	opacity: 0;
+	transition: opacity 500ms;
 }
 
 .project-row {
@@ -908,6 +910,18 @@ rect {
 
 	.photo {
 		margin-bottom: 1.4vw;
+	}
+
+}
+
+/*----------------------------------------------------------------------------*/
+/*--------------THUMBNAIL VISIBILITY FOR ACTUAL TABLET DEVICES----------------*/
+/*----------------------------------------------------------------------------*/
+
+@media screen and (max-width: 900px) and (pointer: coarse) {
+
+	.project-cell img {
+		opacity: 1 !important;
 	}
 
 }
