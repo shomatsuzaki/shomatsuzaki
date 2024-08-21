@@ -389,7 +389,7 @@ function transitionAboutInfo() {
 			aboutInfo.classList.add("hidden");
 			aboutPic.classList.add("hidden");
 			homepageClose.classList.add("hidden");
-		}, 50);
+		}, 500);
 	}
 }
 
@@ -416,7 +416,7 @@ function transitionContactInfo() {
 		setTimeout(function() {
 			contactInfo.classList.add("hidden");
 			homepageClose.classList.add("hidden");
-		}, 50);
+		}, 500);
 	}
 }
 
