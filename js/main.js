@@ -236,16 +236,6 @@ function setProjectFeed() {
 		} else {
 			row.querySelector(".project-number").innerHTML = "" + (index + 1);
 		}
-		// rearrange project-info cell based on device
-		row.appendChild(infoCell);
-		row.appendChild(projectView);
-		if (vw > 900) {
-			row.insertBefore(infoCell, row.children[index % 6]);
-		} else if (vw > 600) {
-			row.insertBefore(infoCell, row.children[index % 4]);
-		} else if (index % 2 == 0) { // for mobile, only matters if project num is even or odd
-			row.insertBefore(infoCell, row.children[0]);
-		}
 		// dynamically add project info to hidden project view
 		var projectText = row.querySelector(".project-text");
 		var projectTextRepeat = row.querySelector(".project-text-repeat");
@@ -260,6 +250,15 @@ function setProjectFeed() {
 			projectDesc.style.width = "50%";
 		} else {
 			projectDesc.style.width = "100%";
+		}
+		// rearrange project-info cell based on device
+		row.appendChild(infoCell);
+		if (vw > 900) {
+			row.insertBefore(infoCell, row.children[index % 6]);
+		} else if (vw > 600) {
+			row.insertBefore(infoCell, row.children[index % 4]);
+		} else if (index % 2 == 0) { // for mobile, only matters if project num is even or odd
+			row.insertBefore(infoCell, row.children[0]);
 		}
 	});
 }
