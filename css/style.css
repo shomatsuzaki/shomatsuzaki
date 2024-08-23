@@ -423,8 +423,8 @@ rect {
 	text-decoration: underline;
 	color: inherit;
 	font-weight: 500;
-	cursor: url("../icons/red-dot.svg") 10 10, auto;
-	cursor: image-set("../icons/red-dot.svg" 1x, "../icons/red-dot-@2x.svg" 2x) 10 10, auto;
+	cursor: url("../icons/yellow-dot.svg") 10 10, auto;
+	cursor: image-set("../icons/yellow-dot.svg" 1x, "../icons/yellow-dot-@2x.svg" 2x) 10 10, auto;
 }
 
 .content {
