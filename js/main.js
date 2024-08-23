@@ -422,6 +422,7 @@ function transitionContactInfo() {
 
 aboutMe.addEventListener("click", function() {
 	document.body.style.cursor = "url('./icons/yellow-dot.svg') 10 10, auto";
+	document.body.style.cursor = "image-set('./icons/yellow-dot.svg' 1x, './icons/yellow-dot-@2x.svg' 2x) 10 10, auto";
 	inAbout = true;
 	if (vw > 900) {
 		// move homepage window to contact square and make visible
@@ -456,6 +457,7 @@ aboutMe.addEventListener("click", function() {
 
 contactMe.addEventListener("click", function() {
 	document.body.style.cursor = "url('./icons/green-dot.svg') 10 10, auto";
+	document.body.style.cursor = "image-set('./icons/green-dot.svg' 1x, './icons/green-dot-@2x.svg' 2x) 10 10, auto";
 	inContact = true;
 	if (vw > 900) {
 		// move homepage window to contact square and make visible
@@ -490,6 +492,7 @@ contactMe.addEventListener("click", function() {
 
 homepageClose.addEventListener("click", function() {
 	document.body.style.cursor = "url('./icons/blue-dot.svg') 10 10, auto";
+	document.body.style.cursor = "image-set('./icons/blue-dot.svg' 1x, './icons/blue-dot-@2x.svg' 2x) 10 10, auto";
 	var mouseenterEvent = new Event("mouseenter");
 	var mouseleaveEvent = new Event("mouseleave");
 	if (inAbout) {
@@ -619,6 +622,7 @@ projectBtn.addEventListener("mouseleave", function() {
 
 function zoomToProjects() {
 	document.body.style.cursor = "url('./icons/red-dot.svg') 10 10, auto";
+	document.body.style.cursor = "image-set('./icons/red-dot.svg' 1x, './icons/red-dot-@2x.svg' 2x) 10 10, auto";
 	var gridLines = document.getElementsByClassName("grid-line");
 	inFeedView = true;
 	// fade out homepage info
@@ -649,6 +653,7 @@ function zoomToProjects() {
 
 function zoomFromProjects() {
 	document.body.style.cursor = "url('./icons/blue-dot.svg') 10 10, auto";
+	document.body.style.cursor = "image-set('./icons/blue-dot.svg' 1x, './icons/blue-dot-@2x.svg' 2x) 10 10, auto";
 	var gridLines = document.getElementsByClassName("grid-line");
 	inFeedView = false;
 	// scroll to top of project feed

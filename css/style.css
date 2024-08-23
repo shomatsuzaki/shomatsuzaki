@@ -64,6 +64,7 @@ html {
 
 body {
 	cursor: url("../icons/blue-dot.svg") 10 10, auto;
+	cursor: image-set("../icons/blue-dot.svg" 1x, "../icons/blue-dot-@2x.svg" 2x) 10 10, auto;
 	background-color: var(--off-white);
 	color: var(--dark-color);
 	margin: 0;
@@ -206,14 +207,16 @@ rect {
 	color: var(--light-color);
 	text-align: center;
 	background: url("../icons/blue-dot.svg") no-repeat;
-	background-size: 95% 95%;
+	background: image-set("../icons/blue-dot.svg" 1x, "../icons/blue-dot-@2x.svg" 2x) no-repeat;
+	background-size: 92% 92%;
 	background-position: center;
 	animation: float 3800ms ease-in-out infinite;
 }
 
 #tap-projects:hover {
 	background: url("../icons/red-dot.svg") no-repeat;
-	background-size: 95% 95%;
+	background: image-set("../icons/red-dot.svg" 1x, "../icons/red-dot-@2x.svg" 2x) no-repeat;
+	background-size: 92% 92%;
 	background-position: center;
 }
 
@@ -275,6 +278,8 @@ rect {
 }
 
 #homepage-close:hover {
+	cursor: url("../icons/blue-dot.svg") 10 10, auto;
+	cursor: image-set("../icons/blue-dot.svg" 1x, "../icons/blue-dot-@2x.svg" 2x) 10 10, auto;
 	transform: rotate(180deg);
 }
 
@@ -352,9 +357,8 @@ rect {
 	color: var(--light-color);
 	text-align: center;
 	font-weight: 500;
-	background: url("../icons/red-dot.svg") no-repeat;
-	background-size: 95% 95%;
-	background-position: center;
+	background: url("../icons/red-dot.svg") no-repeat center;
+	background-size: cover;
 	opacity: 0;
 	filter: blur(4px);
 	transition: opacity 800ms ease-out,
@@ -364,9 +368,8 @@ rect {
 }
 
 #return-home:hover {
-	background: url("../icons/blue-dot.svg") no-repeat;
-	background-size: 95% 95%;
-	background-position: center;
+	background: url("../icons/blue-dot.svg") no-repeat center;
+	background-size: cover;
 	transform: rotate(360deg);
 }
 
@@ -419,7 +422,8 @@ rect {
 	text-decoration: underline;
 	color: inherit;
 	font-weight: 500;
-	cursor: url("../icons/blue-dot.svg") 10 10, auto;
+	cursor: url("../icons/red-dot.svg") 10 10, auto;
+	cursor: image-set("../icons/red-dot.svg" 1x, "../icons/red-dot-@2x.svg" 2x) 10 10, auto;
 }
 
 .content {
@@ -502,6 +506,7 @@ rect {
 		height: 100%;
 		font-size: var(--desk-font-S);
 		cursor: url("../icons/yellow-dot.svg") 10 10, auto;
+		cursor: image-set("../icons/yellow-dot.svg" 1x, "../icons/yellow-dot-@2x.svg" 2x) 10 10, auto;
 		transition: color 300ms, filter 500ms;
 	}
 
@@ -525,6 +530,7 @@ rect {
 		height: 100%;
 		font-size: var(--desk-font-S);
 		cursor: url("../icons/green-dot.svg") 10 10, auto;
+		cursor: image-set("../icons/green-dot.svg" 1x, "../icons/green-dot-@2x.svg" 2x) 10 10, auto;
 		transition: color 300ms, filter 500ms;
 	}
 
@@ -542,6 +548,7 @@ rect {
 		height: 100%;
 		font-size: var(--desk-font-S);
 		cursor: url("../icons/red-dot.svg") 10 10, auto;
+		cursor: image-set("../icons/red-dot.svg" 1x, "../icons/red-dot-@2x.svg" 2x) 10 10, auto;
 		transition: color 300ms, filter 500ms;
 	}
 
@@ -1197,6 +1204,26 @@ rect {
 	}
 
 }
+
+/*----------------------------------------------------------------------------*/
+/*--------------------REMOVE CUSTOM CURSORS ON FIREFOX------------------------*/
+/*----------------------------------------------------------------------------*/
+
+@-moz-document url-prefix() {
+
+	body {
+		cursor: auto !important;
+	}
+
+	#homepage-close, #return-home, .project-close, .project-cell, .project-link, .contact-link, #about-btn, #contact-btn, #project-btn {
+		cursor: pointer !important;
+	}
+
+}
+
+/*_::-webkit-full-page-media, _:future, :root body {
+	cursor: auto !important;
+}*/
 
 /*----------------------------------------------------------------------------*/
 /*-----------------------------------END--------------------------------------*/
