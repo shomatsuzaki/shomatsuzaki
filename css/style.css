@@ -198,6 +198,7 @@ rect {
 
 #about-rollover, #contact-rollover, #project-rollover {
 	overflow: hidden;
+	margin: 0px 0px -1px 1px;
 }
 
 #tap-projects {
