@@ -707,10 +707,10 @@ function rippleEffect(allCells, infoCell, allImages, hoverCellIndex) {
 		allCells.forEach((cell, index) => {
 			if (cell.classList.contains("project-info")) {
 				// set delay for info cell changing background color and text color
-				cell.style.transitionDelay = (Math.abs(hoverCellIndex - index)*70) + "ms";
+				cell.style.transitionDelay = (Math.abs(hoverCellIndex - index)*100) + "ms";
 			} else {
 				// set delay for images in image cells changing opacity
-				cell.children[0].style.transitionDelay = (Math.abs(hoverCellIndex - index)*70) + "ms";
+				cell.children[0].style.transitionDelay = (Math.abs(hoverCellIndex - index)*110) + "ms";
 			}
 		});
 		// change color of info cell and make thumbnail images appear
