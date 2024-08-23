@@ -347,7 +347,14 @@ rect {
 
 #return-home {
 	position: fixed;
-	padding: 0;
+	display: grid;
+	place-content: center;
+	color: var(--light-color);
+	text-align: center;
+	font-weight: 500;
+	background: url("../icons/red-dot.svg") no-repeat;
+	background-size: 95% 95%;
+	background-position: center;
 	opacity: 0;
 	filter: blur(4px);
 	transition: opacity 800ms ease-out,
@@ -357,6 +364,9 @@ rect {
 }
 
 #return-home:hover {
+	background: url("../icons/blue-dot.svg") no-repeat;
+	background-size: 95% 95%;
+	background-position: center;
 	transform: rotate(360deg);
 }
 
@@ -639,9 +649,11 @@ rect {
 	}
 
 	#return-home {
-		width: 5.5%;
-		top: 3vw;
-		right: 3vw;
+		width: 6vw;
+		height: 6vw;
+		top: 2vw;
+		right: 2vw;
+		font-size: var(--desk-font-M);
 	}
 
 /*------------------------------INDIVIDUAL PROJECT----------------------------*/
@@ -876,9 +888,11 @@ rect {
 	}
 
 	#return-home {
-		width: 9%;
+		width: 11vw;
+		height: 11vw;
 		top: 4vw;
 		right: 4vw;
+		font-size: var(--tab-font-S);
 	}
 
 /*------------------------------INDIVIDUAL PROJECT----------------------------*/
@@ -1115,9 +1129,11 @@ rect {
 	}
 
 	#return-home {
-		width: 12%;
+		width: 17vw;
+		height: 17vw;
 		top: 4vw;
 		right: 4vw;
+		font-size: var(--mob-font-S);
 	}
 
 /*------------------------------INDIVIDUAL PROJECT----------------------------*/
