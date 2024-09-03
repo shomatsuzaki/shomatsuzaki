@@ -762,6 +762,7 @@ function animateProjectView() {
 	});
 }
 
+// open individual project window
 function openProject(row, index) {
 	inProjectView = true;
 	// match top, left, width, and height of project info cell
@@ -814,7 +815,7 @@ projectRows.forEach((row, index) => {
 });
 
 ////////////////////////////////////////////////////////////////////////////////
-//                              INDIVIDUAL PROJECT                            //
+//                              INDIVIDUAL PROJECTS                           //
 ////////////////////////////////////////////////////////////////////////////////
 
 // function for pausing embedded video
@@ -875,3 +876,18 @@ projectCloses.forEach((close, index) => {
 		}, 600);
 	});
 });
+
+// event listeners for lazy loading image-based projects
+document.getElementById("bacardi-halloween").addEventListener("click", function() {
+	document.getElementById("bacardi-halloween-img1").src = "./images/final/bacardihalloweenfinal1.jpg";
+	document.getElementById("bacardi-halloween-img2").src = "./images/final/bacardihalloweenfinal2.jpg";
+	document.getElementById("bacardi-halloween-img3").src = "./images/final/bacardihalloweenfinal3.jpg";
+	document.getElementById("bacardi-halloween-img4").src = "./images/final/bacardihalloweenfinal4.jpg";
+}, {once: true});
+
+document.getElementById("ikea-classics").addEventListener("click", function() {
+	document.getElementById("ikea-classics-img1").src = "./images/final/ikeaclassicsfinal1.gif";
+	document.getElementById("ikea-classics-img2").src = "./images/final/ikeaclassicsfinal2.gif";
+	document.getElementById("ikea-classics-img3").src = "./images/final/ikeaclassicsfinal3.jpg";
+	document.getElementById("ikea-classics-img4").src = "./images/final/ikeaclassicsfinal4.jpg";
+}, {once: true});
