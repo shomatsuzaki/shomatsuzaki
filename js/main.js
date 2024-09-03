@@ -891,3 +891,15 @@ document.getElementById("ikea-classics").addEventListener("click", function() {
 	document.getElementById("ikea-classics-img3").src = "./images/final/ikeaclassicsfinal3.jpg";
 	document.getElementById("ikea-classics-img4").src = "./images/final/ikeaclassicsfinal4.jpg";
 }, {once: true});
+
+document.getElementById("japan-spring").addEventListener("click", function() {
+	document.getElementById("japan-spring-img1").src = "./images/final/japanspringfinal1.jpg";
+	document.getElementById("japan-spring-img2").src = "./images/final/japanspringfinal2.jpg";
+	document.getElementById("japan-spring-img3").src = "./images/final/japanspringfinal3.jpg";
+	document.getElementById("japan-spring-img4").src = "./images/final/japanspringfinal4.jpg";
+	document.getElementById("japan-spring-img5").src = "./images/final/japanspringfinal5.jpg";
+	document.getElementById("japan-spring-img6").src = "./images/final/japanspringfinal6.jpg";
+	document.getElementById("japan-spring-img7").src = "./images/final/japanspringfinal7.jpg";
+	document.getElementById("japan-spring-img8").src = "./images/final/japanspringfinal8.jpg";
+	document.getElementById("japan-spring-img9").src = "./images/final/japanspringfinal9.jpg";
+}, {once: true});
